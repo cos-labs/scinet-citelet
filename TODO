@@ -1,0 +1,4 @@
+notify server if publisher unknown or other error
+extract reference information for main document
+detect full text versus abstract
+prototype python backend
