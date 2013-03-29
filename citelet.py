@@ -1,6 +1,7 @@
 # Imports
 from flask import Flask
 from flask import request
+from flask import render_template
 from flask.views import MethodView
 from flask.ext.pymongo import PyMongo
 
@@ -15,6 +16,17 @@ mongo = PyMongo(app)
 def jsonpify(obj, callback):
     
     return '%s(%s)' % (callback, json.dumps(obj))
+
+class Bookmarklet(MethodView):
+    
+    def get(self):
+        
+        # Read bookmarket.js
+        with open('static/js/bookmarklet.js') as bookmarklet_file:
+            bookmarklet = bookmarklet_file.read()
+
+        # Return rendered template
+        return render_template('bookmarklet.html', bookmarklet=bookmarklet)
 
 class SendRefsAJAX(MethodView):
     
@@ -48,6 +60,7 @@ class SendRefsAJAX(MethodView):
         )
 
 # Route to URL
+app.add_url_rule('/bookmarklet/', view_func=Bookmarklet.as_view('bookmarklet'))
 app.add_url_rule('/sendrefs/', view_func=SendRefsAJAX.as_view('sendrefs'))
 
 # Launch app
