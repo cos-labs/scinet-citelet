@@ -11,7 +11,10 @@ import json
 app = Flask(__name__)
 
 # Set up DB
-mongo = PyMongo(app)
+try:
+    mongo = PyMongo(app)
+except:
+    pass
 
 def jsonpify(obj, callback):
     
@@ -50,7 +53,7 @@ class SendRefsAJAX(MethodView):
         # Assemble results
         results = {
             'msg' : 'Received head reference %s and %s cited references.' % \
-                (head['doi'][0], len(refs)),
+                (repr(head), len(refs)),
         }
         
         # Return response
