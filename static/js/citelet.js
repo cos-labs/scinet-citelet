@@ -8,6 +8,15 @@ Publisher detection rules:
     Dictionary of functions, each of which returns true if the current page
     corresponds to the target publisher, else false.
 */
+
+join_attrs = function(tag, attrs) {
+    attr_string = tag;
+    for (var k in attrs) {
+        attr_string = attr_string + '[' + k + '="' + attrs[k] + '"]'
+    }
+    return attr_string;
+};
+
 var publisher_rules = {
     sciencedirect : function() {
         var title = $('title');
@@ -24,30 +33,47 @@ var publisher_rules = {
         }).length > 0;
     },
     plos : function() {
-        var meta = $('meta[name="citation_journal_abbrev"]');
-        return meta && /plos/i.test(meta[0].content);
+        return $(join_attrs('meta', {
+            name : 'citation_publisher',
+            content : 'Public Library of Science',
+        })).length > 0;
     },
     frontiers : function() {
-        return $('meta[content]').filter(function() {
-            return /frontiers/i.test(this.content);
-        }).length > 0
+        return $(join_attrs('meta', {
+            name : 'citation_publisher',
+            content : 'Frontiers',
+        })).length > 0;
+    },
+    nature : function () {
+        return $(join_attrs('meta', {
+            name : 'DC.publisher',
+            content : 'Nature Publishing Group',
+        })).length > 0;
+    },
+    science : function () {
+        return $(join_attrs('meta', {
+            name : 'DC.Publisher',
+            content : 'American Association for the Advancement of Science',
+        })).length > 0;
     },
 };
 
 /* Extract head reference information from <meta> tags */
-head_extract_meta = function() {
-    var meta = $('meta[name]').filter(function () {
-        return /citation_(?!reference)/.test(this.name)
-    });
-    var head_info = {};
-    meta.each(function () {
-        var name = this.name.replace(/citation_/, '');
-        if (!(name in head_info)) {
-            head_info[name] = [];
-        }
-        head_info[name].push(this.content);
-    });
-    return head_info;
+head_extract_meta = function(test, replace) {
+    return function () {
+        var meta = $('meta[name]').filter(function () {
+            return test.test(this.name)
+        });
+        var head_info = {};
+        meta.each(function () {
+            var name = this.name.replace(replace, '');
+            if (!(name in head_info)) {
+                head_info[name] = [];
+            }
+            head_info[name].push(this.content);
+        });
+        return head_info;
+    };
 };
 
 /*
@@ -64,10 +90,12 @@ var head_ref_extractors = {
         head_info['doi'] = ddlink;
         return head_info;
     },
-    oxford : head_extract_meta,
-    sage : head_extract_meta,
-    plos : head_extract_meta,
-    frontiers : head_extract_meta,
+    oxford : head_extract_meta(/citation_(?!reference)/, /citation_/),
+    sage : head_extract_meta(/citation_(?!reference)/, /citation_/),
+    plos : head_extract_meta(/citation_(?!reference)/, /citation_/),
+    frontiers : head_extract_meta(/citation_(?!reference)/, /citation_/),
+    nature: head_extract_meta(/DC\./, /DC\./),
+    science: head_extract_meta(/DC\./, /DC\./),
 };
 
 /*
@@ -90,6 +118,12 @@ var cited_ref_extractors = {
     },
     frontiers : function () {
         return $('div.References');
+    },
+    nature : function () {
+        return $('ol.references > li');
+    },
+    science : function () {
+        return $('ol.cit-list > li');
     },
 };
 
