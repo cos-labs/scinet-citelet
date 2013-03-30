@@ -162,10 +162,10 @@ extract_cited_references = function(publisher) {
 var publisher = detect_publisher();
 
 /* Extract head reference */
-var head_ref = extract_head_reference(publisher);
+var head_ref_json = extract_head_reference(publisher);
 
 /* Extract cited references */
-var refs_json = extract_cited_references(publisher);
+var cited_refs_json = extract_cited_references(publisher);
 
 /* Send data to server */
 $.ajax({
@@ -174,8 +174,8 @@ $.ajax({
     async : false,
     data : {
         publisher : publisher,
-        head_ref : head_ref,
-        refs : refs_json,
+        head_ref : head_ref_json,
+        cited_refs : cited_refs_json,
     },
     success : function(res) {
         alert(res['msg']);
