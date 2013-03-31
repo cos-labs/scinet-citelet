@@ -174,22 +174,24 @@ detect_publisher = function() {
 };
 
 /*
+    Resolve potential conflict in JSON.stringify with Prototype.js; see
+    http://stackoverflow.com/questions/710586/json-stringify-bizarreness
+*/
+var stringify = Object.toJSON ? Object.toJSON : JSON.stringify;
+
+/*
 Extract head reference for a publisher using extraction rules
-    Note: Use Object.toJSON instead of JSON.stringify to avoid possible
-    conflict with Prototype.js; see http://stackoverflow.com/questions/710586/json-stringify-bizarreness
 */
 extract_head_reference = function(publisher) {
     if (!(publisher in head_ref_extractors)) {
         return false;
     }
     var head_ref = head_ref_extractors[publisher]();
-    return Object.toJSON(head_ref);
+    return stringify(head_ref);
 };
 
 /*
 Extract references for a publisher using extraction rules
-    Note: Use Object.toJSON instead of JSON.stringify to avoid possible
-    conflict with Prototype.js; see http://stackoverflow.com/questions/710586/json-stringify-bizarreness
 */
 extract_cited_references = function(publisher) {
     if (!(publisher in cited_ref_extractors)) {
@@ -199,7 +201,7 @@ extract_cited_references = function(publisher) {
     refs = refs.map(function() {
         return $(this).html();
     });
-    return Object.toJSON(refs.get());
+    return stringify(refs.get());
 };
 
 /* Detect publisher */
