@@ -22,15 +22,14 @@ var publisher_rules = {
         var title = $('title');
         return title.length && /sciencedirect/i.test(title.html());
     },
-    oxford : function() {
-        return $('meta[content]').filter(function() {
-            return /oxford university press/i.test(this.content);
-        }).length > 0;
+    highwire : function () {
+        return $('meta[name="HW.identifier"]').length > 0;
     },
-    sage : function() {
-        return $('meta[content]').filter(function() {
-            return /sage publications/i.test(this.content);
-        }).length > 0;
+    wiley : function () {
+        return (join_attrs('meta', {
+            name : 'citation_publisher',
+            content : 'Wiley Subscription Services, Inc., A Wiley Company',
+        })).length > 0;
     },
     plos : function() {
         return $(join_attrs('meta', {
@@ -50,10 +49,10 @@ var publisher_rules = {
             content : 'Nature Publishing Group',
         })).length > 0;
     },
-    science : function () {
+    jama : function() {
         return $(join_attrs('meta', {
-            name : 'DC.Publisher',
-            content : 'American Association for the Advancement of Science',
+            name : 'citation_publisher',
+            content : 'American Medical Association',
         })).length > 0;
     },
 };
@@ -90,12 +89,12 @@ var head_ref_extractors = {
         head_info['doi'] = ddlink;
         return head_info;
     },
-    oxford : head_extract_meta(/citation_(?!reference)/, /citation_/),
-    sage : head_extract_meta(/citation_(?!reference)/, /citation_/),
-    plos : head_extract_meta(/citation_(?!reference)/, /citation_/),
-    frontiers : head_extract_meta(/citation_(?!reference)/, /citation_/),
-    nature: head_extract_meta(/DC\./, /DC\./),
-    science: head_extract_meta(/DC\./, /DC\./),
+    highwire : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    wiley : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    plos : head_extract_meta(/DC\.citation_(?!reference)/, /DC\.|citation_/),
+    frontiers : head_extract_meta(/DC\.citation_(?!reference)/, /DC\.|citation_/),
+    nature: head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    jama: head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
 };
 
 /*
@@ -107,11 +106,11 @@ var cited_ref_extractors = {
     sciencedirect : function () {
         return $('ul.reference');
     },
-    oxford : function () {
+    highwire : function () {
         return $('ol.cit-list > li');
     },
-    sage : function () {
-        return $('ol.cit-list > li');
+    wiley : function () {
+        return $('ul.plain > li');
     },
     plos : function () {
         return $('ol.references > li');
@@ -122,8 +121,8 @@ var cited_ref_extractors = {
     nature : function () {
         return $('ol.references > li');
     },
-    science : function () {
-        return $('ol.cit-list > li');
+    jama : function () {
+        return $('div.referenceSection div.refRow');
     },
 };
 
