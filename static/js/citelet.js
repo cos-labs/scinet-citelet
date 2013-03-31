@@ -1,6 +1,7 @@
 /*
 TODO:
     Add more publishers
+    Write tests
 */
 
 /*
@@ -23,10 +24,12 @@ var publisher_rules = {
         return title.length && /sciencedirect/i.test(title.html());
     },
     highwire : function () {
-        return $('meta[name="HW.identifier"]').length > 0;
+        return $(join_attrs('meta', {
+            name : 'HW.identifier',
+        })).length > 0;
     },
     wiley : function () {
-        return (join_attrs('meta', {
+        return $(join_attrs('meta', {
             name : 'citation_publisher',
             content : 'Wiley Subscription Services, Inc., A Wiley Company',
         })).length > 0;
@@ -54,6 +57,17 @@ var publisher_rules = {
             name : 'citation_publisher',
             content : 'American Medical Association',
         })).length > 0;
+    },
+    apa : function () {
+        var pub_dt = $('dt').filter(function () {
+            return this.innerHTML == 'Publisher:';
+        });
+        if (pub_dt.length > 0) {
+            var pub_dd = pub_dt.next('dd');
+            if (/american psychological association/i.test(pub_dd.text())) {
+                return true;
+            }
+        }
     },
 };
 
@@ -91,10 +105,21 @@ var head_ref_extractors = {
     },
     highwire : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     wiley : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
-    plos : head_extract_meta(/DC\.citation_(?!reference)/, /DC\.|citation_/),
-    frontiers : head_extract_meta(/DC\.citation_(?!reference)/, /DC\.|citation_/),
-    nature: head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
-    jama: head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    plos : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    frontiers : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    nature : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    jama : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    apa : function () {
+        var dts = $('.citation-wrapping-div dt'),
+            dds = $('.citation-wrapping-div dd');
+        var head_info = {};
+        for (var idx = 0; idx < dts.length; idx++) {
+            var key = dts[idx].innerHTML.replace(/^:|:$/g, ''),
+                val = dds[idx].innerHTML;
+            head_info[key] = val;
+        }
+        return head_info;
+    },
 };
 
 /*
@@ -124,6 +149,18 @@ var cited_ref_extractors = {
     jama : function () {
         return $('div.referenceSection div.refRow');
     },
+    apa : function () {
+        var ref_link = $('a[title="References"][href="#toc"]');
+        if (ref_link.length == 0) return false;
+        ref_span = ref_link.parent('span');
+        if (ref_span.length == 0) return false;
+        var refs = ref_span.nextAll('p.body-paragraph');
+        refs = refs.filter(function () {
+            return (!/this publication is protected/i.test(this.innerHTML)) &&
+                   (!/submitted.*?revised.*?accepted/i.test(this.innerHTML));
+        });
+        return refs;
+    },
 };
 
 /* Detect publisher using publisher rules */
@@ -136,16 +173,24 @@ detect_publisher = function() {
     return false;
 };
 
-/* Extract head reference for a publisher using extraction rules */
+/*
+Extract head reference for a publisher using extraction rules
+    Note: Use Object.toJSON instead of JSON.stringify to avoid possible
+    conflict with Prototype.js; see http://stackoverflow.com/questions/710586/json-stringify-bizarreness
+*/
 extract_head_reference = function(publisher) {
     if (!(publisher in head_ref_extractors)) {
         return false;
     }
     var head_ref = head_ref_extractors[publisher]();
-    return JSON.stringify(head_ref);
+    return Object.toJSON(head_ref);
 };
 
-/* Extract references for a publisher using extraction rules */
+/*
+Extract references for a publisher using extraction rules
+    Note: Use Object.toJSON instead of JSON.stringify to avoid possible
+    conflict with Prototype.js; see http://stackoverflow.com/questions/710586/json-stringify-bizarreness
+*/
 extract_cited_references = function(publisher) {
     if (!(publisher in cited_ref_extractors)) {
         return false;
@@ -154,7 +199,7 @@ extract_cited_references = function(publisher) {
     refs = refs.map(function() {
         return $(this).html();
     });
-    return JSON.stringify(refs.get());
+    return Object.toJSON(refs.get());
 };
 
 /* Detect publisher */
@@ -166,7 +211,10 @@ var head_ref_json = extract_head_reference(publisher);
 /* Extract cited references */
 var cited_refs_json = extract_cited_references(publisher);
 
-/* Send data to server */
+/*
+Send data to server
+    Note: Using JSONP instead of JSON to allow cross-domain calls
+*/
 $.ajax({
     url : 'http://127.0.0.1:5000/sendrefs/',
     dataType : 'jsonp',
