@@ -20,8 +20,10 @@ join_attrs = function(tag, attrs) {
 
 var publisher_rules = {
     sciencedirect : function() {
-        var title = $('title');
-        return title.length && /sciencedirect/i.test(title.html());
+        return /sciencedirect/i.test($('title').html());
+    },
+    springer : function () {
+        return /springer/i.test($('title').html());
     },
     highwire : function () {
         return $(join_attrs('meta', {
@@ -32,6 +34,18 @@ var publisher_rules = {
         return $(join_attrs('meta', {
             name : 'citation_publisher',
             content : 'Wiley Subscription Services, Inc., A Wiley Company',
+        })).length > 0;
+    },
+    biomed : function () {
+        return $(join_attrs('meta', {
+            name : 'citation_publisher',
+            content : 'BioMed Central Ltd',
+        })).length > 0;
+    },
+    pubmed : function () {
+        return $(join_attrs('meta', {
+            name : 'ncbi_db',
+            content : 'pmc'
         })).length > 0;
     },
     plos : function() {
@@ -103,8 +117,27 @@ var head_ref_extractors = {
         head_info['doi'] = ddlink;
         return head_info;
     },
+    springer : function () {
+        // Initialize info
+        var head_info = {};
+        // Get context information
+        var context_div = $('div.ContextInformation');
+        context_div.children('span').each(function () {
+            key = this.className.replace(/article/i, '');
+            val = this.innerText;
+            head_info[key] = val;
+        });
+        // Get author information
+        head_info['authors'] = $('span.AuthorName').map(function () {
+            return this.innerText;
+        }).get();
+        // Done
+        return head_info;
+    },
     highwire : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     wiley : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    biomed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
+    pubmed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     plos : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     frontiers : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     nature : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
@@ -131,11 +164,22 @@ var cited_ref_extractors = {
     sciencedirect : function () {
         return $('ul.reference');
     },
+    springer : function () {
+        return $('div.Citation');
+    },
     highwire : function () {
         return $('ol.cit-list > li');
     },
     wiley : function () {
         return $('ul.plain > li');
+    },
+    biomed : function () {
+        return $('ol#references > li');
+    },
+    pubmed : function () {
+        var refs_v1 = $('li[id^="B"]'),
+            refs_v2 = $('div.ref-cit-blk');
+        return refs_v1.length ? refs_v1 : refs_v2;
     },
     plos : function () {
         return $('ol.references > li');
