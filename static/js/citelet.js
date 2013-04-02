@@ -10,10 +10,17 @@ Publisher detection rules:
     corresponds to the target publisher, else false.
 */
 
-join_attrs = function(tag, attrs) {
-    attr_string = tag;
-    for (var k in attrs) {
-        attr_string = attr_string + '[' + k + '="' + attrs[k] + '"]'
+join_attrs = function(tag, attrs, ops) {
+    if (typeof(ops) === 'undefined') ops = ['='];
+    if (typeof(attrs) === 'undefined') attrs = {};
+    var attr_string = tag;
+    var keys = Object.keys(attrs);
+    var key, val, op;
+    for (var idx = 0; idx < keys.length; idx++) {
+        key = keys[idx];
+        val = attrs[key];
+        op = ops[idx % ops.length];
+        attr_string = attr_string + '[' + key + op + '"' + val + '"]';
     }
     return attr_string;
 };
@@ -47,6 +54,13 @@ var publisher_rules = {
             name : 'ncbi_db',
             content : 'pmc'
         })).length > 0;
+    },
+    mit : function () {
+        return $(join_attrs('meta', {
+            name : 'dc.Publisher',
+            content : 'MIT Press',
+        },
+        ['=', '^='])).length > 0;
     },
     plos : function() {
         return $(join_attrs('meta', {
@@ -138,6 +152,7 @@ var head_ref_extractors = {
     wiley : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     biomed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     pubmed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
+    mit : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     plos : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     frontiers : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     nature : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
@@ -180,6 +195,9 @@ var cited_ref_extractors = {
         var refs_v1 = $('li[id^="B"]'),
             refs_v2 = $('div.ref-cit-blk');
         return refs_v1.length ? refs_v1 : refs_v2;
+    },
+    mit : function () {
+        return $('td.refnumber + td');
     },
     plos : function () {
         return $('ol.references > li');
