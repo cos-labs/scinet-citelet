@@ -10,12 +10,23 @@ Publisher detection rules:
     corresponds to the target publisher, else false.
 */
 
+/*
+Join attributes to build a CSS selector.
+Args:
+    tag (string) : tag name
+    attrs (dict) : attributes
+    ops (list) : operators
+Returns:
+    CSS selector
+Example:
+    join_attrs('meta', {name : 'publisher', content : 'Wiley'}, ['=', '^='])
+    'meta[name="publisher"][content^="Wiley"]'
+*/
 join_attrs = function(tag, attrs, ops) {
     if (typeof(ops) === 'undefined') ops = ['='];
-    if (typeof(attrs) === 'undefined') attrs = {};
-    var attr_string = tag;
-    var keys = Object.keys(attrs);
-    var key, val, op;
+    var attr_string = tag,
+        keys = Object.keys(attrs),
+        key, val, op;
     for (var idx = 0; idx < keys.length; idx++) {
         key = keys[idx];
         val = attrs[key];
