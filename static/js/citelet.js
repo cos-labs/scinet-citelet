@@ -66,12 +66,23 @@ var publisher_rules = {
             content : 'pmc'
         })).length > 0;
     },
+    nas : function () {
+        return $(join_attrs('meta', {
+            name : 'citation_publisher',
+            content : 'National Acad Sciences',
+        })).length > 0;
+    },
     mit : function () {
         return $(join_attrs('meta', {
             name : 'dc.Publisher',
             content : 'MIT Press',
         },
         ['=', '^='])).length > 0;
+    },
+    ovid : function () {
+        return $(join_attrs('meta', {
+            name : 'Ovid',
+        }, ['^='])).length > 0;
     },
     plos : function() {
         return $(join_attrs('meta', {
@@ -163,7 +174,19 @@ var head_ref_extractors = {
     wiley : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     biomed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     pubmed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
+    nas : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     mit : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
+    ovid : function () {
+        var head_info = {};
+        var journal_title = $('div.fulltext-SOURCEFULL').text();
+        var split;
+        if (journal_title) head_info['Title'] = journal_title;
+        $('div#fulltext-source-info div').each(function () {
+            split = this.innerText.split(':');
+            if (split.length > 1) head_info[split[0]] = split[1];
+        });
+        return head_info;
+    },
     plos : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     frontiers : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     nature : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
@@ -207,8 +230,14 @@ var cited_ref_extractors = {
             refs_v2 = $('div.ref-cit-blk');
         return refs_v1.length ? refs_v1 : refs_v2;
     },
+    nas : function () {
+        return $('ol.cit-list > li');
+    },
     mit : function () {
         return $('td.refnumber + td');
+    },
+    ovid : function () {
+        return $('p.fulltext-REFERENCES');
     },
     plos : function () {
         return $('ol.references > li');
