@@ -37,41 +37,56 @@ join_attrs = function(tag, attrs, ops) {
 };
 
 var publisher_rules = {
+    // ScienceDirect
     sciencedirect : function() {
         return /sciencedirect/i.test($('title').html());
     },
+    // Springer
     springer : function () {
         return /springer/i.test($('title').html());
     },
+    // Highwire
     highwire : function () {
         return $(join_attrs('meta', {
             name : 'HW.identifier',
         })).length > 0;
     },
+    // Wiley
     wiley : function () {
         return $(join_attrs('meta', {
             name : 'citation_publisher',
             content : 'Wiley Subscription Services, Inc., A Wiley Company',
         })).length > 0;
     },
+    // BioMed Central
     biomed : function () {
         return $(join_attrs('meta', {
             name : 'citation_publisher',
             content : 'BioMed Central Ltd',
         })).length > 0;
     },
+    // PubMed Central
     pubmed : function () {
         return $(join_attrs('meta', {
             name : 'ncbi_db',
             content : 'pmc'
         })).length > 0;
     },
+    // Royal Society
+    royal : function () {
+        return $(join_attrs('meta', {
+            name : 'DC.Publisher',
+            content : 'The Royal Society',
+        })).length > 0;
+    },
+    // National Academy of Sciences
     nas : function () {
         return $(join_attrs('meta', {
             name : 'citation_publisher',
             content : 'National Acad Sciences',
         })).length > 0;
     },
+    // MIT Press
     mit : function () {
         return $(join_attrs('meta', {
             name : 'dc.Publisher',
@@ -79,35 +94,41 @@ var publisher_rules = {
         },
         ['=', '^='])).length > 0;
     },
+    // Ovid
     ovid : function () {
         return $(join_attrs('meta', {
             name : 'Ovid',
         }, ['^='])).length > 0;
     },
+    // Public Library of Science
     plos : function() {
         return $(join_attrs('meta', {
             name : 'citation_publisher',
             content : 'Public Library of Science',
         })).length > 0;
     },
+    // Frontiers
     frontiers : function() {
         return $(join_attrs('meta', {
             name : 'citation_publisher',
             content : 'Frontiers',
         })).length > 0;
     },
+    // Nature Publishing Group
     nature : function () {
         return $(join_attrs('meta', {
             name : 'DC.publisher',
             content : 'Nature Publishing Group',
         })).length > 0;
     },
-    jama : function() {
+    // American Medical Association
+    ama : function() {
         return $(join_attrs('meta', {
             name : 'citation_publisher',
             content : 'American Medical Association',
         })).length > 0;
     },
+    // American Psychological Association
     apa : function () {
         var pub_dt = $('dt').filter(function () {
             return this.innerHTML == 'Publisher:';
@@ -174,6 +195,7 @@ var head_ref_extractors = {
     wiley : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     biomed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     pubmed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
+    royal : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     nas : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     mit : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     ovid : function () {
@@ -190,7 +212,7 @@ var head_ref_extractors = {
     plos : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     frontiers : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     nature : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
-    jama : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    ama : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     apa : function () {
         var dts = $('.citation-wrapping-div dt'),
             dds = $('.citation-wrapping-div dd');
@@ -230,6 +252,9 @@ var cited_ref_extractors = {
             refs_v2 = $('div.ref-cit-blk');
         return refs_v1.length ? refs_v1 : refs_v2;
     },
+    royal : function () {
+        return $('ol.cit-list > li');
+    },
     nas : function () {
         return $('ol.cit-list > li');
     },
@@ -248,7 +273,7 @@ var cited_ref_extractors = {
     nature : function () {
         return $('ol.references > li');
     },
-    jama : function () {
+    ama : function () {
         return $('div.referenceSection div.refRow');
     },
     apa : function () {
