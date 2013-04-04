@@ -58,6 +58,13 @@ var publisher_rules = {
             content : 'Wiley Subscription Services, Inc., A Wiley Company',
         })).length > 0;
     },
+    // Taylor and Francis
+    tandf : function () {
+        return $(join_attrs('meta', {
+            property : 'og:site_name',
+            content : 'Taylor and Francis',
+        })).length > 0;
+    },
     // BioMed Central
     biomed : function () {
         return $(join_attrs('meta', {
@@ -128,6 +135,13 @@ var publisher_rules = {
             content : 'American Medical Association',
         })).length > 0;
     },
+    // American Chemical Society
+    acs : function () {
+        return $(join_attrs('meta', {
+            name : 'dc.Publisher',
+            content : 'American Chemical Society',
+        })).length > 0;
+    },
     // American Psychological Association
     apa : function () {
         var pub_dt = $('dt').filter(function () {
@@ -193,6 +207,7 @@ var head_ref_extractors = {
     },
     highwire : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     wiley : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    tandf : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     biomed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     pubmed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     royal : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
@@ -212,7 +227,8 @@ var head_ref_extractors = {
     plos : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     frontiers : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     nature : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
-    ama : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    ama : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
+    acs : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     apa : function () {
         var dts = $('.citation-wrapping-div dt'),
             dds = $('.citation-wrapping-div dd');
@@ -243,6 +259,9 @@ var cited_ref_extractors = {
     },
     wiley : function () {
         return $('ul.plain > li');
+    },
+    tandf : function () {
+        return $('ul.references > li');
     },
     biomed : function () {
         return $('ol#references > li');
@@ -275,6 +294,9 @@ var cited_ref_extractors = {
     },
     ama : function () {
         return $('div.referenceSection div.refRow');
+    },
+    acs : function () {
+        return $('div.NLM_citation');
     },
     apa : function () {
         var ref_link = $('a[title="References"][href="#toc"]');
