@@ -11,7 +11,8 @@
         script.type = 'text/javascript';
         
         // Load the specified jQuery from the Google AJAX API server (minified).
-        script.src = 'http://ajax.googleapis.com/ajax/libs/jquery/' + req_version + '/jquery.min.js';
+        script.src = '//ajax.googleapis.com/ajax/libs/jquery/' + req_version + '/jquery.min.js';
+        //script.src = 'http://ajax.googleapis.com/ajax/libs/jquery/' + req_version + '/jquery.min.js';
         
         // When the script is loaded, remove it, execute jQuery.noConflict( true )
         // on the newly-loaded jQuery (thus reverting any previous version to its
