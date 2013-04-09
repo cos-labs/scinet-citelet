@@ -72,6 +72,13 @@ var publisher_rules = {
             content : 'BioMed Central Ltd',
         })).length > 0;
     },
+    // Thieme Publishers
+    thieme : function () {
+        return $(join_attrs('meta', {
+            name : 'citation_publisher',
+            content : 'Thieme Medical Publishers',
+        })).length > 0;
+    },
     // PubMed Central
     pubmed : function () {
         return $(join_attrs('meta', {
@@ -209,6 +216,7 @@ var head_ref_extractors = {
     wiley : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     tandf : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     biomed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
+    thieme : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     pubmed : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     royal : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     nas : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
@@ -265,6 +273,13 @@ var cited_ref_extractors = {
     },
     biomed : function () {
         return $('ol#references > li');
+    },
+    thieme : function () {
+        return $($('.literaturliste')[0])
+            .children('li')
+            .filter(function () {
+                return $(this).find('h3').length == 0
+            });
     },
     pubmed : function () {
         var refs_v1 = $('li[id^="B"]'),
