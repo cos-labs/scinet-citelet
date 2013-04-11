@@ -128,6 +128,13 @@ var publisher_rules = {
             content : 'Frontiers',
         })).length > 0;
     },
+    // Hindawi Publishing Corporation
+    hindawi : function () {
+        $(join_attrs('meta', {
+            name : 'citation_publisher',
+            content : 'Hindawi Publishing Corporation',
+        })).length > 0;
+    },
     // Nature Publishing Group
     nature : function () {
         return $(join_attrs('meta', {
@@ -234,6 +241,7 @@ var head_ref_extractors = {
     },
     plos : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     frontiers : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
+    hindawi : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     nature : head_extract_meta(/DC\.|citation_(?!reference)/, /DC\.|citation_/),
     ama : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
     acs : head_extract_meta(/DC\.|citation_(?!reference)/i, /DC\.|citation_/i),
@@ -303,6 +311,9 @@ var cited_ref_extractors = {
     },
     frontiers : function () {
         return $('div.References');
+    },
+    hindawi : function () {
+        return $('ol > li[id^="B"]');
     },
     nature : function () {
         return $('ol.references > li');
