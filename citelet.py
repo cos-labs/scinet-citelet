@@ -91,7 +91,7 @@ class SendRefsAJAX(MethodView):
         
         # Assemble results
         results = {}
-        if publisher != 'false':
+        if publisher != '':
             results['msg'] = ('Received from publisher %s ' + \
                 'head reference %s with %s cited references.') % \
                 (publisher.upper(), repr(head_ref), len(cited_refs))
