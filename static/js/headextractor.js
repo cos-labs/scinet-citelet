@@ -1,26 +1,21 @@
+/**
+ * @module HeadExtractor
+ */
 var HeadExtractor = (function() {
     
     // Initialize module
-    var m = {};
+    var my = {};
     
     // Private data
     
-    /* Extract head reference information from <meta> tags */
-    head_extract_meta = function(test, replace) {
-        var meta = $('meta[name][content]').filter(function () {
-            return test.test(this.name)
-        });
-        var head_info = {};
-        meta.each(function () {
-            var name = this.name.replace(replace, '');
-            if (!(name in head_info)) {
-                head_info[name] = [];
-            }
-            head_info[name].push(this.content);
-        });
-        return head_info;
-    };
-
+    /**
+     * Base class for head reference extraction
+     * 
+     * @class ReferenceExtractor
+     * @constructor
+     * @param name {String} Publisher name
+     * @param fun {Function} Function to extract head reference from current page
+     */
     function HeadExtractor(name, fun) {
         this.extract = fun;
         if (typeof(name) !== 'undefined')
@@ -28,19 +23,49 @@ var HeadExtractor = (function() {
     }
     HeadExtractor.registry = {};
 
+    /**
+     * Class for extracting head reference from <meta> tags
+     * 
+     * @class MetaReferenceExtractor
+     * @extends ReferenceExtractor
+     * @constructor
+     * @param name {String} Publisher name
+     * @param test {RegExp} Test pattern for identifying relevant <meta> tags
+     * @param replace {RegExp} Replacement pattern for cleaning up <meta> tags
+     */
     function MetaHeadExtractor(name, test, replace) {
+        
+        // Get default argument values
         if (typeof(test) === 'undefined')
             var test = /DC\.|citation_(?!reference)/i;
         if (typeof(replace) === 'undefined')
             var replace = /DC\.|citation_/i;
+            
+        // Define function: Extract head reference information from <meta> tags
         var fun = function () {
-            return head_extract_meta(test, replace);
+            var head_info = {},
+                name;
+            $('meta[name][content]').filter(function() {
+                return test.test(this.name);
+            }).each(function() {
+                name = this.name.replace(replace, '');
+                if (!(name in head_info)) {
+                    head_info[name] = [];
+                }
+                head_info[name].push(this.content)
+            });
+            return head_info;
         };
+        
+        // Call parent constructor
         HeadExtractor.call(this, name, fun);
+        
     };
     MetaHeadExtractor.prototype = new HeadExtractor;
     MetaHeadExtractor.prototype.constructor = MetaHeadExtractor;
 
+    // Define HeadExtractors
+    
     new HeadExtractor('sciencedirect', function() {
         var head_info = {};
         var ddDoi = $('a#ddDoi');
@@ -49,6 +74,7 @@ var HeadExtractor = (function() {
         head_info['doi'] = ddlink;
         return head_info;
     });
+    
     new HeadExtractor('springer', function () {
         // Initialize info
         var head_info = {};
@@ -66,6 +92,7 @@ var HeadExtractor = (function() {
         // Done
         return head_info;
     });
+    
     new HeadExtractor('ovid', function () {
         var head_info = {};
         var journal_title = $('div.fulltext-SOURCEFULL').text();
@@ -77,9 +104,10 @@ var HeadExtractor = (function() {
         });
         return head_info;
     });
+    
     new HeadExtractor('apa', function () {
-        var dts = $('.citation-wrapping-div dt'),
-            dds = $('.citation-wrapping-div dd');
+        var dts = $('.citation-wrapping-div dt, .short-citation dt'),
+            dds = $('.citation-wrapping-div dd, .short-citation dd');
         var head_info = {};
         for (var idx = 0; idx < dts.length; idx++) {
             var key = dts[idx].innerHTML.replace(/^:|:$/g, ''),
@@ -88,7 +116,9 @@ var HeadExtractor = (function() {
         }
         return head_info;
     });
-
+    
+    // Define MetaHeadExtractors
+    
     new MetaHeadExtractor('highwire');
     new MetaHeadExtractor('wiley');
     new MetaHeadExtractor('tandf');
@@ -107,7 +137,12 @@ var HeadExtractor = (function() {
 
     // Public data
     
-    m.extract = function (publisher) {
+    /**
+     * @class extract
+     * @static
+     * @return {Object} Dictionary of head reference properties
+     */
+    my.extract = function (publisher) {
         if (!(publisher in HeadExtractor.registry)) {
             return false;
         }
@@ -115,6 +150,6 @@ var HeadExtractor = (function() {
     };
     
     // Return module
-    return m;
+    return my;
 
 })();
