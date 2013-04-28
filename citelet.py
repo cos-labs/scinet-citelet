@@ -1,3 +1,6 @@
+# Imports
+import json
+
 # Flask imports
 from flask import Flask
 from flask import request
@@ -7,8 +10,6 @@ from flask.views import MethodView
 # PyMongo imports
 from flask.ext.pymongo import PyMongo
 from pymongo.errors import ConnectionFailure
-
-import json
 
 # Initialize app
 app = Flask(__name__)
@@ -21,11 +22,21 @@ except ConnectionFailure:
     connected = False
 
 def jsonpify(obj, callback):
+    '''Prepare object data for JSONP response: convert to JSON,
+    then wrap in function call.
+    
+    Args:
+        obj : data to be encoded as JSON
+        callback: name of callback function for wrapping JSON
+    Returns:
+        JSONP-style string
+
+    '''
     
     return '%s(%s)' % (callback, json.dumps(obj))
 
 def request_to_ip(req):
-    """Grab user IP address from flask request object."""
+    '''Grab user IP address from flask request object.'''
     
     if not request.headers.getlist("X-Forwarded-For"):
        return request.remote_addr
@@ -42,6 +53,9 @@ class Bookmarklet(MethodView):
         # Return rendered template
         return render_template('bookmarklet.html', bookmarklet=bookmarklet)
 
+# Route to URL
+app.add_url_rule('/bookmarklet/', view_func=Bookmarklet.as_view('bookmarklet'))
+
 class SendRefsAJAX(MethodView):
     
     def get(self):
@@ -51,6 +65,7 @@ class SendRefsAJAX(MethodView):
 
         # Get arguments
         call = request.args.get('callback')
+        url = request.args.get('url')
         publisher = request.args.get('publisher')
         head_ref_json = request.args.get('head_ref', '{}')
         cited_refs_json = request.args.get('cited_refs', '[]')
@@ -64,6 +79,7 @@ class SendRefsAJAX(MethodView):
 
         # Add to database
         record = {
+            'url' : url,
             'publisher' : publisher,
             'head_ref' : head_ref,
             'cited_refs' : cited_refs,
@@ -74,10 +90,13 @@ class SendRefsAJAX(MethodView):
             mongo.db.data.update(record, record, upsert=True)
         
         # Assemble results
-        results = {
-            'msg' : 'Received head reference %s and %s cited references.' % \
-                (repr(head_ref), len(cited_refs)),
-        }
+        results = {}
+        if publisher != 'false':
+            results['msg'] = ('Received from publisher %s ' + \
+                'head reference %s with %s cited references.') % \
+                (publisher.upper(), repr(head_ref), len(cited_refs))
+        else:
+            results['msg'] = 'Could not identify publisher.'
         
         # Return response
         return app.response_class(
@@ -86,7 +105,6 @@ class SendRefsAJAX(MethodView):
         )
 
 # Route to URL
-app.add_url_rule('/bookmarklet/', view_func=Bookmarklet.as_view('bookmarklet'))
 app.add_url_rule('/sendrefs/', view_func=SendRefsAJAX.as_view('sendrefs'))
 
 # Launch app
