@@ -1,10 +1,23 @@
-var RefExtractor = (function() {
+/**
+ * @module RefExtractor
+ */
+ var RefExtractor = (function() {
 
     // Initialize module
-    var m = {};
+    var my = {};
     
     // Private data
     
+    // ReferenceExtractor classes
+    
+    /**
+     * Base class for reference extraction
+     * 
+     * @class ReferenceExtractor
+     * @constructor
+     * @param name {String} Publisher name
+     * @param fun {Function} Function to extract references from current page
+     */
     function RefExtractor(name, fun) {
         this.extract = fun;
         if (typeof(name) !== 'undefined')
@@ -12,15 +25,53 @@ var RefExtractor = (function() {
     };
     RefExtractor.registry = {};
 
-    function JQueryRefExtractor(name, query) {
+    /**
+     * Class for extracting references using JQuery selector
+     * 
+     * @class JQueryRefExtractor
+     * @extends RefExtractor
+     * @constructor
+     * @param name {String} Publisher name
+     * @param selector {Function} JQuery selector for references
+     */
+    function JQueryRefExtractor(name, selector) {
         fun = function() {
-            return $(query);
+            return $(selector);
         };
         RefExtractor.call(this, name, fun);
     }
     JQueryRefExtractor.prototype = new RefExtractor;
     JQueryRefExtractor.prototype.constructor = JQueryRefExtractor;
 
+    // Define RefExtractors
+    new RefExtractor('thieme', function () {
+        return $($('.literaturliste')[0])
+            .children('li')
+            .filter(function () {
+                return $(this).find('h3').length == 0
+            });
+    });
+    
+    new RefExtractor('pubmed', function () {
+        var refs_v1 = $('li[id^="B"]'),
+            refs_v2 = $('div.ref-cit-blk');
+        return refs_v1.length ? refs_v1 : refs_v2;
+    });
+    
+    new RefExtractor('apa', function () {
+        var ref_link = $('a[title="References"][href="#toc"]');
+        if (ref_link.length == 0) return false;
+        ref_span = ref_link.parent('span');
+        if (ref_span.length == 0) return false;
+        var refs = ref_span.nextAll('p.body-paragraph');
+        refs = refs.filter(function () {
+            return (!/this publication is protected/i.test(this.innerHTML)) &&
+                   (!/submitted.*?revised.*?accepted/i.test(this.innerHTML));
+        });
+        return refs;
+    });
+    
+    // Define JQueryRefExtractors
     new JQueryRefExtractor('sciencedirect', 'ul.reference');
     new JQueryRefExtractor('springer', 'div.Citation');
     new JQueryRefExtractor('highwire', 'ol.cit-list > li');
@@ -38,34 +89,14 @@ var RefExtractor = (function() {
     new JQueryRefExtractor('ama', 'div.referenceSection div.refRow');
     new JQueryRefExtractor('acs', 'div.NLM_citation');
 
-    new RefExtractor('thieme', function () {
-        return $($('.literaturliste')[0])
-            .children('li')
-            .filter(function () {
-                return $(this).find('h3').length == 0
-            });
-    });
-    new RefExtractor('pubmed', function () {
-        var refs_v1 = $('li[id^="B"]'),
-            refs_v2 = $('div.ref-cit-blk');
-        return refs_v1.length ? refs_v1 : refs_v2;
-    });
-    new RefExtractor('apa', function () {
-        var ref_link = $('a[title="References"][href="#toc"]');
-        if (ref_link.length == 0) return false;
-        ref_span = ref_link.parent('span');
-        if (ref_span.length == 0) return false;
-        var refs = ref_span.nextAll('p.body-paragraph');
-        refs = refs.filter(function () {
-            return (!/this publication is protected/i.test(this.innerHTML)) &&
-                   (!/submitted.*?revised.*?accepted/i.test(this.innerHTML));
-        });
-        return refs;
-    });
-    
     // Public data
     
-    m.extract = function(publisher) {
+    /**
+     * @class extract
+     * @static
+     * @return {Object} JQuery list of references
+     */
+    my.extract = function(publisher) {
         if (!(publisher in RefExtractor.registry)) {
             return false;
         }
@@ -76,6 +107,6 @@ var RefExtractor = (function() {
     };
     
     // Return module
-    return m;
+    return my;
     
 })();

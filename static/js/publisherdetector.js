@@ -1,36 +1,23 @@
+/**
+ * @module PublisherDetector
+ */
 var PublisherDetector = (function() {
     
     // Initialize module
-    var m = {};
+    var my = {};
     
     // Private data
     
-    /*
-    Join attributes to build a CSS selector.
-    Args:
-        tag (string) : tag name
-        attrs (dict) : attributes
-        ops (list) : operators
-    Returns:
-        CSS selector
-    Example:
-        join_attrs('meta', {name : 'publisher', content : 'Wiley'}, ['=', '^='])
-        'meta[name="publisher"][content^="Wiley"]'
-    */
-    join_attrs = function(tag, attrs, ops) {
-        if (typeof(ops) === 'undefined') ops = ['='];
-        var attr_string = tag,
-            keys = Object.keys(attrs),
-            key, val, op;
-        for (var idx = 0; idx < keys.length; idx++) {
-            key = keys[idx];
-            val = attrs[key];
-            op = ops[idx % ops.length];
-            attr_string = attr_string + '[' + key + op + '"' + val + '"]';
-        }
-        return attr_string;
-    };
+    // PublisherDetector classes
     
+    /**
+    * Base class for detecting publishers. 
+    * 
+    * @class PublisherDetector
+    * @constructor
+    * @param name {String} Publisher name
+    * @param fun {Function} Function to check the current page for the publisher
+    */
     function PublisherDetector(name, fun) {
         this.detect = fun;
         if (typeof(name) !== 'undefined')
@@ -38,7 +25,131 @@ var PublisherDetector = (function() {
     };
     PublisherDetector.registry = {};
 
+    /**
+    * Class for detecting publishers from <title> tags.
+    * 
+    * @class TitlePublisherDetector
+    * @extends PublisherDetector
+    * @constructor
+    * @param name {String} Publisher name
+    * @param regex {Object} RegExp object for testing title
+    */
+    function TitlePublisherDetector(name, regex) {
+        
+        // Define detector function
+        var fun = function() {
+            return regex.test($('title').text())
+        };
+        
+        // Call parent constructor
+        PublisherDetector.call(this, name, fun);
+        
+    };
+    TitlePublisherDetector.prototype = new PublisherDetector;
+    TitlePublisherDetector.prototype.constructor = TitlePublisherDetector;
+
+    /**
+    * Class for detecting publishers from <meta> tags.
+    * 
+    * @class MetaPublisherDetector
+    * @constructor
+    * @param name {String} Publisher name
+    * @param attrs {Object} Dictionary of attr name : value pairs
+    * @param [opers=['=']] {List} List of operators for name : value comparisons
+    */
+    function MetaPublisherDetector(name, attrs, opers) {
+        
+        // Get default argument values
+        if (typeof(opers) === 'undefined') {
+            opers = ['='];
+        }
+        
+        // Define detector function
+        var fun = function() {
+        
+            // Initialize variables
+            var attr_string = 'meta',
+                oper;
+
+            // Loop over attributes
+            $.each(attrs, function(idx, val) {
+                oper = opers[idx % opers.length];
+                attr_string = attr_string + '[' + val[0] + oper + '"' + val[1] + '"]';
+            });
+            
+            return $(attr_string).length > 0;
+            
+        };
+        
+        // Call parent constructor
+        PublisherDetector.call(this, name, fun);
+        
+    };
+    MetaPublisherDetector.prototype = new PublisherDetector;
+    MetaPublisherDetector.prototype.constructor = MetaPublisherDetector;
+    
+    /**
+    * Class for detecting publishers using regxp on arbitrary element attributes.
+    * 
+    * @class RegexpPublisherDetector
+    * @extends PublisherDetector
+    * @constructor
+    * @param name {String} Publisher name
+    * @param selector {String} JQuery selector for getting relevant tags
+    * @param attrs {Object} Dictionary of attr name : value pairs
+    * @param [flags='i'] {String} RegExp flags
+    */
+    function RegexPublisherDetector(name, selector, attrs, flags) {
+        
+        // Default values
+        if (typeof(flags) === 'undefined') flags = 'i';
+        
+        // Define detector function
+        var fun = function() {
+
+            // Get <meta> tags
+            tags = $(selector);
+
+            // Filter tags by each name / value pair
+            //$.each(attrs, function(key, val) {
+            $.each(attrs, function(idx, val) {
+
+                // Define filter function
+                flt = function() {
+                    match = false;
+                    $(this.attributes).each(function() {
+                        if (RegExp(val[0], flags).test(this.nodeName) & 
+                                RegExp(val[1], flags).test(this.nodeValue)) {
+                            match = true;
+                            return false;
+                        }
+                    });
+                    return match;
+                }
+
+                // Filter remaining tags
+                tags = tags.filter(flt);
+
+            });
+            
+            // Match if >0 tags found
+            return tags.length > 0;
+
+        }
+
+        // Call parent constructor
+        PublisherDetector.call(this, name, fun);
+    };
+
+    // Set prototype and constructor
+    RegexPublisherDetector.prototype = new PublisherDetector;
+    RegexPublisherDetector.prototype.constructor = RegexPublisherDetector;
+
+    // Define PublisherDetectors
+    
     new PublisherDetector('apa', function () {
+        
+        // Test <dt> / <dd> tags
         var pub_dt = $('dt').filter(function () {
             return this.innerHTML == 'Publisher:';
         });
@@ -48,103 +159,108 @@ var PublisherDetector = (function() {
                 return true;
             }
         }
-    });
-
-    function TitlePublisherDetector(name, regex) {
-        var fun = function() {
-            return regex.test($('title').text())
+        
+        // Test Source: paragraph
+        var source_par = $('p.body-paragraph').filter(function() {
+            return /source:/i.test(this.innerText);
+        });
+        if (/american psychological association/i.test(source_par.text())) {
+            return true;
         };
-        PublisherDetector.call(this, name, fun);
-    };
-    TitlePublisherDetector.prototype = new PublisherDetector;
-    TitlePublisherDetector.prototype.constructor = TitlePublisherDetector;
-
+        
+        return false;
+        
+    });
+    
+    // Define TitlePublisherDetectors
+    
     new TitlePublisherDetector('sciencedirect', /sciencedirect/i);
     new TitlePublisherDetector('springer', /springer/i);
-
-    function MetaPublisherDetector(name, attrs, opers) {
-        var fun = function() {
-            return $(join_attrs('meta', attrs, opers)).length > 0;
-        };
-        PublisherDetector.call(this, name, fun);
-    };
-    MetaPublisherDetector.prototype = new PublisherDetector;
-    MetaPublisherDetector.prototype.constructor = MetaPublisherDetector;
-
-    new MetaPublisherDetector('highwire', {
-        name : 'HW.identifier'
-    });
-    new MetaPublisherDetector('tandf', {
-        property : 'og:site_name',
-        content : 'Taylor and Francis',
-    });
-    new MetaPublisherDetector('wiley', {
-        name : 'citation_publisher',
-        content : 'Wiley Subscription Services, Inc., A Wiley Company',
-    });
-    new MetaPublisherDetector('biomed', {
-        name : 'citation_publisher',
-        content : 'BioMed Central Ltd',
-    });
-    new MetaPublisherDetector('thieme', {
-        name : 'citation_publisher',
-        content : 'Thieme Medical Publishers',
-    });
-    new MetaPublisherDetector('pubmed', {
-        name : 'ncbi_db',
-        content : 'pmc',
-    });
-    new MetaPublisherDetector('royal', {
-        name : 'DC.Publisher',
-        content : 'The Royal Society',
-    });
-    new MetaPublisherDetector('nas', {
-        name : 'citation_publisher',
-        content : 'National Acad Sciences',
-    });
-    new MetaPublisherDetector('mit', {
-        name : 'dc.Publisher',
-        content : 'MIT Press',
-    }, ['=', '^=']);
-    new MetaPublisherDetector('ovid', {
-        name : 'Ovid',
-    }, ['^=']);
-    new MetaPublisherDetector('plos', {
-        name : 'citation_publisher',
-        content : 'Public Library of Science',
-    });
-    new MetaPublisherDetector('frontiers', {
-        name : 'citation_publisher',
-        content : 'Frontiers',
-    });
-    new MetaPublisherDetector('hindawi', {
-        name : 'citation_publisher',
-        content : 'Hindawi Publishing Corporation',
-    });
-    new MetaPublisherDetector('nature', {
-        name : 'DC.publisher',
-        content : 'Nature Publishing Group',
-    });
-    new MetaPublisherDetector('ama', {
-        name : 'citation_publisher',
-        content : 'American Medical Association',
-    });
-    new MetaPublisherDetector('acs', {
-        name : 'dc.Publisher',
-        content : 'American Chemical Society',
-    });
+    
+    // Define MetaPublisherDetectors
+    
+    new MetaPublisherDetector('highwire', [
+        ['name', 'HW.identifier'],
+    ]);
+    new MetaPublisherDetector('tandf', [
+        ['property', 'og:site_name'],
+        ['content', 'Taylor and Francis'],
+    ]);
+    new MetaPublisherDetector('biomed', [
+        ['name', 'citation_publisher'],
+        ['content', 'BioMed Central Ltd'],
+    ]);
+    new MetaPublisherDetector('thieme', [
+        ['name', 'citation_publisher'],
+        ['content', 'Thieme Medical Publishers'],
+    ]);
+    new MetaPublisherDetector('pubmed', [
+        ['name', 'ncbi_db'],
+        ['content', 'pmc'],
+    ]);
+    new MetaPublisherDetector('royal', [
+        ['name', 'DC.Publisher'],
+        ['content', 'The Royal Society'],
+    ]);
+    new MetaPublisherDetector('nas', [
+        ['name', 'citation_publisher'],
+        ['content', 'National Acad Sciences'],
+    ]);
+    new MetaPublisherDetector('ovid', [
+        ['name', 'Ovid'],
+    ], ['^=']);
+    new MetaPublisherDetector('plos', [
+        ['name', 'citation_publisher'],
+        ['content', 'Public Library of Science'],
+    ]);
+    new MetaPublisherDetector('frontiers', [
+        ['name', 'citation_publisher'],
+        ['content', 'Frontiers'],
+    ]);
+    new MetaPublisherDetector('hindawi', [
+        ['name', 'citation_publisher'],
+        ['content', 'Hindawi Publishing Corporation'],
+    ]);
+    new MetaPublisherDetector('nature', [
+        ['name', 'DC.publisher'],
+        ['content', 'Nature Publishing Group'],
+    ]);
+    new MetaPublisherDetector('ama', [
+        ['name', 'citation_publisher'],
+        ['content', 'American Medical Association'],
+    ]);
+    new MetaPublisherDetector('acs', [
+        ['name', 'dc.Publisher'],
+        ['content', 'American Chemical Society'],
+    ]);
+    
+    // Define RegexPublisherDetectors
+    
+    new RegexPublisherDetector('wiley', 'meta', [
+        ['name', 'citation_publisher'],
+        ['content', 'wiley subscription services'],
+    ]);
+    new RegexPublisherDetector('mit', 'meta', [
+        ['name', 'dc.publisher'],
+        ['content', 'mit press'],
+    ]);
     
     // Public data
     
-    m.detect = function() {
+    /**
+     * @class detect
+     * @static
+     * @return {String} Name of publisher (or '' if no publisher matches)
+     */
+    my.detect = function() {
         for (publisher in PublisherDetector.registry) {
             if (PublisherDetector.registry[publisher].detect())
                 return publisher;
         }
-        return false;
+        return '';
     }
     
     // Return module
-    return m;
+    return my;
     
 })();
