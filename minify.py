@@ -4,7 +4,7 @@ import slimit
 code_names = [
     'publisherdetector',
     'headextractor',
-    'refextractor',
+    'referenceextractor',
     'citelet',
 ]
 

@@ -3,9 +3,6 @@
  */
 var HeadExtractor = (function() {
     
-    // Initialize module
-    var my = {};
-    
     // Private data
     
     /**
@@ -67,6 +64,8 @@ var HeadExtractor = (function() {
     // Define HeadExtractors
     
     new HeadExtractor('sciencedirect', function() {
+        // ScienceDirect meta-data is a mess, so 
+        // only DOI is extracted for now
         var head_info = {};
         var ddDoi = $('a#ddDoi');
         var ddlink = ddDoi.attr('href');
@@ -134,22 +133,25 @@ var HeadExtractor = (function() {
     new MetaHeadExtractor('nature');
     new MetaHeadExtractor('ama');
     new MetaHeadExtractor('acs');
-
-    // Public data
     
     /**
      * @class extract
      * @static
      * @return {Object} Dictionary of head reference properties
      */
-    my.extract = function (publisher) {
+    function extract(publisher) {
         if (!(publisher in HeadExtractor.registry)) {
             return false;
         }
         return HeadExtractor.registry[publisher].extract();
     };
     
-    // Return module
-    return my;
-
+    // Expose public methods & data
+    
+    return {
+        HeadExtractor : HeadExtractor,
+        MetaHeadExtractor : MetaHeadExtractor,
+        extract : extract,
+    };
+    
 })();

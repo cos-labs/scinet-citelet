@@ -10,7 +10,7 @@ data['url'] = window.location.href;
 data['publisher'] = PublisherDetector.detect();
 if (data['publisher'] !== '') {
     data['head_ref'] = stringify(HeadExtractor.extract(publisher));
-    data['cited_refs'] = stringify(RefExtractor.extract(publisher));
+    data['cited_refs'] = stringify(ReferenceExtractor.extract(publisher));
 }
 
 /**

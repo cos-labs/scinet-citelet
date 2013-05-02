@@ -3,9 +3,6 @@
  */
 var PublisherDetector = (function() {
     
-    // Initialize module
-    var my = {};
-    
     // Private data
     
     // PublisherDetector classes
@@ -245,14 +242,12 @@ var PublisherDetector = (function() {
         ['content', 'mit press'],
     ]);
     
-    // Public data
-    
     /**
      * @class detect
      * @static
      * @return {String} Name of publisher (or '' if no publisher matches)
      */
-    my.detect = function() {
+    function detect() {
         for (publisher in PublisherDetector.registry) {
             if (PublisherDetector.registry[publisher].detect())
                 return publisher;
@@ -260,7 +255,13 @@ var PublisherDetector = (function() {
         return '';
     }
     
-    // Return module
-    return my;
+    // Expose public methods & data
+    
+    return {
+        PublisherDetector : PublisherDetector,
+        TitlePublisherDetector : TitlePublisherDetector,
+        MetaPublisherDetector : MetaPublisherDetector,
+        detect : detect,
+    };
     
 })();

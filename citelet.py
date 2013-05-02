@@ -78,6 +78,7 @@ class SendRefsAJAX(MethodView):
         pass
 
         # Add to database
+        # TODO: Pass in OSF login / create custom bookmarklet
         record = {
             'url' : url,
             'publisher' : publisher,
