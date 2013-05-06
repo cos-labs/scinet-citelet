@@ -206,10 +206,10 @@ var PublisherDetector = (function() {
     new MetaPublisherDetector('ovid', [
         ['name', 'Ovid'],
     ], ['^=']);
-    new MetaPublisherDetector('plos', [
+    /*new MetaPublisherDetector('plos', [
         ['name', 'citation_publisher'],
         ['content', 'Public Library of Science'],
-    ]);
+    ]);*/
     new MetaPublisherDetector('frontiers', [
         ['name', 'citation_publisher'],
         ['content', 'Frontiers'],

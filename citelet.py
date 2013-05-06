@@ -15,6 +15,8 @@ from pymongo.errors import ConnectionFailure
 app = Flask(__name__)
 
 # Set up database
+# Access from Flask using mongo.db.data
+# Access from PyMongo using MongoClient().citelet.data
 try:
     mongo = PyMongo(app)
     connected = True
