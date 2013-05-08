@@ -3,6 +3,7 @@ import json
 
 # Flask imports
 from flask import Flask
+from flask import jsonify
 from flask import request
 from flask import render_template
 from flask.views import MethodView
@@ -66,7 +67,7 @@ class SendRefsAJAX(MethodView):
         ip_addr = request_to_ip(request)
 
         # Get arguments
-        call = request.args.get('callback')
+        call = request.args.get('callback', None)
         url = request.args.get('url')
         publisher = request.args.get('publisher')
         head_ref_json = request.args.get('head_ref', '{}')
@@ -101,11 +102,18 @@ class SendRefsAJAX(MethodView):
         else:
             results['msg'] = 'Could not identify publisher.'
         
+        if call is not None:
+            # Build JSONP response
+            resp = app.response_class(
+                jsonpify(results, call),
+                mimetype='application/javascript'
+            )
+        else:
+            # Build JSON response
+            resp = jsonify(**results)
+
         # Return response
-        return app.response_class(
-            jsonpify(results, call),
-            mimetype='application/javascript'
-        )
+        return resp
 
 # Route to URL
 app.add_url_rule('/sendrefs/', view_func=SendRefsAJAX.as_view('sendrefs'))
