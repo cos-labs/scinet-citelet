@@ -1,30 +1,44 @@
 # Imports
 import sys
 import slimit
+import argparse
 
-def minicite(js_names):
+def minicite(js_names, do_wrap, do_minify):
     '''Concatenate, wrap, and minify project JavaScript files.'''
     
     # Read code
     js_files = [open(js_name).read() for js_name in js_names]
     
     # Concatenate code
-    js_concat = '\n'.join(js_files)
+    js = '\n\n'.join(js_files)
 
-    # Read wrapper
-    with open('js-util/wrapper.js') as wrap_file:
-        wrap = wrap_file.read()
-    
-    # Wrap code
+    # Optionally wrap code
     # Note: Wrapper file must contain %s for interpolation
-    wrapped_code = wrap % js_concat
+    if do_wrap:
 
-    # Minify wrapped code
-    js_mini = slimit.minify(wrapped_code, mangle=True)
+        # Read wrapper
+        with open('js-util/wrapper.js') as wrap_file:
+            wrap = wrap_file.read()
+        
+        # Wrap code
+        js = wrap % js
+
+    # Optionally minify code
+    if do_minify:
+        js = slimit.minify(js, mangle=True)
     
-    # Return minified code
-    return js_mini
+    # Return code
+    return js
 
-# Run if called from CLI
-if __name__ == '__main__':
-    print minicite(sys.argv[1:])
+# Initialize argument parser
+parser = argparse.ArgumentParser()
+
+# Define arguments
+parser.add_argument('--wrap', action='store_true')
+parser.add_argument('--minify', action='store_true')
+parser.add_argument('--files', nargs='*')
+
+# Parse arguments
+args = parser.parse_args()
+
+print minicite(args.files, args.wrap, args.minify)
