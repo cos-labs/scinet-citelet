@@ -5,10 +5,21 @@
     "description" : "",
     "content_scripts" : [{
         "matches" : ["<all_urls>"],
-        "js" : ["jquery.js", "citelet.cat.js", "citelet.ext.js", "main.js"]
+        "js" : [
+            "lib/jquery-1.9.1.js", 
+            "lib/jquery-ui.js", 
+            "citelet.cat.js", 
+            "citelet.ext.js", 
+            "main.js"
+        ],
+        "css" : ["lib/jquery-ui.css"]
     }],
+    "options_page" : "options.html",
     "permissions" : [
         "tabs", "storage",
         "*://127.0.0.1/*"
+    ],
+    "web_accessible_resources" : [
+        "lib/images/*"
     ]
 }
