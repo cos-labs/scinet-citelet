@@ -10,28 +10,62 @@ var citelet = (function() {
      */
     var stringify = Object.toJSON ? Object.toJSON : JSON.stringify;
     
+    /**
+     * Scrape article meta-data from current page. Because some publishers
+     * (read: ScienceDirect) load page data asynchronously, this function returns
+     * a $.Deferred object, which returns a dictionary when resolved
+     * 
+     * @class scrape
+     * @static
+     * @return {jquery.Deferred}
+     */
     function scrape() {
+        
         // Build data dictionary
         var data = {};
+        
+        // Get article URL and publisher
         data['url'] = window.location.href;
         data['publisher'] = PublisherDetector.detect();
+        
         if (data['publisher'] !== '') {
-            data['head_ref'] = stringify(HeadExtractor.extract(publisher));
-            data['cited_refs'] = stringify(ReferenceExtractor.extract(publisher));
+        
+            // Get article meta-data
+            head_ref = HeadExtractor.extract(publisher);
+            cited_refs = ReferenceExtractor.extract(publisher);
+        
+            // Gather deferred objects into a single deferred, which 
+            // returns the completed data dictionary
+            var defer = $.when(head_ref, cited_refs).pipe(function(head, cited) {
+                data['head_ref'] = stringify(head);
+                data['cited_refs'] = stringify(cited);
+                return data;
+            });
+        
+            // Return deferred object
+            return defer;
+        
+        } else {
+            
+            return $.when(data);
+            
         }
-        return data;
+        
     }
 
     /**
      * Send data to server
-     *     Note: Using JSONP instead of JSON to allow cross-domain calls
+     * 
+     * @class send
+     * @static
+     * @param {Object} data Data dictionary to send
+     * @param {Object} [_opts={}] Options for $.ajax
      */
     function send(data, _opts) {
         
         // Default options
         var opts = {
             url : 'http://127.0.0.1:5000/sendrefs/',
-            //dataType : 'jsonp',
             data : data,
             success : function(res) {
                 console.log(res['msg']);
@@ -48,7 +82,7 @@ var citelet = (function() {
 
     }
     
-    // 
+    // Expose public methods & data
 
     return {
         scrape : scrape,
