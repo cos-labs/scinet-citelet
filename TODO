@@ -1,2 +1,2 @@
 notify server if publisher unknown or other error
-prototype chrome browser extension
+only store data in chrome if successfully saved to server (callback)
