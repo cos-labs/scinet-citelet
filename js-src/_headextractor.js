@@ -127,7 +127,6 @@ var HeadExtractor = (function() {
     new MetaHeadExtractor('royal');
     new MetaHeadExtractor('nas');
     new MetaHeadExtractor('mit');
-    new MetaHeadExtractor('plos');
     new MetaHeadExtractor('frontiers');
     new MetaHeadExtractor('hindawi');
     new MetaHeadExtractor('nature');
