@@ -1,2 +1,4 @@
-var data = citelet.scrape();
-citelet.send(data, {dataType : 'jsonp'});
+var defer = citelet.scrape();
+defer.done(function(data) {
+    citelet.send(data, {dataType : 'jsonp'});
+});
