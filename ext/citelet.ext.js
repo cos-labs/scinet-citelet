@@ -10,7 +10,6 @@ var citelet_ext = (function(citelet) {
     function ext() {
         
         chrome.storage.local.get('mode', function(items) {
-            console.log(items.mode);
             if (typeof(items.mode) === 'undefined') {
                 var items = {mode : 'confirm'};
                 chrome.storage.local.set(items);
@@ -93,72 +92,54 @@ var citelet_ext = (function(citelet) {
         
         // Call ext_send() when done
         defer.done(function(data) {
-            ext_send(data, do_confirm)
+            //ext_send(data, do_confirm)
+            
+            // Skip if publisher not found
+            if (data['publisher'] === '') {
+                return;
+            }
+            
+            var chain = $.Deferred();
+            chrome.storage.local.get(data['url'], function(items) {
+                chain.resolve(items);
+            });
+    
+            chain.pipe(function(items) {
+                if (typeof(items[data['url']]) === 'undefined') {
+                    return confirm_defer = do_confirm ?
+                                           ext_confirm_jq() : 
+                                           true
+                } else {
+                    console.log('References already sent. Quitting...');
+                    return false
+                }
+            }).pipe(function(confirmed) {
+                var defer = $.Deferred();
+                if (confirmed) {
+                    console.log('Sending references...');
+                    citelet.send(data, {
+                        dataType : 'json',
+                        success : function(res) {
+                            defer.resolve(res);
+                        }
+                    });
+                } else {
+                    console.log('Not confirmed. Quitting...');
+                    defer.resolve({});
+                }
+                return defer;
+            }).done(function(res) {
+                if (res.status == 'success') {
+                    console.log('Storing references in Chrome...');
+                    var storage = {};
+                    storage[data['url']] = data;
+                    chrome.storage.local.set(storage);
+                }
+            });
+    
         });
                     
     }
-    
-    /* 
-     * @class ext_send
-     * @static 
-     * @param data {Object} Data to send
-     * @param do_confirm {Boolean} Confirm before sending?
-     */
-    function ext_send(data, do_confirm) {
-        
-        // Skip if publisher not found
-        if (data['publisher'] === '') {
-            return;
-        }
-        
-        // Check for reference information in Chrome storage
-        // Send information to server and save in storage if not already stored
-        chrome.storage.local.get(data['url'], function(items) {
-        
-            // Reference information not found in storage
-            if (typeof(items[data['url']]) === 'undefined') {
-                
-                // 
-                var confirm_defer = do_confirm ?
-                                    ext_confirm_jq() : 
-                                    $.when(true);
-                
-                // 
-                confirm_defer.done(function(confirmed) {
-                    
-                    if (confirmed) {
-                        
-                        console.log('Sending reference information to server...');
-
-                        // Send reference information to server
-                        citelet.send(data, {dataType : 'json'});
-            
-                        // Store reference information
-                        var storage = {};
-                        storage[data['url']] = data;
-                        chrome.storage.local.set(storage);
-
-                        console.log('Sent reference information to server...');
-                                        
-                    } else {
-                        
-                        console.log('Send not confirmed. Quitting...');
-                        return;
-                        
-                    }
-                    
-                });
-                
-            } else {
-                
-                console.log('Not sending; references already sent...');
-                
-            }
-            
-        });
-        
-    };
-
     
     // Expose public fields
 
