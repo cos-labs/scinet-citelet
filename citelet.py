@@ -96,10 +96,12 @@ class SendRefsAJAX(MethodView):
         # Assemble results
         results = {}
         if publisher != '':
+            results['status'] = 'success'
             results['msg'] = ('Received from publisher %s ' + \
                 'head reference %s with %s cited references.') % \
                 (publisher.upper(), repr(head_ref), len(cited_refs))
         else:
+            results['status'] = 'failure'
             results['msg'] = 'Could not identify publisher.'
         
         if call is not None:
