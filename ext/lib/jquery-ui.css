@@ -401,6 +401,7 @@ button.ui-button::-moz-focus-inner {
 	left: 0;
 	padding: .2em;
 	outline: 0;
+	bottom: auto; /* Citelet: Override custom bottom in Oxford CSS */
 }
 #citelet-container .ui-dialog .ui-dialog-titlebar {
 	padding: .4em 1em;
@@ -443,6 +444,7 @@ button.ui-button::-moz-focus-inner {
 #citelet-container .ui-dialog .ui-dialog-buttonpane button {
 	margin: .5em .4em .5em 0;
 	cursor: pointer;
+	float: none; /* Citelet: Override custom float in PubMed CSS */
 }
 #citelet-container .ui-dialog .ui-resizable-se {
 	width: 12px;
@@ -823,7 +825,7 @@ body .ui-tooltip {
 	background: #cccccc/*{bgColorHeader}*/ url(chrome-extension://__MSG_@@extension_id__/lib/images/ui-bg_highlight-soft_75_cccccc_1x100.png)/*{bgImgUrlHeader}*/ 50%/*{bgHeaderXPos}*/ 50%/*{bgHeaderYPos}*/ repeat-x/*{bgHeaderRepeat}*/;
 	color: #222222/*{fcHeader}*/;
 	font-weight: bold !important;
-	height: inherit; /* Citelet: Needed to override custom height in Frontiers CSS */
+	height: inherit; /* Citelet: Override custom height in Frontiers CSS */
 }
 #citelet-container .ui-widget-header a {
 	color: #222222/*{fcHeader}*/;
@@ -1197,4 +1199,6 @@ body .ui-tooltip {
     text-align: left;
 	vertical-align: baseline;
 	line-height: normal;
+	/*bottom: auto !important;*/
+	/*height: auto !important;*/
 }
