@@ -3,8 +3,6 @@
  */
 var PublisherDetector = (function() {
     
-    // Private data
-    
     // PublisherDetector classes
     
     /**
@@ -247,8 +245,9 @@ var PublisherDetector = (function() {
      */
     function detect() {
         for (publisher in PublisherDetector.registry) {
-            if (PublisherDetector.registry[publisher].detect())
+            if (PublisherDetector.registry[publisher].detect()) {
                 return publisher;
+            }
         }
         return '';
     }
