@@ -1,2 +1,2 @@
 notify server if publisher unknown or other error
-only store data in chrome if successfully saved to server (callback)
+add OSF / COS user login
