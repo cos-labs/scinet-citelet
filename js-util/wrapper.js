@@ -27,15 +27,26 @@
             }
         };
         
-        // Add the script element to either the head or body, it doesn't matter.
-        document.documentElement.childNodes[0].appendChild( script );
+        // Modified by @whatthecarp
+        // Loop over document child nodes until reaching a head or body,
+        // then append jQuery <script>. Needed to avoid appending to a
+        // comment, etc.
+        var nodes = document.documentElement.childNodes,
+            nodeName;
+        for (nodeidx in nodes) {
+            nodeName = nodes[nodeidx].nodeName.toLowerCase();
+            if (['head', 'body'].indexOf(nodeName) > -1) {
+                nodes[nodeidx].appendChild( script );
+                break;
+            }
+        }
         
     }
   
 })( window, document,
   
     // Minimum jQuery version required. Change this as-needed.
-    '1.3.2',
+    '1.9.1',
     
     // Your jQuery code goes inside this callback. $ refers to the jQuery object,
     // and L is a boolean that indicates whether or not an external jQuery file
@@ -43,7 +54,7 @@
     function( $, L ) {
         '$:nomunge, L:nomunge'; // Used by YUI compressor.
     
-    %s
+        %s
     
     }
 );
