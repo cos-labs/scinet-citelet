@@ -17,8 +17,9 @@ var PublisherDetector = (function() {
     */
     function PublisherDetector(name, fun) {
         this.detect = fun;
-        if (typeof(name) !== 'undefined')
+        if (typeof(name) !== 'undefined') {
             PublisherDetector.registry[name] = this;
+        }
     };
     PublisherDetector.registry = {};
 
@@ -34,7 +35,7 @@ var PublisherDetector = (function() {
     function TitlePublisherDetector(name, regex) {
         
         // Define detector function
-        var fun = function() {
+        function fun() {
             return regex.test($('title').text())
         };
         
@@ -62,7 +63,7 @@ var PublisherDetector = (function() {
         }
         
         // Define detector function
-        var fun = function() {
+        function fun() {
         
             // Initialize variables
             var attr_string = 'meta',
@@ -99,21 +100,21 @@ var PublisherDetector = (function() {
     function RegexPublisherDetector(name, selector, attrs, flags) {
         
         // Default values
-        if (typeof(flags) === 'undefined') flags = 'i';
+        if (typeof(flags) === 'undefined')
+            flags = 'i';
         
         // Define detector function
-        var fun = function() {
+        function fun() {
 
             // Get <meta> tags
-            tags = $(selector);
+            var tags = $(selector);
 
             // Filter tags by each name / value pair
-            //$.each(attrs, function(key, val) {
             $.each(attrs, function(idx, val) {
 
                 // Define filter function
-                flt = function() {
-                    match = false;
+                function flt() {
+                    var match = false;
                     $(this.attributes).each(function() {
                         if (RegExp(val[0], flags).test(this.nodeName) & 
                                 RegExp(val[1], flags).test(this.nodeValue)) {
@@ -133,9 +134,10 @@ var PublisherDetector = (function() {
             return tags.length > 0;
 
         }
-
+        
         // Call parent constructor
         PublisherDetector.call(this, name, fun);
+        
     };
 
     // Set prototype and constructor
@@ -206,10 +208,6 @@ var PublisherDetector = (function() {
     new MetaPublisherDetector('ovid', [
         ['name', 'Ovid'],
     ], ['^=']);
-    /*new MetaPublisherDetector('plos', [
-        ['name', 'citation_publisher'],
-        ['content', 'Public Library of Science'],
-    ]);*/
     new MetaPublisherDetector('frontiers', [
         ['name', 'citation_publisher'],
         ['content', 'Frontiers'],
@@ -217,10 +215,6 @@ var PublisherDetector = (function() {
     new MetaPublisherDetector('hindawi', [
         ['name', 'citation_publisher'],
         ['content', 'Hindawi Publishing Corporation'],
-    ]);
-    new MetaPublisherDetector('nature', [
-        ['name', 'DC.publisher'],
-        ['content', 'Nature Publishing Group'],
     ]);
     new MetaPublisherDetector('ama', [
         ['name', 'citation_publisher'],
@@ -240,6 +234,10 @@ var PublisherDetector = (function() {
     new RegexPublisherDetector('mit', 'meta', [
         ['name', 'dc.publisher'],
         ['content', 'mit press'],
+    ]);
+    new RegexPublisherDetector('nature', 'meta', [
+        ['name', 'dc.publisher'],
+        ['content', 'nature publishing group'],
     ]);
     
     /**
