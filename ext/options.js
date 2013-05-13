@@ -8,7 +8,7 @@ $('#submit').click(function() {
     chrome.storage.local.set({mode : $('#mode').val()});
 });
 
-// 
+// Clear Chrome storage
 $('#clear').click(function() {
     chrome.storage.local.clear();
 });
