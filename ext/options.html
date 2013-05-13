@@ -1,9 +1,14 @@
 <html>
+    
     <head>
         <script type="text/javascript" src="lib/jquery-1.9.1.js"></script>
     </head>
+    
     <body>
+        
         <h1>Citelet Options</h1>
+        
+        <!-- Select mode -->
         <div>
             <select id="mode">
                 <option value="noconfirm">Send articles without confirmation</option>
@@ -11,9 +16,20 @@
                 <option value="nosend">Don't send articles</option>
             </select>
         </div>
+        
+        <!-- Submit options -->
         <div>
             <input id="submit" type="submit" value="Save" />
         </div>
+        
+        <!-- Progress -->
+        <div id="progress"></div>
+        
+        <input id="clear" type="button" value="Clear data" />
+        
+        <!-- Load JS -->
         <script type="text/javascript" src="options.js"></script>
+        
     </body>
+    
 </html>
