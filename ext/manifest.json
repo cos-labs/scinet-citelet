@@ -10,6 +10,7 @@
             "lib/jquery-ui.js", 
             "citelet.cat.js", 
             "citelet.ext.js", 
+            "confirm.js",
             "main.js"
         ],
         "css" : ["lib/jquery-ui.css"]
