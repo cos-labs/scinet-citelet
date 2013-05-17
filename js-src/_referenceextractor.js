@@ -161,6 +161,7 @@
     new SelectorReferenceExtractor('nature', 'ol.references > li');
     new SelectorReferenceExtractor('ama', 'div.referenceSection div.refRow');
     new SelectorReferenceExtractor('acs', 'div.NLM_citation');
+    new SelectorReferenceExtractor('lww', '#ej-article-references div[id^=P]');
     
     /**
      * @class extract
