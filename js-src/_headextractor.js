@@ -132,6 +132,7 @@ var HeadExtractor = (function() {
     new MetaHeadExtractor('nature');
     new MetaHeadExtractor('ama');
     new MetaHeadExtractor('acs');
+    new MetaHeadExtractor('lww', /wkhealth_/i, /wkhealth_/i);
     
     /**
      * @class extract
