@@ -144,7 +144,7 @@ var PublisherDetector = (function() {
 
     // Define PublisherDetectors
     
-    new PublisherDetector('apa', function () {
+    new PublisherDetector('apa', function() {
         
         // Test <dt> / <dd> tags
         var pub_dt = $('dt').filter(function () {
@@ -167,6 +167,12 @@ var PublisherDetector = (function() {
         
         return false;
         
+    });
+    
+    new PublisherDetector('lww', function() {
+        return $('a').filter(function() {
+            return /Lippincott Williams & Wilkins/.test(this.innerText);
+        }).length > 0;
     });
     
     // Define TitlePublisherDetectors
