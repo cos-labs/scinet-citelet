@@ -3,9 +3,17 @@
  */
 var citelet_ext = (function() {
     
+    /* 
+     * Initial function: Get confirmation mode from Chrome
+     * storage. Adds the 'doconfirm' field to state.
+     * 
+     * @class valid_to_stored
+     * @static
+     * @return {Object} State of extraction process
+     */
     function init() {
-        var defer = $.Deferred();
-        var state = {};
+        var defer = $.Deferred(),
+            state = {};
         chrome.storage.local.get('mode', function(stored) {
             if (typeof(stored.mode) === 'undefined') {
                 var stored = {mode : 'confirm'};
@@ -28,6 +36,15 @@ var citelet_ext = (function() {
         return defer;
     }
     
+    /* 
+     * Scrape meta-data from current page. Adds 
+     * 'data' field to state.
+     * 
+     * @class valid_to_stored
+     * @static
+     * @param state {Object} Extension state so far
+     * @return {Object} State of extraction process
+     */
     function doconfirm_to_scrape(state) {
         var defer = $.Deferred();
         citelet.scrape().done(function(data) {
@@ -37,6 +54,15 @@ var citelet_ext = (function() {
         return defer;
     }
     
+    /* 
+     * Check validity of scraped data.
+     * 
+     * @class valid_to_stored
+     * @static
+     * @param state {Object} Extension state so far
+     * @param state.data {Object} Scraped data
+     * @return {Object} State of extraction process
+     */
     function scrape_to_valid(state) {
         // Skip if publisher not found
         if (state.data['publisher'] === '') {
@@ -54,6 +80,7 @@ var citelet_ext = (function() {
      * @static
      * @param state {Object} Extension state so far
      * @param state.data {Object} Scraped data
+     * @return {Object} State of extraction process
      */
     function valid_to_stored(state) {
         var defer = $.Deferred();
@@ -74,6 +101,7 @@ var citelet_ext = (function() {
      * @param state {Object} Extension state so far
      * @param state.data {Object} Scraped data
      * @param state.confirmed {Boolean} Send confirmed?
+     * @return {Object} State of extraction process
      */
     function stored_to_confirmed(state) {
         if (state.sent) {
@@ -102,6 +130,7 @@ var citelet_ext = (function() {
      * @param state {Object} Extension state so far
      * @param state.data {Object} Scraped data
      * @param state.confirmed {Boolean} Send confirmed?
+     * @return {Object} State of extraction process
      */
     function confirmed_to_send(state) {
         var defer = $.Deferred();
@@ -153,13 +182,13 @@ var citelet_ext = (function() {
      */
     function ext() {
         
-        init()
-            .then(doconfirm_to_scrape)
-            .then(scrape_to_valid)
-            .then(valid_to_stored)
-            .then(stored_to_confirmed)
-            .then(confirmed_to_send)
-            .done(send_to_store);
+        init()                              // Get confirmation mode
+            .then(doconfirm_to_scrape)      // Scrape page data
+            .then(scrape_to_valid)          // Check data validity
+            .then(valid_to_stored)          // Check Chrome storage
+            .then(stored_to_confirmed)      // Check confirmation
+            .then(confirmed_to_send)        // Send data to server
+            .done(send_to_store);           // Store in Chrome
             
     }
     
