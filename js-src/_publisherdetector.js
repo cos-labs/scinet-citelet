@@ -179,6 +179,7 @@ var PublisherDetector = (function() {
     
     new TitlePublisherDetector('sciencedirect', /sciencedirect/i);
     new TitlePublisherDetector('springer', /springer/i);
+    new TitlePublisherDetector('wiley', /wiley online library/i);
     
     // Define MetaPublisherDetectors
     
@@ -231,10 +232,6 @@ var PublisherDetector = (function() {
     
     // Define RegexPublisherDetectors
     
-    new RegexPublisherDetector('wiley', 'meta', [
-        ['name', 'citation_publisher'],
-        ['content', 'wiley subscription services'],
-    ]);
     new RegexPublisherDetector('mit', 'meta', [
         ['name', 'dc.publisher'],
         ['content', 'mit press'],
