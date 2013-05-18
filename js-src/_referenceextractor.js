@@ -147,7 +147,10 @@
     });
     
     // Define SelectorReferenceExtractors
-    new SelectorReferenceExtractor('springer', 'div.Citation');
+    
+    // #abstract-references li works for abstract page; div.Citation
+    // works for full-text page.
+    new SelectorReferenceExtractor('springer', '#abstract-references li, div.Citation');
     new SelectorReferenceExtractor('highwire', 'ol.cit-list > li');
     new SelectorReferenceExtractor('wiley', 'ul.plain > li');
     new SelectorReferenceExtractor('tandf', 'ul.references > li');
