@@ -1,9 +1,9 @@
-# Modifications to jquery-ui.css
+# Customizing JS / CSS for Bootstrap confirmation
 
-* Point to images in Chrome extension
-    * url("images/ui-icons.png") -> url("chrome-extension::/__MSG_@@extension_id__/lib/images/ui-icons.png")
-* Wrap all selectors to isolate from conflicting stylesheets
-    * .ui-widget {} -> #citelet-container .ui-widget {}
-    * Style container with default body properties
-* Additional miscellaneous fixes
-    * Labeled inline with /* Citelet: ... */
+* Append modal elements to #citelet, not to <body>
+    * Modify modal defaults in bootstrap.js
+    * Modal confirm defaults in bootbox.js
+* Wrap all bootstrap selectors in #citelet namespace
+    * Create bootstrap-namespace.less
+    * Compile: lessc bootstrap-namespace.less bootstrap-namespace.css
+* Add custom CSS to fix site-specific issues: bootstrap-custom.css
