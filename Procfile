@@ -1,1 +1,1 @@
-web: gunicorn --limit-request-field_size 0 server.citelet:app
+web: gunicorn --limit-request-line 0 server.citelet:app
