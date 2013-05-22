@@ -184,7 +184,7 @@ var PublisherDetector = (function() {
     // Define MetaPublisherDetectors
     
     new MetaPublisherDetector('highwire', [
-        ['name', 'HW.identifier'],
+        ['name', 'HW.ad-path'],
     ]);
     new MetaPublisherDetector('tandf', [
         ['property', 'og:site_name'],

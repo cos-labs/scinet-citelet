@@ -64,14 +64,41 @@ var HeadExtractor = (function() {
     // Define HeadExtractors
     
     new HeadExtractor('sciencedirect', function() {
+        
         // ScienceDirect meta-data is a mess, so 
         // only DOI is extracted for now
         var head_info = {};
+        
+        // DOI
         var ddDoi = $('a#ddDoi');
         var ddlink = ddDoi.attr('href');
         ddlink = ddlink.replace(/.*?dx\.doi\.org.*?\//, '');
         head_info['doi'] = ddlink;
+        
+        // Article title
+        var article_title = $('.svTitle').text();
+        if (article_title) {
+            head_info['article_title'] = article_title;
+        }
+        
+        // Journal title
+        var journal_title_exec = /go to (.*?) on sciverse sciencedirect/i
+            .exec(document.documentElement.innerHTML);
+        if (journal_title_exec) {
+            head_info['journal_title'] = journal_title_exec[1];
+        }
+        
+        // Authors
+        var authors = $('.authorName');
+        if (authors.length > 0) {
+            head_info['authors'] = authors.map(function() {
+                return this.outerHTML;
+            }).get();
+        }
+        
+        // 
         return head_info;
+        
     });
     
     new HeadExtractor('springer', function () {

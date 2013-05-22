@@ -17,12 +17,18 @@ var citelet = (function() {
      * 
      * @class scrape
      * @static
-     * @return {jquery.Deferred}
+     * @return {jquery.Deferred} Resolves to dictionary of reference meta-data
      */
     function scrape() {
         
         // Build data dictionary
         var data = {};
+        
+        // Get test information
+        try {
+            var testid = $('#__citelet_testid').attr('data-testid');
+            data['testid'] = testid;
+        } catch (e){}
         
         // Get article URL and publisher
         data['url'] = window.location.href;
@@ -37,8 +43,8 @@ var citelet = (function() {
             // Gather deferred objects into a single deferred, which 
             // returns the completed data dictionary
             var defer = $.when(head_ref, cited_refs).pipe(function(head, cited) {
-                data['head_ref'] = stringify(head);
-                data['cited_refs'] = stringify(cited);
+                data['head_ref'] = Object.keys(head).length ? stringify(head) : '';
+                data['cited_refs'] = cited.length ? stringify(cited) : '';
                 return data;
             });
         
