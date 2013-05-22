@@ -1,1 +1,1 @@
-web: gunicorn server.foo:app
+web: gunicorn server.citelet:app
