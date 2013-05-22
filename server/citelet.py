@@ -1,6 +1,8 @@
 # Imports
+import os
 import sys
 import json
+#import urlparse
 
 # Flask imports
 from flask import Flask
@@ -9,24 +11,36 @@ from flask import request
 from flask import render_template
 from flask.views import MethodView
 
-# Mongo imports
-from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure
+## Mongo imports
+#from pymongo import MongoClient
+#from pymongo.errors import ConnectionFailure
 
-# Set up database
-try:
-    mongo = MongoClient()
-except ConnectionFailure:
-    pass
-    #sys.exit('Couldn\'t open MongoDB!')
+# Project imports
+import config
+import dbsetup
+
+## Set up database
+#MONGO_URI = os.environ.get('MONGOLAB_URI')
+#if MONGO_URI:
+#    mongo = MongoClient(MONGO_URI)
+#    db_name = urlparse.urlparse(MONGO_URI).path[1:]
+#    database = mongo[db_name]
+#else:
+#    mongo = MongoClient(MONGO_URI)
+#    database = mongo[DBNAME]
+#try:
+#    mongo = MongoClient()
+#except ConnectionFailure:
+#    pass
+#    #sys.exit('Couldn\'t open MongoDB!')
+
+client, database = dbsetup.dbsetup()
 
 # Initialize app
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-TESTDB = 'citelet_test'
-PRODDB = 'citelet'
-PRODCOLL = 'data'
+here = os.path.split(__file__)[0]
 
 def jsonpify(obj, callback):
     '''Prepare object data for JSONP response: convert to JSON,
@@ -58,7 +72,7 @@ class Bookmarklet(MethodView):
     def get(self):
 
         # Read bookmarket.js
-        with open('static/js/bookmarklet.js') as bookmarklet_file:
+        with open('%s/static/js/bookmarklet.js' % (here)) as bookmarklet_file:
             bookmarklet = bookmarklet_file.read()
 
         # Return rendered template
@@ -102,12 +116,14 @@ class SendRefsAJAX(MethodView):
         # Get collection
         if testid is not None:
             # Send data to test database
-            database = getattr(mongo, TESTDB)
-            collection = getattr(database, testid)
+            #database = getattr(mongo, TESTDB)
+            #collection = getattr(database, testid)
+            collection = database[testid]
         else:
             # Send data to production database
-            database = getattr(mongo, PRODDB)
-            collection = getattr(database, PRODCOLL)
+            #database = getattr(mongo, PRODDB)
+            collection = database[config.COLLNAME]
+            #collection = getattr(database, PRODCOLL)
         
         # Send data to mongo
         collection.update(record, record, upsert=True)
