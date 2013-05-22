@@ -90,14 +90,21 @@ class SendRefsAJAX(MethodView):
 
         # Get arguments
         testid = request.args.get('testid', None)
+        print 'testid', testid
         callback = request.args.get('callback', None)
+        print 'callback', callback
         url = request.args.get('url')
+        print 'url', url
         publisher = request.args.get('publisher', '')
+        print 'publisher', publisher
         head_ref_json = request.args.get('head_ref', '{}')
         cited_refs_json = request.args.get('cited_refs', '[]')
         
         # Parse JSON
+        print 'here'
+        print head_ref_json
         head_ref = json.loads(head_ref_json)
+        print 'there'
         cited_refs = json.loads(cited_refs_json)
         
         # Parse references
