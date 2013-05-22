@@ -1,4 +1,5 @@
 # Imports
+import sys
 import json
 
 # Flask imports
@@ -8,21 +9,23 @@ from flask import request
 from flask import render_template
 from flask.views import MethodView
 
-# PyMongo imports
-from flask.ext.pymongo import PyMongo
+# Mongo imports
+from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
+
+# Set up database
+try:
+    mongo = MongoClient()
+except ConnectionFailure:
+    sys.exit('Couldn\'t open MongoDB!')
 
 # Initialize app
 app = Flask(__name__)
+app.config['DEBUG'] = True
 
-# Set up database
-# Access from Flask using mongo.db.data
-# Access from PyMongo using MongoClient().citelet.data
-try:
-    mongo = PyMongo(app)
-    connected = True
-except ConnectionFailure:
-    connected = False
+TESTDB = 'citelet_test'
+PRODDB = 'citelet'
+PRODCOLL = 'data'
 
 def jsonpify(obj, callback):
     '''Prepare object data for JSONP response: convert to JSON,
@@ -44,6 +47,10 @@ def request_to_ip(req):
     if not request.headers.getlist("X-Forwarded-For"):
        return request.remote_addr
     return request.headers.getlist("X-Forwarded-For")[0] 
+
+@app.route('/')
+def index():
+    return 'hi guys!'
 
 class Bookmarklet(MethodView):
     
@@ -67,7 +74,8 @@ class SendRefsAJAX(MethodView):
         ip_addr = request_to_ip(request)
 
         # Get arguments
-        call = request.args.get('callback', None)
+        testid = request.args.get('testid', None)
+        callback = request.args.get('callback', None)
         url = request.args.get('url')
         publisher = request.args.get('publisher')
         head_ref_json = request.args.get('head_ref', '{}')
@@ -90,8 +98,18 @@ class SendRefsAJAX(MethodView):
             'ip_addr' : ip_addr,
         }
         
-        if connected:
-            mongo.db.data.update(record, record, upsert=True)
+        # Get collection
+        if testid is not None:
+            # Send data to test database
+            database = getattr(mongo, TESTDB)
+            collection = getattr(database, testid)
+        else:
+            # Send data to production database
+            database = getattr(mongo, PRODDB)
+            collection = getattr(database, PRODCOLL)
+        
+        # Send data to mongo
+        collection.update(record, record, upsert=True)
         
         # Assemble results
         results = {}
@@ -104,10 +122,10 @@ class SendRefsAJAX(MethodView):
             results['status'] = 'failure'
             results['msg'] = 'Could not identify publisher.'
         
-        if call is not None:
+        if callback is not None:
             # Build JSONP response
             resp = app.response_class(
-                jsonpify(results, call),
+                jsonpify(results, callback),
                 mimetype='application/javascript'
             )
         else:
@@ -122,4 +140,6 @@ app.add_url_rule('/sendrefs/', view_func=SendRefsAJAX.as_view('sendrefs'))
 
 # Launch app
 if __name__ == '__main__':
+
+    # Start Flask app
     app.run()

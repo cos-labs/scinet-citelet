@@ -7,18 +7,22 @@
         "matches" : ["<all_urls>"],
         "js" : [
             "lib/jquery-1.9.1.js", 
-            "lib/jquery-ui.js", 
+            "lib/bootstrap.js",
+            "lib/bootbox.js",
             "citelet.cat.js", 
             "citelet.ext.js", 
             "confirm.js",
             "main.js"
         ],
-        "css" : ["lib/jquery-ui.css"]
+        "css" : [
+            "lib/bootstrap-namespace.css",
+            "lib/bootstrap-custom.css"
+        ]
     }],
     "options_page" : "options.html",
     "permissions" : [
         "storage",
-        "*://127.0.0.1/*"
+        "*://__url__/*"
     ],
     "web_accessible_resources" : [
         "lib/images/*"
