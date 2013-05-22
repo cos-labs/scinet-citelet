@@ -1,1 +1,1 @@
-web: gunicorn --limit-request-line 0 server.citelet:app
+python server/citelet.py
