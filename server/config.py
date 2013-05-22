@@ -1,0 +1,2 @@
+DBNAME = 'citelet'
+COLLNAME = 'data'
