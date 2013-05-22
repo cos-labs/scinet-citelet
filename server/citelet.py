@@ -17,7 +17,8 @@ from pymongo.errors import ConnectionFailure
 try:
     mongo = MongoClient()
 except ConnectionFailure:
-    sys.exit('Couldn\'t open MongoDB!')
+    pass
+    #sys.exit('Couldn\'t open MongoDB!')
 
 # Initialize app
 app = Flask(__name__)
