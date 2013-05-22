@@ -160,7 +160,7 @@ var bootbox = window.bootbox || (function(document, $) {
         }], {
             // escape key bindings
             "onEscape": cancelCallback,
-            "appendTo": ".citelet",
+            "appendTo": "#citelet",
         });
     };
 
@@ -276,7 +276,7 @@ var bootbox = window.bootbox || (function(document, $) {
 
         if (!options) {
             options = {
-                appendTo : '.citelet',
+                appendTo : '#citelet',
             };
         }
 

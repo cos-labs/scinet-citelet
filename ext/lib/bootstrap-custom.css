@@ -1,0 +1,26 @@
+#citelet div {
+    text-align: left;       /* Fix for Frontiers */
+    line-height: normal;
+    font-size: 16px;
+    font-weight: normal;    /* Fix for ScienceDirect */
+    font-family: "Helvetica Neue",
+                 Helvetica,Arial,sans-serif;
+}
+
+#citelet a,
+#citelet a:visited {
+    font-weight: normal;
+    color: rgb(0, 136, 204);
+}
+
+/* Fixes for ScienceDirect */
+
+#citelet .btn:hover,
+#citelet .btn {
+    height: 20px;
+    margin: 0px; 
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: normal; 
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
