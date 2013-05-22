@@ -65,7 +65,10 @@ var citelet_ext = (function() {
      */
     function scrape_to_valid(state) {
         // Skip if publisher not found
-        if (state.data['publisher'] === '') {
+        //console.log(state.data['head_ref']);
+        if (state.data['publisher'] === '' || 
+                state.data['head_ref'] === '' || 
+                state.data['cited_refs'] === '') {
             // Break chain by returning a rejected deferred
             return $.Deferred().reject();
         }
@@ -107,7 +110,7 @@ var citelet_ext = (function() {
         if (state.sent) {
             var defer = $.Deferred();
             var confirm_defer = state.doconfirm ?
-                                ext_confirm.confirm_jq() : 
+                                ext_confirm.confirm_tb() : 
                                 $.when(true);
             confirm_defer.done(function(confirmed) {
                 state.confirmed = confirmed;
