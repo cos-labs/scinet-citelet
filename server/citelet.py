@@ -105,7 +105,9 @@ class SendRefsAJAX(MethodView):
         print head_ref_json
         head_ref = json.loads(head_ref_json)
         print 'there'
+        print 'here2'
         cited_refs = json.loads(cited_refs_json)
+        print 'there2'
         
         # Parse references
         pass
