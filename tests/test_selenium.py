@@ -19,7 +19,8 @@ from pymongo import MongoClient
 # 
 path = '/Users/jmcarp/Dropbox/projects/citelet'
 
-TESTDB = 'citelet_test'
+#TESTDB = 'citelet_test'
+DBNAME = 'citelet'
 
 def suite_factory(driver_class):
 
