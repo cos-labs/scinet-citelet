@@ -1,1 +1,1 @@
-python server/citelet.py
+web:gunicorn server.citelet:app
