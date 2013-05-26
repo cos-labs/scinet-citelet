@@ -140,7 +140,6 @@ var citelet_ext = (function() {
         if (state.confirmed) {
             console.log('Sending references...');
             citelet.send(state.data, {
-                dataType : 'json',
                 success : function(res) {
                     state.res = res;
                     defer.resolve(state);
