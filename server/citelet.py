@@ -1,39 +1,20 @@
 # Imports
 import os
-import sys
 import json
-#import urlparse
 
 # Flask imports
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask import redirect
 from flask import render_template
-from flask.views import MethodView
-
-## Mongo imports
-#from pymongo import MongoClient
-#from pymongo.errors import ConnectionFailure
+from flask.views import View, MethodView
 
 # Project imports
 import config
 import dbsetup
 
-## Set up database
-#MONGO_URI = os.environ.get('MONGOLAB_URI')
-#if MONGO_URI:
-#    mongo = MongoClient(MONGO_URI)
-#    db_name = urlparse.urlparse(MONGO_URI).path[1:]
-#    database = mongo[db_name]
-#else:
-#    mongo = MongoClient(MONGO_URI)
-#    database = mongo[DBNAME]
-#try:
-#    mongo = MongoClient()
-#except ConnectionFailure:
-#    pass
-#    #sys.exit('Couldn\'t open MongoDB!')
-
+# Set up database
 client, database = dbsetup.dbsetup()
 
 # Initialize app
@@ -63,10 +44,6 @@ def request_to_ip(req):
        return request.remote_addr
     return request.headers.getlist("X-Forwarded-For")[0] 
 
-@app.route('/')
-def index():
-    return 'hi guys!'
-
 class Bookmarklet(MethodView):
     
     def get(self):
@@ -81,33 +58,33 @@ class Bookmarklet(MethodView):
 # Route to URL
 app.add_url_rule('/bookmarklet/', view_func=Bookmarklet.as_view('bookmarklet'))
 
-class SendRefsAJAX(MethodView):
+#class SendRefsAJAX(MethodView):
+class SendRefsAJAX(View):
     
-    def get(self):
+    methods = ['GET', 'POST']
+
+    def dispatch_request(self):
         
         # Get IP address
         ip_addr = request_to_ip(request)
+        
+        # 
+        if request.method == 'GET':
+            data = request.args
+        elif request.method == 'POST':
+            data = request.form
 
         # Get arguments
-        testid = request.args.get('testid', None)
-        print 'testid', testid
-        callback = request.args.get('callback', None)
-        print 'callback', callback
-        url = request.args.get('url')
-        print 'url', url
-        publisher = request.args.get('publisher', '')
-        print 'publisher', publisher
-        head_ref_json = request.args.get('head_ref', '{}')
-        cited_refs_json = request.args.get('cited_refs', '[]')
+        testid = data.get('testid', None)
+        callback = data.get('callback', None)
+        url = data.get('url')
+        publisher = data.get('publisher', '')
+        head_ref_json = data.get('head_ref', '{}')
+        cited_refs_json = data.get('cited_refs', '[]')
         
         # Parse JSON
-        print 'here'
-        print head_ref_json
         head_ref = json.loads(head_ref_json)
-        print 'there'
-        print 'here2'
         cited_refs = json.loads(cited_refs_json)
-        print 'there2'
         
         # Parse references
         pass
@@ -125,14 +102,10 @@ class SendRefsAJAX(MethodView):
         # Get collection
         if testid is not None:
             # Send data to test database
-            #database = getattr(mongo, TESTDB)
-            #collection = getattr(database, testid)
             collection = database[testid]
         else:
             # Send data to production database
-            #database = getattr(mongo, PRODDB)
             collection = database[config.COLLNAME]
-            #collection = getattr(database, PRODCOLL)
         
         # Send data to mongo
         collection.update(record, record, upsert=True)
@@ -157,6 +130,11 @@ class SendRefsAJAX(MethodView):
         else:
             # Build JSON response
             resp = jsonify(**results)
+            # Add CORS headers
+            resp.headers.add('Access-Control-Allow-Origin', '*')
+            resp.headers.add('Access-Control-Allow-Methods', \
+                             'POST, GET, PUT, PATCH, DELETE, OPTIONS')
+            resp.headers.add('Access-Control-Max-Age', '1728000')
 
         # Return response
         return resp
