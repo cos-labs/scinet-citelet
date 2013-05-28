@@ -1,2 +1,0 @@
-DBNAME = 'citelet'
-COLLNAME = 'data'
