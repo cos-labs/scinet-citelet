@@ -15,8 +15,8 @@ from drivers import ChromeExtensionDriver, \
 
 from make_fixtures import drop_fields
 
-# Set up database
-client, database = dbsetup.dbsetup()
+# Set up test database
+client, database = dbsetup.dbsetup(test=True)
 
 def suite_factory(driver_class):
 
@@ -26,8 +26,7 @@ def suite_factory(driver_class):
             
             for collection in database.collection_names():
 
-                if collection not in ['system.indexes', config.COLLNAME]:
-                    print collection
+                if not collection.startswith('system') and collection != config.COLLNAME:
                     database.drop_collection(collection)
 
         def setUp(self):
@@ -47,8 +46,9 @@ def suite_factory(driver_class):
         @classmethod
         def tearDownClass(cls):
             
-            # Quit browser
-            cls.driver.browser.quit()
+            pass
+            ## Quit browser
+            #cls.driver.browser.quit()
         
     return suite
 
@@ -73,14 +73,10 @@ def add_test(fixture):
         collection = getattr(database, str(testid))
 
         # Run driver
-        #self.driver.drive(json_fixture['url'], testid)
         self.driver.drive(short_name, testid)
 
         # Listen for database
         for tryidx in range(25):
-            #cursor = collection.find({
-            #    'url' : json_fixture['url'],
-            #})
             cursor = collection.find()
             if cursor.count():
                 break

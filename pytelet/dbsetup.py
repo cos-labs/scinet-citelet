@@ -6,26 +6,26 @@ from pymongo import MongoClient
 # Project imports
 import config
 
-def dbsetup():
+def dbsetup(test=False):
     '''
     '''
     
     # 
-    MONGOLAB_URI = os.environ.get('MONGOLAB_URI')
-
-    # Heroku branch
+    if test:
+        MONGOLAB_URI = os.environ.get('CITELET_TEST_MONGOLAB_URI')
+    else:
+        MONGOLAB_URI = os.environ.get('MONGOLAB_URI')
+    
+    # MongoLab branch
     if MONGOLAB_URI:
         client = MongoClient(MONGOLAB_URI)
         dbname = urlparse.urlparse(MONGOLAB_URI).path[1:]
-        #database = client[db_name]
     # Localhost branch
     else:
         client = MongoClient()
         dbname = config.DBNAME
-        #database = client[config.DBNAME]
 
     # 
     database = client[dbname]
     
-    print client, database
     return client, database

@@ -71,7 +71,8 @@ var citelet = (function() {
         
         // Default options
         var opts = {
-            url : 'http://127.0.0.1:5000/sendrefs/',
+            url : 'http://citelet.herokuapp.com/sendrefs/',
+            type : 'POST',
             data : data,
             success : function(res) {
                 console.log(res['msg']);
