@@ -8,4 +8,3 @@ pymongo==2.5
 selenium==2.32.0
 slimit==0.8.1
 wsgiref==0.1.2
--e ./pytelet/
