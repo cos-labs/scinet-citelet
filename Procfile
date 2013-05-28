@@ -1,2 +1,1 @@
-web: make; \
-    gunicorn pytelet.citelet:app
+web: make; gunicorn pytelet.citelet:app
