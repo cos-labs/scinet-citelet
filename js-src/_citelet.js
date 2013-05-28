@@ -71,7 +71,7 @@ var citelet = (function() {
         
         // Default options
         var opts = {
-            url : 'http://localhost:5000/sendrefs/',
+            url : 'http://127.0.0.1:5000/sendrefs/',
             data : data,
             success : function(res) {
                 console.log(res['msg']);

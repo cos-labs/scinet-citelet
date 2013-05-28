@@ -22,7 +22,7 @@
     "options_page" : "options.html",
     "permissions" : [
         "storage",
-        "*://localhost/*"
+        "*://127.0.0.1/*"
     ],
     "web_accessible_resources" : [
         "lib/images/*"
