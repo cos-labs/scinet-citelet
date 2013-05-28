@@ -34,9 +34,9 @@ js-src/_*.js : py-util/minify.py js-util/wrapper.js
 #        > pytelet/static/js/bookmarklet.js
 
 seturl : FORCE
-	sed s/__url__/`echo $$CITELET_BASE_URL`/ js-src/._citelet.js > js-src/_citelet.js
+	sed s/__url__/`echo $$CITELET_BASE_URL`/ js-src/._citelet.js > ./js-src/_citelet.js
 	sed s/__url__/`echo $$CITELET_BASE_URL`/ pytelet/static/js/.bookmarklet.js \
-        > pytelet/static/js/bookmarklet.js
+        > ./pytelet/static/js/bookmarklet.js
 	sed s/__url__/`echo $$CITELET_BASE_URL | sed s/:.*//`/ ext/.manifest.json \
-        > ext/manifest.json
+        > ./ext/manifest.json
 FORCE:
