@@ -1,0 +1,12 @@
+/*
+ * @author jmcarp
+ */
+
+new PublisherDetector.MetaPublisherDetector('ama', [
+    ['name', 'citation_publisher'],
+    ['content', 'American Medical Association'],
+]);
+
+new HeadExtractor.MetaHeadExtractor('ama');
+
+new ReferenceExtractor.SelectorReferenceExtractor('ama', 'div.referenceSection div.refRow');

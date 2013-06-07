@@ -1,5 +1,5 @@
 /*
- * PLoS module contributed by jmcarp
+ * @author jmcarp
  */
  
 // Detect PLoS
