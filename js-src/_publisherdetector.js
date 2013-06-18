@@ -1,5 +1,6 @@
 /**
  * @module PublisherDetector
+ * @author jmcarp
  */
 var PublisherDetector = (function() {
     
@@ -141,105 +142,6 @@ var PublisherDetector = (function() {
     // Set prototype and constructor
     RegexPublisherDetector.prototype = new PublisherDetector;
     RegexPublisherDetector.prototype.constructor = RegexPublisherDetector;
-
-    // Define PublisherDetectors
-    
-    new PublisherDetector('apa', function() {
-        
-        // Test <dt> / <dd> tags
-        var pub_dt = $('dt').filter(function () {
-            return this.innerHTML == 'Publisher:';
-        });
-        if (pub_dt.length > 0) {
-            var pub_dd = pub_dt.next('dd');
-            if (/american psychological association/i.test(pub_dd.text())) {
-                return true;
-            }
-        }
-        
-        // Test Source: paragraph
-        var source_par = $('p.body-paragraph').filter(function() {
-            return /source:/i.test(this.innerText);
-        });
-        if (/american psychological association/i.test(source_par.text())) {
-            return true;
-        };
-        
-        return false;
-        
-    });
-    
-    new PublisherDetector('lww', function() {
-        return $('a').filter(function() {
-            return /Lippincott Williams & Wilkins/.test(this.innerText);
-        }).length > 0;
-    });
-    
-    // Define TitlePublisherDetectors
-    
-    new TitlePublisherDetector('sciencedirect', /sciencedirect/i);
-    new TitlePublisherDetector('springer', /springer/i);
-    new TitlePublisherDetector('wiley', /wiley online library/i);
-    
-    // Define MetaPublisherDetectors
-    
-    new MetaPublisherDetector('highwire', [
-        ['name', 'HW.ad-path'],
-    ]);
-    new MetaPublisherDetector('tandf', [
-        ['property', 'og:site_name'],
-        ['content', 'Taylor and Francis'],
-    ]);
-    new MetaPublisherDetector('biomed', [
-        ['name', 'citation_publisher'],
-        ['content', 'BioMed Central Ltd'],
-    ]);
-    new MetaPublisherDetector('thieme', [
-        ['name', 'citation_publisher'],
-        ['content', 'Thieme Medical Publishers'],
-    ]);
-    new MetaPublisherDetector('pubmed', [
-        ['name', 'ncbi_db'],
-        ['content', 'pmc'],
-    ]);
-    new MetaPublisherDetector('royal', [
-        ['name', 'DC.Publisher'],
-        ['content', 'The Royal Society'],
-    ]);
-    new MetaPublisherDetector('nas', [
-        ['name', 'citation_publisher'],
-        ['content', 'National Acad Sciences'],
-    ]);
-    new MetaPublisherDetector('ovid', [
-        ['name', 'Ovid'],
-    ], ['^=']);
-    new MetaPublisherDetector('frontiers', [
-        ['name', 'citation_publisher'],
-        ['content', 'Frontiers'],
-    ]);
-    new MetaPublisherDetector('hindawi', [
-        ['name', 'citation_publisher'],
-        ['content', 'Hindawi Publishing Corporation'],
-    ]);
-    new MetaPublisherDetector('ama', [
-        ['name', 'citation_publisher'],
-        ['content', 'American Medical Association'],
-    ]);
-    new MetaPublisherDetector('acs', [
-        ['name', 'dc.Publisher'],
-        ['content', 'American Chemical Society'],
-    ]);
-    
-    // Define RegexPublisherDetectors
-    
-    new RegexPublisherDetector('mit', 'meta', [
-        ['name', 'dc.publisher'],
-        ['content', 'mit press'],
-    ]);
-    new RegexPublisherDetector('nature', 'meta', [
-        ['name', 'dc.publisher'],
-        ['content', 'nature publishing group'],
-    ]);
     
     /**
      * @class detect
@@ -261,6 +163,7 @@ var PublisherDetector = (function() {
         PublisherDetector : PublisherDetector,
         TitlePublisherDetector : TitlePublisherDetector,
         MetaPublisherDetector : MetaPublisherDetector,
+        RegexPublisherDetector : RegexPublisherDetector,
         detect : detect,
     };
     

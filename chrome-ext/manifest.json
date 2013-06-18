@@ -22,7 +22,7 @@
     "options_page" : "options.html",
     "permissions" : [
         "storage",
-        "*://citelet.herokuapp.com/*"
+        "*://localhost/*"
     ],
     "web_accessible_resources" : [
         "lib/images/*"

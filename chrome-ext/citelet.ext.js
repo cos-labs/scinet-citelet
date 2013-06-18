@@ -140,6 +140,8 @@ var citelet_ext = (function() {
         if (state.confirmed) {
             console.log('Sending references...');
             citelet.send(state.data, {
+                source : 'chrome-extension'
+            }, {
                 success : function(res) {
                     state.res = res;
                     defer.resolve(state);

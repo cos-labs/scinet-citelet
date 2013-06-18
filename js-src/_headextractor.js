@@ -1,7 +1,9 @@
 /**
- * @module HeadExtractor
+ * @module CitationExtractor
+ * @author jmcarp
  */
-var HeadExtractor = (function() {
+
+var CitationExtractor = (function(Extractor) {
     
     // Private data
     
@@ -13,12 +15,12 @@ var HeadExtractor = (function() {
      * @param name {String} Publisher name
      * @param fun {Function} Function to extract head reference from current page
      */
-    function HeadExtractor(name, fun) {
+    function CitationExtractor(name, fun) {
         this.extract = fun;
         if (typeof(name) !== 'undefined')
-            HeadExtractor.registry[name] = this
+            CitationExtractor.registry[name] = this
     }
-    HeadExtractor.registry = {};
+    CitationExtractor.registry = {};
 
     /**
      * Class for extracting head reference from <meta> tags
@@ -30,7 +32,7 @@ var HeadExtractor = (function() {
      * @param test {RegExp} Test pattern for identifying relevant <meta> tags
      * @param replace {RegExp} Replacement pattern for cleaning up <meta> tags
      */
-    function MetaHeadExtractor(name, test, replace) {
+    function MetaCitationExtractor(name, test, replace) {
         
         // Get default argument values
         if (typeof(test) === 'undefined')
@@ -45,7 +47,10 @@ var HeadExtractor = (function() {
             $('meta[name][content]').filter(function() {
                 return test.test(this.name);
             }).each(function() {
-                name = this.name.replace(replace, '');
+                name = this.name
+                    .replace(replace, '')   // Replaced matched text
+                    .toLowerCase();         // To lower case
+                // Create new list if not in info
                 if (!(name in head_info)) {
                     head_info[name] = [];
                 }
@@ -55,111 +60,11 @@ var HeadExtractor = (function() {
         };
         
         // Call parent constructor
-        HeadExtractor.call(this, name, fun);
+        CitationExtractor.call(this, name, fun);
         
     };
-    MetaHeadExtractor.prototype = new HeadExtractor;
-    MetaHeadExtractor.prototype.constructor = MetaHeadExtractor;
-
-    // Define HeadExtractors
-    
-    new HeadExtractor('sciencedirect', function() {
-        
-        // ScienceDirect meta-data is a mess, so 
-        // only DOI is extracted for now
-        var head_info = {};
-        
-        // DOI
-        var ddDoi = $('a#ddDoi');
-        var ddlink = ddDoi.attr('href');
-        ddlink = ddlink.replace(/.*?dx\.doi\.org.*?\//, '');
-        head_info['doi'] = ddlink;
-        
-        // Article title
-        var article_title = $('.svTitle').text();
-        if (article_title) {
-            head_info['article_title'] = article_title;
-        }
-        
-        // Journal title
-        var journal_title_exec = /go to (.*?) on sciverse sciencedirect/i
-            .exec(document.documentElement.innerHTML);
-        if (journal_title_exec) {
-            head_info['journal_title'] = journal_title_exec[1];
-        }
-        
-        // Authors
-        var authors = $('.authorName');
-        if (authors.length > 0) {
-            head_info['authors'] = authors.map(function() {
-                return this.outerHTML;
-            }).get();
-        }
-        
-        // 
-        return head_info;
-        
-    });
-    
-    new HeadExtractor('springer', function () {
-        // Initialize info
-        var head_info = {};
-        // Get context information
-        var context_div = $('div.ContextInformation');
-        context_div.children('span').each(function () {
-            key = this.className.replace(/article/i, '');
-            val = this.innerText;
-            head_info[key] = val;
-        });
-        // Get author information
-        head_info['authors'] = $('span.AuthorName').map(function () {
-            return this.innerText;
-        }).get();
-        // Done
-        return head_info;
-    });
-    
-    new HeadExtractor('ovid', function () {
-        var head_info = {};
-        var journal_title = $('div.fulltext-SOURCEFULL').text();
-        var split;
-        if (journal_title) head_info['Title'] = journal_title;
-        $('div#fulltext-source-info div').each(function () {
-            split = this.innerText.split(':');
-            if (split.length > 1) head_info[split[0]] = split[1];
-        });
-        return head_info;
-    });
-    
-    new HeadExtractor('apa', function () {
-        var dts = $('.citation-wrapping-div dt, .short-citation dt'),
-            dds = $('.citation-wrapping-div dd, .short-citation dd');
-        var head_info = {};
-        for (var idx = 0; idx < dts.length; idx++) {
-            var key = dts[idx].innerHTML.replace(/^:|:$/g, ''),
-                val = dds[idx].innerHTML;
-            head_info[key] = val;
-        }
-        return head_info;
-    });
-    
-    // Define MetaHeadExtractors
-    
-    new MetaHeadExtractor('highwire');
-    new MetaHeadExtractor('wiley');
-    new MetaHeadExtractor('tandf');
-    new MetaHeadExtractor('biomed');
-    new MetaHeadExtractor('thieme');
-    new MetaHeadExtractor('pubmed');
-    new MetaHeadExtractor('royal');
-    new MetaHeadExtractor('nas');
-    new MetaHeadExtractor('mit');
-    new MetaHeadExtractor('frontiers');
-    new MetaHeadExtractor('hindawi');
-    new MetaHeadExtractor('nature');
-    new MetaHeadExtractor('ama');
-    new MetaHeadExtractor('acs');
-    new MetaHeadExtractor('lww', /wkhealth_/i, /wkhealth_/i);
+    MetaCitationExtractor.prototype = new CitationExtractor;
+    MetaCitationExtractor.prototype.constructor = MetaCitationExtractor;
     
     /**
      * @class extract
@@ -167,18 +72,21 @@ var HeadExtractor = (function() {
      * @return {Object} Dictionary of head reference properties
      */
     function extract(publisher) {
-        if (!(publisher in HeadExtractor.registry)) {
+        if (!(publisher in CitationExtractor.registry)) {
             return false;
         }
-        return HeadExtractor.registry[publisher].extract();
+        return CitationExtractor.registry[publisher].extract();
     };
     
     // Expose public methods & data
     
     return {
-        HeadExtractor : HeadExtractor,
-        MetaHeadExtractor : MetaHeadExtractor,
+        CitationExtractor : CitationExtractor,
+        MetaCitationExtractor : MetaCitationExtractor,
         extract : extract,
     };
     
 })();
+
+var Extractor = Extractor || {};
+Extractor['citation'] = CitationExtractor;

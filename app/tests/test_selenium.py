@@ -13,7 +13,7 @@ from drivers import ChromeExtensionDriver, \
                     ChromeBookmarkletDriver, \
                     FirefoxBookmarkletDriver \
 
-from make_fixtures import drop_fields
+#from make_fixtures import drop_fields
 
 # Set up test database
 client, database = dbsetup.dbsetup(test=True)
@@ -46,9 +46,8 @@ def suite_factory(driver_class):
         @classmethod
         def tearDownClass(cls):
             
-            pass
-            ## Quit browser
-            #cls.driver.browser.quit()
+            # Quit browser
+            cls.driver.browser.quit()
         
     return suite
 
@@ -84,7 +83,8 @@ def add_test(fixture):
 
         # Test cursor count
         self.assertEqual(cursor.count(), 1)
-        self.assertEqual(drop_fields(cursor[0]), json_fixture)
+        for field in ['publisher', 'head_ref', 'cited_refs']:
+            self.assertEqual(cursor[0][field], json_fixture[field])
     
     # Add test method to class
     for suite in suites:
@@ -94,7 +94,7 @@ def add_test(fixture):
 fixtures = glob.glob('%s/tests/fixtures/*.json' % (config.path))
 
 # Generate tests for each fixture
-for fixture in fixtures[:5]:
+for fixture in fixtures:
     add_test(fixture)
 
 # Run tests

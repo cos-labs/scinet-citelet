@@ -1,9 +1,0 @@
-setup.py
-pytelet.egg-info/PKG-INFO
-pytelet.egg-info/SOURCES.txt
-pytelet.egg-info/dependency_links.txt
-pytelet.egg-info/top_level.txt
-tests/__init__.py
-tests/drivers.py
-tests/make_fixtures.py
-tests/test_selenium.py
