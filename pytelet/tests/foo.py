@@ -1,1 +1,0 @@
-from pytelet import config
