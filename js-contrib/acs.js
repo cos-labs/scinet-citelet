@@ -7,6 +7,6 @@ new PublisherDetector.MetaPublisherDetector('acs', [
     ['content', 'American Chemical Society'],
 ]);
 
-new HeadExtractor.MetaHeadExtractor('acs');
+new CitationExtractor.MetaCitationExtractor('acs');
 
 new ReferenceExtractor.SelectorReferenceExtractor('acs', 'div.NLM_citation');

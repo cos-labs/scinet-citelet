@@ -7,7 +7,7 @@ new PublisherDetector.RegexPublisherDetector('nature', 'meta', [
     ['content', 'nature publishing group'],
 ]);
 
-new HeadExtractor.MetaHeadExtractor('nature');
+new CitationExtractor.MetaCitationExtractor('nature');
 
 /*
  * Nature has (at least) two article styles: 

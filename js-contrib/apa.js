@@ -27,7 +27,7 @@ new PublisherDetector.PublisherDetector('apa', function() {
     
 });
 
-new HeadExtractor.HeadExtractor('apa', function () {
+new CitationExtractor.CitationExtractor('apa', function () {
     var dts = $('.citation-wrapping-div dt, .short-citation dt'),
         dds = $('.citation-wrapping-div dd, .short-citation dd');
     var head_info = {};

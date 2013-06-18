@@ -7,6 +7,6 @@ new PublisherDetector.MetaPublisherDetector('biomed', [
     ['content', 'BioMed Central Ltd'],
 ]);
 
-new HeadExtractor.MetaHeadExtractor('biomed');
+new CitationExtractor.MetaCitationExtractor('biomed');
 
 new ReferenceExtractor.SelectorReferenceExtractor('biomed', 'ol#references > li');

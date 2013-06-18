@@ -8,7 +8,7 @@ new PublisherDetector.PublisherDetector('lww', function() {
     }).length > 0;
 });
 
-new HeadExtractor.MetaHeadExtractor('lww', /wkhealth_/i, /wkhealth_/i);
+new CitationExtractor.MetaCitationExtractor('lww', /wkhealth_/i, /wkhealth_/i);
     
 new ReferenceExtractor.SelectorReferenceExtractor('lww', '#ej-article-references div[id^=P]');
     

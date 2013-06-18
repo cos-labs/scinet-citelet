@@ -1,12 +1,15 @@
 /*
- * PLoS module contributed by jmcarp
+ * @module springer
+ * @author jmcarp
  */
 
 new PublisherDetector.TitlePublisherDetector('springer', /springer/i);
 
-new HeadExtractor.HeadExtractor('springer', function () {
+new CitationExtractor.CitationExtractor('springer', function () {
+
     // Initialize info
     var head_info = {};
+
     // Get context information
     var context_div = $('div.ContextInformation');
     context_div.children('span').each(function () {
@@ -14,12 +17,15 @@ new HeadExtractor.HeadExtractor('springer', function () {
         val = this.innerText;
         head_info[key] = val;
     });
+
     // Get author information
     head_info['authors'] = $('span.AuthorName').map(function () {
         return this.innerText;
     }).get();
+
     // Done
     return head_info;
+
 });
 
 new ReferenceExtractor.SelectorReferenceExtractor('springer', '#abstract-references li, div.Citation');

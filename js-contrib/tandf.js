@@ -7,6 +7,6 @@ new PublisherDetector.MetaPublisherDetector('tandf', [
     ['content', 'Taylor and Francis'],
 ]);
 
-new HeadExtractor.MetaHeadExtractor('tandf');
+new CitationExtractor.MetaCitationExtractor('tandf');
 
 new ReferenceExtractor.SelectorReferenceExtractor('tandf', 'ul.references > li');

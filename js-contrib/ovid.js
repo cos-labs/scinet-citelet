@@ -6,7 +6,7 @@ new PublisherDetector.MetaPublisherDetector('ovid', [
     ['name', 'Ovid'],
 ], ['^=']);
 
-new HeadExtractor.HeadExtractor('ovid', function () {
+new CitationExtractor.CitationExtractor('ovid', function () {
     var head_info = {};
     var journal_title = $('div.fulltext-SOURCEFULL').text();
     var split;

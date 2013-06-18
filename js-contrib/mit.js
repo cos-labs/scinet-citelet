@@ -7,6 +7,6 @@ new PublisherDetector.RegexPublisherDetector('mit', 'meta', [
     ['content', 'mit press'],
 ]);
 
-new HeadExtractor.MetaHeadExtractor('mit');
+new CitationExtractor.MetaCitationExtractor('mit');
 
 new ReferenceExtractor.SelectorReferenceExtractor('mit', 'td.refnumber + td');

@@ -7,7 +7,7 @@ new PublisherDetector.MetaPublisherDetector('thieme', [
     ['content', 'Thieme Medical Publishers'],
 ]);
 
-new HeadExtractor.MetaHeadExtractor('thieme');
+new CitationExtractor.MetaCitationExtractor('thieme');
 
 new ReferenceExtractor.ReferenceExtractor('thieme', function () {
     return $($('.literaturliste')[0])

@@ -7,6 +7,6 @@ new PublisherDetector.MetaPublisherDetector('hindawi', [
     ['content', 'Hindawi Publishing Corporation'],
 ]);
 
-new HeadExtractor.MetaHeadExtractor('hindawi');
+new CitationExtractor.MetaCitationExtractor('hindawi');
 
 new ReferenceExtractor.SelectorReferenceExtractor('hindawi', 'ol > li[id^="B"]');

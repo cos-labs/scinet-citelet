@@ -1,10 +1,11 @@
 /*
- * PLoS module contributed by jmcarp
+ * @module sciencedirect
+ * @author jmcarp
  */
     
 new PublisherDetector.TitlePublisherDetector('sciencedirect', /sciencedirect/i);
 
-new HeadExtractor.HeadExtractor('sciencedirect', function() {
+new CitationExtractor.CitationExtractor('sciencedirect', function() {
     
     // ScienceDirect meta-data is a mess, so 
     // only DOI is extracted for now
@@ -117,4 +118,17 @@ new ReferenceExtractor.ReferenceExtractor('sciencedirect', function () {
     // Return deferred object
     return defer;
     
+});
+
+new ContactExtractor.ContactExtractor('sciencedirect', function() {
+    
+    var contact = {};
+    
+    contact['email'] = $('ul.authorGroup img')        // Find <img> within authorGroup
+        .parent('a')                                  // Find containing <a>
+        .map(ContactExtractor.clean_addr)             // Clean email address
+        .get();                                       // jQuery -> JavaScript
+    
+    return contact;
+        
 });

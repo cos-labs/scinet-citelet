@@ -7,6 +7,6 @@ new PublisherDetector.MetaPublisherDetector('ama', [
     ['content', 'American Medical Association'],
 ]);
 
-new HeadExtractor.MetaHeadExtractor('ama');
+new CitationExtractor.MetaCitationExtractor('ama');
 
 new ReferenceExtractor.SelectorReferenceExtractor('ama', 'div.referenceSection div.refRow');
