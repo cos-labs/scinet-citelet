@@ -28,4 +28,7 @@ new CitationExtractor.CitationExtractor('springer', function () {
 
 });
 
-new ReferenceExtractor.SelectorReferenceExtractor('springer', '#abstract-references li, div.Citation');
+new ReferenceExtractor.SelectorReferenceExtractor(
+    'springer',
+    '#abstract-references li, div.Citation'
+);

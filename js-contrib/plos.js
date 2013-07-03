@@ -13,26 +13,11 @@ new PublisherDetector.MetaPublisherDetector('plos', [
 new CitationExtractor.MetaCitationExtractor('plos');
 
 // Extract PLoS cited references
-new ReferenceExtractor.ReferenceExtractor('plos', function() {
-    
-    // Extract references from document
-    var text_refs = $('ol.references > li'),
-        meta_refs = $('meta[name="citation_reference"]');
-    
-    // Skip <meta> references if length differs from text references
-    if (text_refs.length != meta_refs.length)
-        return text_refs;
-    
-    // Concatenate text and <meta> references
-    var combined_refs = [];
-    for (var idx = 0; idx < text_refs.length; idx++) {
-        combined_refs[idx] = text_refs[idx].outerHTML + meta_refs[idx].outerHTML;
-    }
-    
-    // Return combined references
-    return combined_refs;
-    
-});
+new ReferenceExtractor.MultiReferenceExtractor(
+    'plos',
+    new ReferenceExtractor.SelectorReferenceExtractor('', 'ol.references > li'),
+    new ReferenceExtractor.SelectorReferenceExtractor('', 'meta[name="citation_reference"]')
+)
 
 new ContactExtractor.ContactExtractor('plos', function() {
     

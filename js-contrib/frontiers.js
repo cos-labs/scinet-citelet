@@ -8,16 +8,46 @@ new PublisherDetector.MetaPublisherDetector('frontiers', [
     ['content', 'Frontiers'],
 ]);
 
-new CitationExtractor.MetaCitationExtractor('frontiers');
+/* Frontiers stores author information in their abstract pages,
+ * but not in their full text pages. To get author info, we extract
+ * the other parameters as usual and append the author names from the
+ * 'div.authors a' elements.
+ */
+new CitationExtractor.CitationExtractor(
+    'frontiers',
+    function() {
 
-new ReferenceExtractor.SelectorReferenceExtractor('frontiers', 'div.References');
+        // Extract information from meta tags
+        var cit = CitationExtractor.meta_extract();
+
+        // Add authors
+        var author = $('div.authors a[href]').map(function() {
+            return $(this).text()
+        });
+
+        // jQuery -> JavaScript
+        author = author.get();
+
+        // Add author info to citation
+        cit['author'] = author;
+
+        // Return citation
+        return cit;
+
+    }
+);
+
+new ReferenceExtractor.SelectorReferenceExtractor(
+    'frontiers',
+    'div.References'
+);
 
 new ContactExtractor.ContactExtractor('frontiers', function() {
+
+    var email = $('div.AbstractSummary').text().match(email_rgx);
     
-    var contact = {};
-    
-    contact['email'] = $('div.AbstractSummary').text().match(email_rgx);
-    
-    return contact;
+    return {
+        email : email,
+    };
     
 });
