@@ -1,0 +1,95 @@
+{
+    "url": "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3361757/", 
+    "publisher": "pubmed", 
+    "meta": {
+        "source": "bookmarklet", 
+        "ip_addr": "127.0.0.1", 
+        "contacts": {
+            "email": []
+        }
+    }, 
+    "citation": {
+        "publisher": [
+            "NIH Public Access"
+        ], 
+        "doi": [
+            "10.1523/JNEUROSCI.4494-11.2012"
+        ], 
+        "abstract_html_url": [
+            "/pmc/articles/PMC3361757/?report=abstract"
+        ], 
+        "language": [
+            "en"
+        ], 
+        "title": [
+            "Neural Broadening or Neural Attenuation? Investigating Age-Related Dedifferentiation in the Face Network in a Large Lifespan Sample", 
+            "Neural Broadening or Neural Attenuation? Investigating Age-Related Dedifferentiation in the Face Network in a Large Lifespan Sample"
+        ], 
+        "issue": [
+            "6"
+        ], 
+        "journal_title": [
+            "The Journal of neuroscience : the official journal of the Society for Neuroscience"
+        ], 
+        "firstpage": [
+            "2154"
+        ], 
+        "volume": [
+            "32"
+        ], 
+        "date": [
+            "8 February 2012", 
+            "2012 February 8"
+        ], 
+        "authors": [
+            "Joonkoo Park, Joshua Carp, Kristen M. Kennedy, Karen M. Rodrigue, Gerard N. Bischof, Chih-Mao Huang, Jennifer R. Rieck, Thad A. Polk, Denise C. Park"
+        ], 
+        "contributor": [
+            "Joonkoo Park", 
+            "Joshua Carp", 
+            "Kristen M. Kennedy", 
+            "Karen M. Rodrigue", 
+            "Gerard N. Bischof", 
+            "Chih-Mao Huang", 
+            "Jennifer R. Rieck", 
+            "Thad A. Polk", 
+            "Denise C. Park"
+        ], 
+        "pmid": [
+            "22323727"
+        ], 
+        "identifier": [
+            "10.1523/JNEUROSCI.4494-11.2012"
+        ], 
+        "type": [
+            "Text"
+        ]
+    }, 
+    "references": [
+        "<li id=\"R1\"><span>Amodio DM, Frith CD. Meeting of minds: the medial frontal cortex and social cognition. <span><span class=\"ref-journal\">Nat Rev Neurosci. </span>2006;<span class=\"ref-vol\">7</span>:268\u2013277.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/16552413\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R2\"><span>Baltes PB, Lindenberger U. Emergence of a powerful connection between sensory and cognitive functions across the adult life span: A new window to the study of cognitive aging? <span><span class=\"ref-journal\">Psychol Aging. </span>1997;<span class=\"ref-vol\">12</span>:12\u201321.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/9100264\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R3\"><span>Buckner RL, Snyder AZ, Sanders AL, Raichle ME, Morris JC. Functional brain imaging of young, nondemented, and demented older adults. <span><span class=\"ref-journal\">J Cogn Neurosci. </span>2000;<span class=\"ref-vol\">12</span>:24\u201334.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/11506645\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R4\"><span>Cantlon JF, Pinel P, Dehaene S, Pelphrey KA. Cortical representations of symbols, objects, and faces are pruned back during early childhood. <span><span class=\"ref-journal\">Cereb Cortex. </span>2011;<span class=\"ref-vol\">21</span>:191\u2013199.</span> <span class=\"nowrap ref pmc\">[<a class=\"int-reflink\" href=\"/pmc/articles/PMC3000569/\">PMC free article</a>]</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/20457691\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R5\"><span>Carp J, Gmeindl L, Reuter-Lorenz PA. Age differences in the neural representation of working memory revealed by multi-voxel pattern analysis. <span><span class=\"ref-journal\">Front Hum Neurosci. </span>2010;<span class=\"ref-vol\">4</span>:217.</span> <span class=\"nowrap ref pmc\">[<a class=\"int-reflink\" href=\"/pmc/articles/PMC2996172/\">PMC free article</a>]</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/21151373\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R6\"><span>Carp J, Park J, Polk TA, Park DC. Age differences in neural distinctiveness revealed by multi-voxel pattern analysis. <span><span class=\"ref-journal\">Neuroimage. </span>2011a;<span class=\"ref-vol\">56</span>:736\u2013743.</span> <span class=\"nowrap ref pmc\">[<a class=\"int-reflink\" href=\"/pmc/articles/PMC2962693/\">PMC free article</a>]</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/20451629\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R7\"><span>Carp J, Park J, Hebrank A, Park DC, Polk TA. Age-related neural dedifferentiation in the motor system. <span><span class=\"ref-journal\">PLoS One. </span>2011b;<span class=\"ref-vol\">6</span>:e29411.</span> <span class=\"nowrap ref pmc\">[<a class=\"int-reflink\" href=\"/pmc/articles/PMC3245287/\">PMC free article</a>]</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/22216274\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R8\"><span>Chee MW, Goh JO, Venkatraman V, Tan JC, Gutchess A, Sutton B, Hebrank A, Leshikar E, Park D. Age-related changes in object processing and contextual binding revealed using fMR adaptation. <span><span class=\"ref-journal\">J Cogn Neurosci. </span>2006;<span class=\"ref-vol\">18</span>:495\u2013507.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/16768356\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R9\"><span>D\u2019Esposito M, Zarahn E, Aguirre GK, Rypma B. The effect of normal aging on the coupling of neural activity to the bold hemodynamic response. <span><span class=\"ref-journal\">Neuroimage. </span>1999;<span class=\"ref-vol\">10</span>:6\u201314.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/10385577\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R10\"><span>Ekstrom RB, French JW, Harman HH, Dermen D. <span class=\"ref-journal\">Manual for kit of factor-referenced cognitive tests.</span> Princeton, NJ: Education Testing Service; 1976. </span></li>", 
+        "<li id=\"R11\"><span>Fairhall SL, Ishai A. Effective connectivity within the distributed cortical network for face perception. <span><span class=\"ref-journal\">Cereb Cortex. </span>2007;<span class=\"ref-vol\">17</span>:2400\u20132406.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/17190969\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R12\"><span>Fischl B, Sereno MI, Tootell RB, Dale AM. High-resolution intersubject averaging and a coordinate system for the cortical surface. <span><span class=\"ref-journal\">Hum Brain Mapp. </span>1999;<span class=\"ref-vol\">8</span>:272\u2013284.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/10619420\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R13\"><span>Frith U, Frith CD. Development and neurophysiology of mentalizing. <span><span class=\"ref-journal\">Philos Trans R Soc Lond B Biol Sci. </span>2003;<span class=\"ref-vol\">358</span>:459\u2013473.</span> <span class=\"nowrap ref pmc\">[<a class=\"int-reflink\" href=\"/pmc/articles/PMC1693139/\">PMC free article</a>]</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/12689373\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R14\"><span>Garrett DD, Kovacevic N, McIntosh AR, Grady CL. Blood oxygen level-dependent signal variability is more than just noise. <span><span class=\"ref-journal\">J Neurosci. </span>2010;<span class=\"ref-vol\">30</span>:4914\u20134921.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/20371811\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R15\"><span>Goh JO, Suzuki A, Park DC. Reduced neural selectivity increases fMRI adaptation with age during face discrimination. <span><span class=\"ref-journal\">Neuroimage. </span>2010;<span class=\"ref-vol\">51</span>:336\u2013344.</span> <span class=\"nowrap ref pmc\">[<a class=\"int-reflink\" href=\"/pmc/articles/PMC2847054/\">PMC free article</a>]</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/20139012\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R16\"><span>Ishai A. Let\u2019s face it: it\u2019s a cortical network. <span><span class=\"ref-journal\">Neuroimage. </span>2008;<span class=\"ref-vol\">40</span>:415\u2013419.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/18063389\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R17\"><span>Leventhal AG, Wang Y, Pu M, Zhou Y, Ma Y. GABA and its agonists improved visual cortical function in senescent monkeys. <span><span class=\"ref-journal\">Science. </span>2003;<span class=\"ref-vol\">300</span>:812\u2013815.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/12730605\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R18\"><span>Li SC, Lindenberger U, Hommel B, Aschersleben G, Prinz W, Baltes PB. Transformations in the couplings among intellectual abilities and constituent cognitive processes across the life span. <span><span class=\"ref-journal\">Psychol Sci. </span>2004;<span class=\"ref-vol\">15</span>:155\u2013163.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/15016286\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R19\"><span>Park DC, Reuter-Lorenz P. The adaptive brain: aging and neurocognitive scaffolding. <span><span class=\"ref-journal\">Annu Rev Psychol. </span>2009;<span class=\"ref-vol\">60</span>:173\u2013196.</span> <span class=\"nowrap ref pmc\">[<a class=\"int-reflink\" href=\"/pmc/articles/PMC3359129/\">PMC free article</a>]</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/19035823\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R20\"><span>Park DC, Polk TA, Park R, Minear M, Savage A, Smith MR. Aging reduces neural specialization in ventral visual cortex. <span><span class=\"ref-journal\">Proc Natl Acad Sci U S A. </span>2004;<span class=\"ref-vol\">101</span>:13091\u201313095.</span> <span class=\"nowrap ref pmc\">[<a class=\"int-reflink\" href=\"/pmc/articles/PMC516469/\">PMC free article</a>]</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/15322270\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R21\"><span>Park J, Carp J, Hebrank A, Park DC, Polk TA. Neural specificity predicts fluid processing ability in older adults. <span><span class=\"ref-journal\">J Neurosci. </span>2010;<span class=\"ref-vol\">30</span>:9253\u20139259.</span> <span class=\"nowrap ref pmc\">[<a class=\"int-reflink\" href=\"/pmc/articles/PMC2913723/\">PMC free article</a>]</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/20610760\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R22\"><span>Payer D, Marshuetz C, Sutton B, Hebrank A, Welsh RC, Park DC. Decreased neural specialization in old adults on a working memory task. <span><span class=\"ref-journal\">Neuroreport. </span>2006;<span class=\"ref-vol\">17</span>:487\u2013491.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/16543812\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R23\"><span>Rypma B, D\u2019Esposito M. Isolating the neural mechanisms of age-related changes in human working memory. <span><span class=\"ref-journal\">Nat Neurosci. </span>2000;<span class=\"ref-vol\">3</span>:509\u2013515.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/10769393\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R24\"><span>Schmolesky MT, Wang Y, Pu M, Leventhal AG. Degradation of stimulus selectivity of visual cortical cells in senescent rhesus monkeys. <span><span class=\"ref-journal\">Nat Neurosci. </span>2000;<span class=\"ref-vol\">3</span>:384\u2013390.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/10725929\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>", 
+        "<li id=\"R25\"><span>Spreng RN, Wojtowicz M, Grady CL. Reliable differences in brain activity between young and old adults: A quantitative meta-analysis across multiple cognitive domains. <span><span class=\"ref-journal\">Neurosci Biobehav Rev. </span>2010;<span class=\"ref-vol\">34</span>:1178\u20131194.</span>  <span class=\"nowrap ref pubmed\">[<a href=\"/pubmed/20109489\" target=\"pmc_ext\" ref=\"reftype=pubmed&amp;article-id=3361757&amp;issue-id=210483&amp;journal-id=319&amp;FROM=Article%7CCitationRef&amp;TO=Entrez%7CPubMed%7CRecord&amp;rendering-type=normal\">PubMed</a>]</span></span></li>"
+    ]
+}
