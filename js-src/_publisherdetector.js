@@ -23,7 +23,7 @@ var PublisherDetector = (function() {
     PublisherDetector.registry = {};
 
     /**
-    * Class for detecting publishers from <title> tags.
+    * Class for detecting publishers from &lt;title&gt; tags.
     * 
     * @class TitlePublisherDetector
     * @extends PublisherDetector
