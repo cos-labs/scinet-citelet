@@ -1,5 +1,5 @@
 /*
- * @module citelet
+ * @module Citelet
  * @author jmcarp
  */
 
@@ -115,7 +115,7 @@ var citelet = (function() {
 
     }
     
-    // Expose public methods & data
+    // Expose public methods and data
 
     return {
         scrape : scrape,
