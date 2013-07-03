@@ -1,17 +1,24 @@
-/*
+/**
  * @module ContactExtractor
  * @author jmcarp
  */
 
-var ContactExtractor = (function(Extractors) {
+var ContactExtractor = (function() {
     
     // Email regular expression
     email_rgx = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:\w(?:[\w-]*\w)?\.)+\w(?:[\w-]*\w)?/g;
     
+    /**
+     * Extract email address from <a> and clean up
+     * 
+     * @class clean_addr
+     * @static
+     * @return {Object} Cleaned email address
+     */
     function clean_addr() {
         return this.getAttribute('href')          // Extract HREF
             .replace(/^mailto:/i, '')             // Trim "mailto:"
-            .replace(/\(\W+\)$/, '')              // Trim parenthetical
+            .replace(/\([A-Z]+\)$/, '')              // Trim parenthetical
             .trim();                              // Trim whitespace
     }
     
@@ -30,10 +37,43 @@ var ContactExtractor = (function(Extractors) {
         }
     };
     ContactExtractor.registry = {};
-    
+
     /**
+     * Extract contact info via CSS selector
+     *
+     * @class SelectorContactExtractor
+     * @constructor
+     * @param name {String} Publisher name
+     * @param selector {String} CSS selector for contact links
+     */
+    function SelectorContactExtractor(name, selector) {
+
+        fun = function() {
+
+            var email = $(selector)
+                .map(clean_addr)
+                .get();
+
+            return {
+                email : email,
+            }
+
+        }
+
+        // Call parent constructor
+        ContactExtractor.call(this, name, fun);
+
+    }
+
+    SelectorContactExtractor.prototype = new ContactExtractor;
+    SelectorContactExtractor.constructor = SelectorContactExtractor;
+
+    /**
+     * Extract contact info from document
+     * 
      * @class extract
      * @static
+     * @param publisher {String} Name of publisher
      * @return {Object} Dictionary of contact information
      */
     function extract(publisher) {
@@ -52,6 +92,7 @@ var ContactExtractor = (function(Extractors) {
         email_rgx : email_rgx,
         clean_addr : clean_addr,
         ContactExtractor : ContactExtractor,
+        SelectorContactExtractor : SelectorContactExtractor,
         extract : extract,
     };
     
