@@ -3,7 +3,7 @@
  * @author jmcarp
  */
 
-var ReferenceExtractor = (function(Extractor) {
+var ReferenceExtractor = (function() {
     
     // Private data
     
@@ -19,15 +19,15 @@ var ReferenceExtractor = (function(Extractor) {
      */
     function ReferenceExtractor(name, fun) {
         this.extract = fun;
-        if (typeof(name) !== 'undefined') {
+        if (typeof(name) !== 'undefined' && name) {
             ReferenceExtractor.registry[name] = this;
         }
     };
     ReferenceExtractor.registry = {};
-    
+
     /**
      * Class for extracting references using JQuery selector
-     * 
+     *
      * @class SelectorReferenceExtractor
      * @extends ReferenceExtractor
      * @constructor
@@ -42,12 +42,48 @@ var ReferenceExtractor = (function(Extractor) {
     }
     SelectorReferenceExtractor.prototype = new ReferenceExtractor;
     SelectorReferenceExtractor.prototype.constructor = SelectorReferenceExtractor;
-    
-    // Define SelectorReferenceExtractors
-    
+
+    /**
+     * Class for extracting references using JQuery selector
+     * 
+     * @class MultiReferenceExtractor
+     * @extends ReferenceExtractor
+     * @constructor
+     * @param name {String} Publisher name
+     * @param selector {Function} JQuery selector for references
+     */
+    function MultiReferenceExtractor(name) {
+        var extractors = Array.prototype.slice.call(arguments, 1);
+        fun = function() {
+            ref_groups = [];
+            for (var extidx = 0; extidx < extractors.length; extidx++) {
+                refs = extractors[extidx].extract();
+                if (ref_groups.length
+                        && refs.length !== ref_groups[0].length) {
+                    continue
+                }
+                ref_groups.push(refs);
+            }
+            console.log(ref_groups);
+            var combined_refs = [];
+            for (var refidx = 0; refidx < ref_groups[0].length; refidx++) {
+                var combined_ref = '';
+                for (var extidx = 0; extidx < ref_groups.length; extidx++) {
+                    combined_ref += ref_groups[extidx][refidx].outerHTML;
+                }
+                combined_refs.push(combined_ref);
+            }
+            return combined_refs;
+        };
+        ReferenceExtractor.call(this, name, fun);
+    }
+    MultiReferenceExtractor.prototype = new ReferenceExtractor;
+    MultiReferenceExtractor.prototype.constructor = MultiReferenceExtractor;
+
     /**
      * @class extract
      * @static
+     * @param publisher {String} Publisher name
      * @return {Object} JQuery list of references
      */
     function extract(publisher) {
@@ -79,6 +115,7 @@ var ReferenceExtractor = (function(Extractor) {
     return {
         ReferenceExtractor : ReferenceExtractor,
         SelectorReferenceExtractor : SelectorReferenceExtractor,
+        MultiReferenceExtractor : MultiReferenceExtractor,
         extract : extract,
     };
     
