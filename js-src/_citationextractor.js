@@ -3,17 +3,17 @@
  * @author jmcarp
  */
 
-var CitationExtractor = (function(Extractor) {
+var CitationExtractor = (function() {
     
     // Private data
     
     /**
-     * Base class for head reference extraction
+     * Base class for citation info extraction
      * 
-     * @class ReferenceExtractor
+     * @class CitationExtractor
      * @constructor
      * @param name {String} Publisher name
-     * @param fun {Function} Function to extract head reference from current page
+     * @param fun {Function} Function to extract citation info from current page
      */
     function CitationExtractor(name, fun) {
         this.extract = fun;
@@ -23,14 +23,53 @@ var CitationExtractor = (function(Extractor) {
     CitationExtractor.registry = {};
 
     /**
-     * Class for extracting head reference from <meta> tags
+     * Extract citation info from <meta> tags
+     *
+     * @class meta_extract
+     * @static
+     * @param test {RegExp} Test pattern for identifying relevant &lt;meta&gt; tags
+     * @param replace {RegExp} Replacement pattern for cleaning up &lt;meta&gt; tags
+     */
+    function meta_extract(test, replace) {
+
+        // Get default argument values
+        test = test || /DC\.|citation_(?!reference)/i;
+        replace = replace || /DC\.|citation_/i;
+
+        // Initialize citation info
+        var cit = {};
+
+        // Filter &lt;meta&gt; tags with matching name
+        $('meta[name][content]').filter(function() {
+            return test.test(this.name);
+        // Add &lt;meta&gt; content to citation info
+        }).each(function() {
+            var name = this.name
+                .replace(replace, '')   // Remove matched text
+                .toLowerCase();         // To lower case
+            // Create new list if not in info
+            if (!(name in cit)) {
+                cit[name] = [];
+            }
+            // Append to list
+            cit[name].push(this.content)
+        });
+
+        // Return citation info
+        return cit;
+
+    };
+
+
+    /**
+     * Class for extracting head reference from &lt;meta&gt; tags
      * 
-     * @class MetaReferenceExtractor
-     * @extends ReferenceExtractor
+     * @class MetaCitationExtractor
+     * @extends CitationExtractor
      * @constructor
      * @param name {String} Publisher name
-     * @param test {RegExp} Test pattern for identifying relevant <meta> tags
-     * @param replace {RegExp} Replacement pattern for cleaning up <meta> tags
+     * @param test {RegExp} Test pattern for identifying relevant &lt;meta&gt; tags
+     * @param replace {RegExp} Replacement pattern for cleaning up &lt;meta&gt; tags
      */
     function MetaCitationExtractor(name, test, replace) {
         
@@ -40,23 +79,9 @@ var CitationExtractor = (function(Extractor) {
         if (typeof(replace) === 'undefined')
             var replace = /DC\.|citation_/i;
             
-        // Define function: Extract head reference information from <meta> tags
+        // Define function: Extract head reference information from &lt;meta&gt; tags
         var fun = function () {
-            var head_info = {},
-                name;
-            $('meta[name][content]').filter(function() {
-                return test.test(this.name);
-            }).each(function() {
-                name = this.name
-                    .replace(replace, '')   // Replaced matched text
-                    .toLowerCase();         // To lower case
-                // Create new list if not in info
-                if (!(name in head_info)) {
-                    head_info[name] = [];
-                }
-                head_info[name].push(this.content)
-            });
-            return head_info;
+            return meta_extract(test, replace);
         };
         
         // Call parent constructor
@@ -69,6 +94,7 @@ var CitationExtractor = (function(Extractor) {
     /**
      * @class extract
      * @static
+     * @param publisher {String} Name of publisher
      * @return {Object} Dictionary of head reference properties
      */
     function extract(publisher) {
@@ -78,11 +104,12 @@ var CitationExtractor = (function(Extractor) {
         return CitationExtractor.registry[publisher].extract();
     };
     
-    // Expose public methods & data
+    // Expose public methods and data
     
     return {
         CitationExtractor : CitationExtractor,
         MetaCitationExtractor : MetaCitationExtractor,
+        meta_extract : meta_extract,
         extract : extract,
     };
     
