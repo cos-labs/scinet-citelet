@@ -90,7 +90,8 @@ def sendrefs():
         'citation' : citation,
         'references' : references,
     }
-    
+
+    """    
     # Get collection
     if testid is not None:
         # Send data to test database
@@ -103,7 +104,15 @@ def sendrefs():
     
     # Send data to mongo
     collection.update(record, record, upsert=True)
-    
+    """
+    import requests
+    url = "http://localhost:5001/raw"
+    print "Sending payload to crowdscholar"
+    headers = {"content-type": "application/json"}
+    resp = requests.post(url, data=json.dumps(record), headers=headers)
+    print resp
+    # @todo: do something with this response
+     
     # Assemble results
     results = {}
     if publisher != '':

@@ -3,8 +3,10 @@ Flask-BasicAuth==0.1.1
 Jinja2==2.6
 Werkzeug==0.8.3
 gunicorn==0.17.4
+ipython==0.13.2
 ply==3.4
 pymongo==2.5
+requests==1.2.3
 selenium==2.32.0
 slimit==0.8.1
 wsgiref==0.1.2
