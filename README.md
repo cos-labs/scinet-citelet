@@ -11,6 +11,8 @@
 
 ## How to run Citelet from localhost:
 
+* Set environment variables
+    * CITELET_BASE_URL="<your root url>"
 * Prepare files
     * make
 * Start a mongod instance
@@ -34,3 +36,7 @@
 * Click on "Load unpacked extension..."
 * Select citelet/chrome-ext
 * Browse to an article
+
+### Resources
+
+* Example free articles: [https://docs.google.com/spreadsheet/ccc?key=0Ahtc_QrXguAwdHZHTE5TM0dxMll3Mkc0V1d3MnBpZmc#gid=0](https://docs.google.com/spreadsheet/ccc?key=0Ahtc_QrXguAwdHZHTE5TM0dxMll3Mkc0V1d3MnBpZmc#gid=0)
