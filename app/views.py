@@ -81,6 +81,7 @@ class SendRefs(MethodView):
         'contacts' : Field('contacts', '{}', json.loads),
         'references' : Field('references', '[]', json.loads),
     }
+    
     def _load_data(self):
         
         # Initialize data
