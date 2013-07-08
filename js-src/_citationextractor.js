@@ -1,4 +1,6 @@
 /**
+ * Tools for extracting primary citation info
+ *
  * @module CitationExtractor
  * @author jmcarp
  */
