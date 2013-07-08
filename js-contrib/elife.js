@@ -1,4 +1,6 @@
-/*
+/**
+ * Tools for handing citations from eLife
+ *
  * @module elife
  * @author jmcarp
  */

@@ -1,4 +1,4 @@
-/*
+/**
  * @module pubmed
  * @author jmcarp
  */

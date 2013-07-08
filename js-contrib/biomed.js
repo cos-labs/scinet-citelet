@@ -1,4 +1,7 @@
-/*
+/**
+ * Tools for handling citations from BioMed Central
+ *
+ * @module biomed
  * @author jmcarp
  */
 
