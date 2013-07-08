@@ -1,4 +1,6 @@
 /**
+ * Tools for detecting publishers
+ *
  * @module PublisherDetector
  * @author jmcarp
  */
