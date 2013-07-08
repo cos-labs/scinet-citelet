@@ -1,5 +1,7 @@
-/*
- * @module Citelet
+/**
+ * Main citelet module: extract data and send to service
+ *
+ * @module citelet
  * @author jmcarp
  */
 
@@ -11,7 +13,9 @@ var citelet = (function() {
      */
     var stringify = Object.toJSON ? Object.toJSON : JSON.stringify;
     
-    /*
+    /**
+     * ...
+     *
      * @class truthify
      * @static
      * @param thing whose truthiness value to get
@@ -27,7 +31,7 @@ var citelet = (function() {
     /**
      * Scrape article meta-data from current page. Because some publishers
      * (read: ScienceDirect) load page data asynchronously, this function returns
-     * a $.Deferred object, which returns a dictionary when resolved
+     * a $.Deferred object, which returns a dictionary when resolved.
      * 
      * @class scrape
      * @static
