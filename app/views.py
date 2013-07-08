@@ -1,19 +1,20 @@
+"""
+"""
+
 # Imports
 import os
 import json
+import requests
 
 # Flask imports
 from flask import jsonify
 from flask import request
 from flask import render_template
+from flask.views import MethodView
 
 # Project imports
 import config
-import dbsetup
 from cors import corsify
-
-# Set up database
-client, database = dbsetup.dbsetup()
 
 # Import app
 from main import app, basic_auth
@@ -45,78 +46,153 @@ def fixture(name):
 
     return open('%s/tests/fixtures/%s.html' % (here, name)).read()
 
-@app.route('/sendrefs/', methods=['POST'])
-@corsify
-def sendrefs():
-    """Receive and parse citation info, save to
-    database, and send status response.
-    
+class Field(object):
     """
-    # Get IP address
-    ip_addr = request_to_ip(request)
+    """
     
-    # Get data from form
-    data = request.form
+    def __init__(self, key, default=None, function=None):
+        
+        # Memorize arguments
+        self.key = key
+        self.default = default
+        self.function = function
 
-    # Get arguments
-    testid = data.get('testid')
-    callback = data.get('callback')
-    url = data.get('url')
-    meta_json = data.get('meta', '{}')
-    publisher = data.get('publisher')
-    citation_json = data.get('citation', '{}')
-    references_json = data.get('references', '[]')
-    contacts_json = data.get('contacts', '{}')
+    def fetch(self, data):
+        
+        # 
+        value = data.get(self.key, self.default)
+
+        # 
+        if self.function:
+            value = self.function(value)
+
+        return value
+
+class SendRefs(MethodView):
     
-    # Parse JSON
-    meta = json.loads(meta_json)
-    citation = json.loads(citation_json)
-    references = json.loads(references_json)
-    contacts = json.loads(contacts_json)
+    decorators = [corsify()]
 
-    # Add IP address to meta
-    meta['ip_addr'] = ip_addr
-    meta['contacts'] = contacts
-    
-    # Parse references
-    pass
-
-    # Add to database
-    # TODO: Pass in OSF login / create custom bookmarklet
-    record = {
-        'url' : url,
-        'meta' : meta,
-        'publisher' : publisher,
-        'citation' : citation,
-        'references' : references,
+    fields = {
+        'url' : Field('url'),
+        'publisher' : Field('publisher'),
+        'testid' : Field('testid'),
+        'meta' : Field('meta', '{}', json.loads),
+        'citation' : Field('citation', '{}', json.loads),
+        'contacts' : Field('contacts', '{}', json.loads),
+        'references' : Field('references', '[]', json.loads),
     }
-    
-    # Get collection
-    if testid is not None:
-        # Send data to test database
-        collection = database[testid]
-    else:
-        # Send data to production database
-        collection = database[config.COLLNAME]
-    
-    # TODO: Check whether submission is new
-    
-    # Send data to mongo
-    collection.update(record, record, upsert=True)
-    
-    # Assemble results
-    results = {}
-    if publisher != '':
-        results['status'] = 'success'
-        results['msg'] = ('Received from publisher %s ' + \
-            'head reference %s with %s cited references.') % \
-            (publisher.upper(), repr(citation), len(references))
-    else:
-        results['status'] = 'failure'
-        results['msg'] = 'Could not identify publisher.'
-    
-    # Build JSON response
-    resp = jsonify(**results)
+    def _load_data(self):
+        
+        # Initialize data
+        data = {}
 
-    # Return completed response
-    return resp
+        # Extract data from request.form
+        for name, field in self.fields.iteritems():
+            value = field.fetch(request.form)
+            if value:
+                data[name] = value
+
+        # Cleanup
+        if 'meta' not in data:
+            data['meta'] = {}
+        
+        # Log IP address
+        data['meta']['ip_addr'] = request_to_ip(request)
+        
+        # Move contacts to meta field
+        if 'contacts' in data:
+            data['meta']['contacts'] = data['contacts']
+            del data['contacts']
+        
+        # Return parsed data
+        return data
+    
+    def _make_resp(self, data):
+        
+        # Initialize results
+        results = {}
+        
+        if data['publisher']:
+            results['status'] = 'success'
+            results['msg'] = ('Received from publisher %s ' + \
+                'head reference %s with %s cited references.') % \
+                (data['publisher'].upper(), repr(data['citation']), len(data['references']))
+        else:
+            results['status'] = 'failure'
+            results['msg'] = 'Could not identify publisher.'
+        
+        # Build JSON response
+        resp = jsonify(**results)
+
+        # Return completed response
+        return resp
+
+class ScholarSendRefs(SendRefs):
+    
+    def _to_scholar(self, data):
+        
+        # Send data to Scholarly
+        resp = requests.post(
+            config.SCHOLAR_URL,
+            data=json.dumps(data),
+            headers={
+                'content-type' : 'application/json',
+            }
+        )
+
+        return resp
+
+    def post(self):
+        
+        # Parse form data
+        data = self._load_data()
+
+        # Send parsed data to Scholarly
+        resp = self._to_scholar(data)
+
+        # Return response
+        return self._make_resp(data)
+
+class LocalSendRefs(SendRefs):
+    
+    def _to_mongo(self, data):
+        
+        # Get collection
+        if 'testid' in data and data['testid'] is not None:
+            # Send data to test database
+            collection = database[testid]
+        else:
+            # Send data to production database
+            collection = database[config.COLLNAME]
+        
+        # Send data to MongoDB
+        collection.update(data, data, upsert=True)
+
+    def post(self):
+        
+        # Parse form data
+        data = self._load_data()
+
+        # Send parsed data to MongoDB 
+        self._to_mongo(data)
+
+        # Return response
+        return self._make_resp(data)
+
+if config.MODE == 'LOCAL':
+    
+    import dbsetup
+    client, database = dbsetup.dbsetup()
+
+    app.add_url_rule(
+        '/sendrefs/',
+        view_func = LocalSendRefs.as_view('sendrefs')
+    )
+
+elif config.MODE == 'REMOTE':
+
+    app.add_url_rule(
+        '/sendrefs/', 
+        view_func = ScholarSendRefs.as_view('sendrefs')
+    )
+
