@@ -1,4 +1,6 @@
 /**
+ * Tools for extracting contact info
+ *
  * @module ContactExtractor
  * @author jmcarp
  */
