@@ -1,4 +1,6 @@
 /**
+ * Tools for extracting cited references
+ *
  * @module ReferenceExtractor
  * @author jmcarp
  */
@@ -26,7 +28,7 @@ var ReferenceExtractor = (function() {
     ReferenceExtractor.registry = {};
 
     /**
-     * Class for extracting references using JQuery selector
+     * Class for extracting references using jQuery selector
      *
      * @class SelectorReferenceExtractor
      * @extends ReferenceExtractor
@@ -64,7 +66,6 @@ var ReferenceExtractor = (function() {
                 }
                 ref_groups.push(refs);
             }
-            console.log(ref_groups);
             var combined_refs = [];
             for (var refidx = 0; refidx < ref_groups[0].length; refidx++) {
                 var combined_ref = '';
@@ -102,9 +103,8 @@ var ReferenceExtractor = (function() {
         // Pipe refs through HTML getter and return deferred object
         return refs.pipe(function(vals) {
             return $(vals).map(function() {
-                if (this.hasOwnProperty('outerHTML'))
-                    return this.outerHTML;
-                return this;
+                // Return outerHTML if defined, else this
+                return this.outerHTML || this;
             }).get();
         });
         
