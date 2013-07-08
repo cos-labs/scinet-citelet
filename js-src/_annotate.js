@@ -1,4 +1,6 @@
-/*
+/**
+ * Tools for annotating articles
+ *
  * @module Annotate
  * @author jmcarp
  */
