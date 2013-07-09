@@ -9,7 +9,7 @@ all : seturl \
 # Minify src and contrib JS files and write to static/js
 # Note: Order of JS files matters--must take _*.js files first, then 
 # user-contributed files, then citelet.js
-app/static/js/citelet.min.js : js-src/_*.js js-contrib/*.js js-src/main.js
+app/static/js/citelet.min.js : js-req/*.js js-src/_*.js js-contrib/*.js js-src/main.js
 	python py-util/minify.py --wrap --minify --files $^ \
         > app/static/js/citelet.min.js
 
