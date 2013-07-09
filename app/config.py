@@ -6,7 +6,7 @@ import os
 import urlparse
 
 # Send mode 
-MODE = 'REMOTE'
+MODE = 'LOCAL'
 
 # Scholarly URL
 SCHOLAR_BASE_URL = 'http://scholarly.io'
