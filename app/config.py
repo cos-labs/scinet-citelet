@@ -3,12 +3,15 @@
 
 # Imports
 import os
+import urlparse
 
 # Send mode 
 MODE = 'REMOTE'
 
 # Scholarly URL
-SCHOLAR_URL = 'http://50.16.225.235/raw'
+SCHOLAR_BASE_URL = 'http://scholarly.io'
+SCHOLAR_RAW_URL = urlparse.urljoin(SCHOLAR_BASE_URL, 'raw')
+SCHOLAR_PING_URL = urlparse.urljoin(SCHOLAR_BASE_URL, 'ping')
 
 # MongoDB parameters
 
