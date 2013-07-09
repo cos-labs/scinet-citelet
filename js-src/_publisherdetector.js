@@ -9,13 +9,13 @@ var PublisherDetector = (function() {
     // PublisherDetector classes
     
     /**
-    * Base class for detecting publishers. 
-    * 
-    * @class PublisherDetector
-    * @constructor
-    * @param name {String} Publisher name
-    * @param fun {Function} Function to check the current page for the publisher
-    */
+     * Base class for detecting publishers.
+     *
+     * @class PublisherDetector
+     * @constructor
+     * @param name {String} Publisher name
+     * @param fun {Function} Function to check the current page for the publisher
+     */
     function PublisherDetector(name, fun) {
         this.detect = fun;
         if (typeof(name) !== 'undefined') {
@@ -25,14 +25,14 @@ var PublisherDetector = (function() {
     PublisherDetector.registry = {};
 
     /**
-    * Class for detecting publishers from &lt;title&gt; tags.
-    * 
-    * @class TitlePublisherDetector
-    * @extends PublisherDetector
-    * @constructor
-    * @param name {String} Publisher name
-    * @param regex {Object} RegExp object for testing title
-    */
+     * Class for detecting publishers from &lt;title&gt; tags.
+     *
+     * @class TitlePublisherDetector
+     * @extends PublisherDetector
+     * @constructor
+     * @param name {String} Publisher name
+     * @param regex {Object} RegExp object for testing title
+     */
     function TitlePublisherDetector(name, regex) {
         
         // Define detector function
