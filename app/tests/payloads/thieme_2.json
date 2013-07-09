@@ -1,0 +1,110 @@
+{
+    "url": "https://www.thieme-connect.com/ejournals/html/10.1055/s-0031-1300968", 
+    "publisher": "thieme", 
+    "meta": {
+        "source": "bookmarklet", 
+        "ip_addr": "127.0.0.1", 
+        "contacts": false
+    }, 
+    "citation": {
+        "issn": [
+            "2157-6998"
+        ], 
+        "creator": [
+            "Masatoshi Kaneko", 
+            "Yuji Kanai", 
+            "Hayato Go", 
+            "Takashi Imamura", 
+            "Nobuo Momoi", 
+            "Mitsuaki Hosoya"
+        ], 
+        "format": [
+            "XML", 
+            "PDF"
+        ], 
+        "relation": [
+            "https://www.thieme-connect.com/ejournals/html/10.1055/s-0031-1300968", 
+            "https://www.thieme-connect.com/ejournals/pdf/10.1055/s-0031-1300968.pdf"
+        ], 
+        "keywords": [
+            "neonate", 
+            "chylothorax", 
+            "pleural effusion", 
+            "minocycline", 
+            "pleurodesis"
+        ], 
+        "subject": [
+            " "
+        ], 
+        "author": [
+            "Masatoshi Kaneko", 
+            "Yuji Kanai", 
+            "Hayato Go", 
+            "Takashi Imamura", 
+            "Nobuo Momoi", 
+            "Mitsuaki Hosoya"
+        ], 
+        "online_date": [
+            "2012/01/30"
+        ], 
+        "firstpage": [
+            "025"
+        ], 
+        "issue": [
+            "01"
+        ], 
+        "description": [
+            ""
+        ], 
+        "journal_title": [
+            "American Journal of Perinatology Reports"
+        ], 
+        "volume": [
+            "02"
+        ], 
+        "lastpage": [
+            "028"
+        ], 
+        "date": [
+            "2012/01/30"
+        ], 
+        "publication_date": [
+            "2012/01/30"
+        ], 
+        "publisher": [
+            "Thieme Medical Publishers", 
+            "Thieme Medical Publishers"
+        ], 
+        "doi": [
+            "10.1055/s-0031-1300968"
+        ], 
+        "language": [
+            "en", 
+            "en"
+        ], 
+        "rights": [
+            "Thieme Medical Publishers"
+        ], 
+        "title": [
+            "Five Cases of Congenital Chylothorax Treated by Intrapleural Minocycline", 
+            "Five Cases of Congenital Chylothorax Treated by Intrapleural Minocycline"
+        ], 
+        "identifier": [
+            "10.1055/s-0031-1300968"
+        ]
+    }, 
+    "references": [
+        "<li>\n<a id=\"JR00033-1\" name=\"JR00033-1\"></a><strong>1</strong> Lahmiti S, Elhoudzi J, Aboussad A. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-1\">Congenital chylothorax</a>. Scientific World Journal 2009; 9: 431-434 </li>", 
+        "<li>\n<a id=\"JR00033-2\" name=\"JR00033-2\"></a><strong>2</strong> Gaede C. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-2\">Congenital chylothorax: a case study</a>. Neonatal Netw 2006; 25 (5) 371-381 </li>", 
+        "<li>\n<a id=\"JR00033-3\" name=\"JR00033-3\"></a><strong>3</strong> Chen JS, Hsu HH, Chen RJ , et al.  <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-3\">Additional minocycline pleurodesis after thoracoscopic surgery for primary spontaneous pneumothorax</a>. Am J Respir Crit Care Med 2006; 173 (5) 548-554 </li>", 
+        "<li>\n<a id=\"JR00033-4\" name=\"JR00033-4\"></a><strong>4</strong> B\u00fcttiker V, Fanconi S, Burger R. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-4\">Chylothorax in children: guidelines for diagnosis and management</a>. Chest 1999; 116 (3) 682-687 </li>", 
+        "<li>\n<a id=\"JR00033-5\" name=\"JR00033-5\"></a><strong>5</strong> McGrath EE, Blades Z, Anderson PB. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-5\">Chylothorax: aetiology, diagnosis and therapeutic options</a>. Respir Med 2010; 104 (1) 1-8 </li>", 
+        "<li>\n<a id=\"JR00033-6\" name=\"JR00033-6\"></a><strong>6</strong> Wasmuth-Pietzuch A, Hansmann M, Bartmann P, Heep A. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-6\">Congenital chylothorax: lymphopenia and high risk of neonatal infections</a>. Acta Paediatr 2004; 93 (2) 220-224 </li>", 
+        "<li>\n<a id=\"JR00033-7\" name=\"JR00033-7\"></a><strong>7</strong> Maayan-Metzger A, Sack J, Mazkereth R, Vardi A, Kuint J. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-7\">Somatostatin treatment of congenital chylothorax may induce transient hypothyroidism in newborns</a>. Acta Paediatr 2005; 94 (6) 785-789 </li>", 
+        "<li>\n<a id=\"JR00033-8\" name=\"JR00033-8\"></a><strong>8</strong> Bulbul A, Okan F, Nuhoglu A. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-8\">Idiopathic congenital chylothorax presented with severe hydrops and treated with octreotide in term newborn</a>. J Matern Fetal Neonatal Med 2009; 22 (12) 1197-1200 </li>", 
+        "<li>\n<a id=\"JR00033-9\" name=\"JR00033-9\"></a><strong>9</strong> Das A, Shah PS. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-9\">Octreotide for the treatment of chylothorax in neonates</a>. Cochrane Database Syst Rev 2010; 8 (9, Issue 9) CD006388 </li>", 
+        "<li>\n<a id=\"JR00033-10\" name=\"JR00033-10\"></a><strong>10</strong> Roehr CC, Jung A, Proquitt\u00e9 H , et al.  <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-10\">Somatostatin or octreotide as treatment options for chylothorax in young children: a systematic review</a>. Intensive Care Med 2006; 32 (5) 650-657 </li>", 
+        "<li>\n<a id=\"JR00033-11\" name=\"JR00033-11\"></a><strong>11</strong> Dryzer SR, Joseph J, Baumann M, Birmingham K, Sahn SA, Strange C. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-11\">Early inflammatory response of minocycline and tetracycline on the rabbit pleura</a>. Chest 1993; 104 (5) 1585-1588 </li>", 
+        "<li>\n<a id=\"JR00033-12\" name=\"JR00033-12\"></a><strong>12</strong> Turan O, Canter B, Ergenekon E, Ko\u00e7 E, Atalay Y. <a href=\"/ejournals/linkout/10.1055/s-0031-1300968/id/JR00033-12\">Chylothorax and respiratory distress in a newborn with trisomy 21</a>. Eur J Pediatr 2001; 160 (12) 744-745 </li>"
+    ]
+}
