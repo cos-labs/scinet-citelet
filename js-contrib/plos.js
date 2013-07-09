@@ -1,4 +1,6 @@
-/*
+/**
+ * Tools for handling citations from PLoS
+ *
  * @module plos
  * @author jmcarp
  */

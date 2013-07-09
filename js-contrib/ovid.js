@@ -1,4 +1,7 @@
-/*
+/**
+ * Tools for handling citations from Ovid
+ *
+ * @module ovid
  * @author jmcarp
  */
 

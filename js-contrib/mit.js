@@ -1,4 +1,7 @@
-/*
+/**
+ * Tools for handling citations from MIT Press
+ *
+ * @module mit
  * @author jmcarp
  */
 

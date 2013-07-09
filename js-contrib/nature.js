@@ -1,4 +1,7 @@
-/*
+/**
+ * Tools for handling citations from Nature
+ *
+ * @module nature
  * @author jmcarp
  */
 
