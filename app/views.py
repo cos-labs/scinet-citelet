@@ -9,6 +9,7 @@ import requests
 # Flask imports
 from flask import jsonify
 from flask import request
+from flask import make_response
 from flask import render_template
 from flask.views import MethodView
 
@@ -46,11 +47,30 @@ def fixture(name):
 
     return open('%s/tests/fixtures/%s.html' % (here, name)).read()
 
+@app.route('/ping/', methods=['POST'])
+@corsify()
+def ping():
+    
+    # Get hash code from form data
+    hash = request.form.get('hash')
+    
+    # Send hash code to Scholar
+    resp = requests.post(
+        config.SCHOLAR_PING_URL,
+        data={'hash':hash}
+    )
+    
+    # Check status code from Scholar
+    status = resp.status_code == 204
+
+    # Return status to client
+    return str(status).lower()
+
 class Field(object):
-    """
-    """
+    """ Class for extracting a field from form data. """
     
     def __init__(self, key, default=None, function=None):
+        """ Constructor. """
         
         # Memorize arguments
         self.key = key
@@ -58,21 +78,28 @@ class Field(object):
         self.function = function
 
     def fetch(self, data):
+        """Fetch field from data by key.
+
+        :param data: Form data to fetch from
         
-        # 
+        """
+        # Get value from data
         value = data.get(self.key, self.default)
 
-        # 
+        # Optionally apply function to value
         if self.function:
             value = self.function(value)
-
+        
+        # Return completed value
         return value
 
 class SendRefs(MethodView):
+    """ Base class for sendrefs view. """
     
     decorators = [corsify()]
 
     fields = {
+        'hash' : Field('hash'),
         'url' : Field('url'),
         'publisher' : Field('publisher'),
         'testid' : Field('testid'),
@@ -83,6 +110,7 @@ class SendRefs(MethodView):
     }
     
     def _load_data(self):
+        """ Extract and format form data. """
         
         # Initialize data
         data = {}
@@ -134,7 +162,7 @@ class ScholarSendRefs(SendRefs):
         
         # Send data to Scholarly
         resp = requests.post(
-            config.SCHOLAR_URL,
+            config.SCHOLAR_RAW_URL,
             data=json.dumps(data),
             headers={
                 'content-type' : 'application/json',
