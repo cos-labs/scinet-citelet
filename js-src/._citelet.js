@@ -1,11 +1,14 @@
 /**
- * Main citelet module: extract data and send to service
+ * Main citelet module: Extract data and send to service
  *
  * @module citelet
  * @author jmcarp
  */
 
 var citelet = (function() {
+
+    // Ping server with hash code before sending full payload?
+    var do_ping = true;
 
     /**
      * Resolve potential conflict in JSON.stringify with Prototype.js; see
@@ -14,7 +17,7 @@ var citelet = (function() {
     var stringify = Object.toJSON ? Object.toJSON : JSON.stringify;
     
     /**
-     * ...
+     * Get reasonable truthiness for arrays / dictionaries
      *
      * @class truthify
      * @static
@@ -27,7 +30,39 @@ var citelet = (function() {
         // Is thing falsy?
         return thing == false;
     };
-    
+
+    /**
+     * Hash complete JSON structure, excluding specified keys
+     *
+     * @class hash
+     * @static
+     * @param {String} string to hash
+     * @skipkeys {Array} list of keys to skip
+     * @return {String} hashed string
+     */
+    function hash(obj, skipkeys) {
+
+        // Default value of skipkeys
+        skipkeys = skipkeys || ['url'];
+
+        // Initialize
+        var keys = Object.keys(obj);
+        var hobj = {};
+
+        // Copy object w/o skipped keys
+        for (var key in obj) {
+            if (skipkeys.indexOf(key) === -1)
+                hobj[key] = obj[key];
+        }
+
+        // Object -> JSON-formatted string
+        var sobj = stringify(hobj).toLowerCase();
+
+        // Hash string
+        return CryptoJS.SHA3(sobj).toString();
+
+    }
+
     /**
      * Scrape article meta-data from current page. Because some publishers
      * (read: ScienceDirect) load page data asynchronously, this function returns
@@ -65,15 +100,27 @@ var citelet = (function() {
             // Hint for using $.when with variable number of arguments:
             // http://stackoverflow.com/questions/8011652/jquery-when-with-variable-arguments
             var defer = $.when.apply($, values).pipe(function() {
+
                 // Arguments of $.when must be in scope for $.each
                 var _arguments = arguments;
                 $.each(fields, function(idx, field) {
                     data[field] = truthify(_arguments[idx]) ? 
-                                    stringify(_arguments[idx]) : 
-                                    '';
+                                      stringify(_arguments[idx]) :
+                                      '';
                 });
+
+                // Add hash
+                data.hash = hash(data);
+
+                // Return completed data
                 return data;
+
             });
+
+            // 
+            if (do_ping) {
+                defer = defer.pipe(ping);
+            }
             
             // Return deferred object
             return defer;
@@ -84,6 +131,51 @@ var citelet = (function() {
             
         }
         
+    }
+
+    /**
+     * ...
+     *
+     * @class ping
+     * @static
+     * @param
+     * @returns {jQuery.Deferred} Ping status
+     */
+
+    function ping(data) {
+
+        // Initialize Deferred
+        var result = $.Deferred();
+
+        $.ajax({
+            url : 'http://__url__/ping/',
+            type : 'POST',
+            data : {
+                hash : data.hash,
+            },
+            success : function(resp) {
+
+                // Check status
+                if (resp === 'true') {
+                    // Continue sending
+                    console.log('Ping accepted.')
+                    result.resolve(data);
+                } else {
+                    // Break Deferred chain
+                    console.log('Ping rejected.')
+                    return $.Deferred().reject();
+                }
+
+            },
+            error : function() {
+                // Break Deferred chain
+                return $.Deferred().reject();
+            },
+        });
+
+        // Return Deferred
+        return result;
+
     }
 
     /**
@@ -104,8 +196,8 @@ var citelet = (function() {
             url : 'http://__url__/sendrefs/',
             type : 'POST',
             data : aug_data,
-            success : function(res) {
-                console.log(res['msg']);
+            success : function(resp) {
+                console.log(resp['msg']);
             },
         };
         
@@ -118,7 +210,27 @@ var citelet = (function() {
         $.ajax(opts);
 
     }
-    
+
+    function main() {
+
+        var defer = scrape();
+        var data;
+
+        defer.done(function(_data) {
+
+            //
+            data = _data;
+
+            return
+
+            send(data, {
+                source : 'bookmarklet'
+            });
+
+        });
+
+    }
+
     // Expose public methods and data
 
     return {
