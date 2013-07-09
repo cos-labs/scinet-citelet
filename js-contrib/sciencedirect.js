@@ -1,45 +1,54 @@
-/*
+/**
+ * Tools for handling citations from ScienceDirect
+ *
  * @module sciencedirect
  * @author jmcarp
  */
     
-new PublisherDetector.TitlePublisherDetector('sciencedirect', /sciencedirect/i);
+new PublisherDetector.PublisherDetector('sciencedirect', function() {
+
+    // Search canonical link
+    // Example: <link rel="canonical" href="http://www.sciencedirect.com/science/article/pii/S1053811913004539">
+    return $('link[rel="canonical"]')
+        .attr('href')
+        .search(/sciencedirect/i);
+
+});
 
 new CitationExtractor.CitationExtractor('sciencedirect', function() {
     
-    // ScienceDirect meta-data is a mess, so 
-    // only DOI is extracted for now
-    var head_info = {};
+    // Initialize citation info
+    var cit = {};
     
     // DOI
     var ddDoi = $('a#ddDoi');
     var ddlink = ddDoi.attr('href');
     ddlink = ddlink.replace(/.*?dx\.doi\.org.*?\//, '');
-    head_info['doi'] = ddlink;
+    cit['doi'] = ddlink;
     
     // Article title
-    var article_title = $('.svTitle').text();
-    if (article_title) {
-        head_info['article_title'] = article_title;
+    var title = $('title').text();
+    if (title) {
+        cit['title'] = title;
     }
     
     // Journal title
     var journal_title_exec = /go to (.*?) on sciverse sciencedirect/i
         .exec(document.documentElement.innerHTML);
     if (journal_title_exec) {
-        head_info['journal_title'] = journal_title_exec[1];
+        cit['journal_title'] = journal_title_exec[1];
     }
     
     // Authors
     var authors = $('.authorName');
     if (authors.length > 0) {
-        head_info['authors'] = authors.map(function() {
-            return this.outerHTML;
+        cit['authors'] = authors.map(function() {
+            return this.innerText;
         }).get();
     }
-    
-    // 
-    return head_info;
+
+    // Return citation info
+    return cit;
     
 });
 
@@ -121,14 +130,14 @@ new ReferenceExtractor.ReferenceExtractor('sciencedirect', function () {
 });
 
 new ContactExtractor.ContactExtractor('sciencedirect', function() {
-    
-    var contact = {};
-    
-    contact['email'] = $('ul.authorGroup img')        // Find <img> within authorGroup
-        .parent('a')                                  // Find containing <a>
-        .map(ContactExtractor.clean_addr)             // Clean email address
-        .get();                                       // jQuery -> JavaScript
-    
-    return contact;
+
+    var email = $('ul.authorGroup img')           // Find <img> within authorGroup
+        .parent('a[href^="mailto:"]')             // Find containing <a>
+        .map(ContactExtractor.clean_addr)         // Clean email address
+        .get();                                   // jQuery -> JavaScript
+
+    return {
+        email : email,
+    }
         
 });
