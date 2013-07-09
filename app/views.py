@@ -23,12 +23,10 @@ from main import app, basic_auth
 # Get current path
 here = os.path.split(__file__)[0]
 
-def request_to_ip(req):
-    """ Grab user IP address from flask request object. """
+def get_ip():
+    """ Grab user IP address from Flask request object. """
     
-    if not request.headers.getlist("X-Forwarded-For"):
-       return request.remote_addr
-    return request.headers.getlist("X-Forwarded-For")[0] 
+    return request.remote_addr
 
 @app.route('/bookmarklet/')
 def bookmarklet():
@@ -50,21 +48,38 @@ def fixture(name):
 @app.route('/ping/', methods=['POST'])
 @corsify()
 def ping():
-    
+    """Send a hash of the Citelet payload to Scholarly to determine
+    whether the full payload should be sent or not. HTTP code 204 
+    indicates that the hash code has not been seen before; 201 indicates
+    that is has been seen before. The client IP address is also sent
+    so that users can optionally get credit for repeat submissions.
+
+    """
     # Get hash code from form data
     hash = request.form.get('hash')
+    
+    # Quit if no hash
+    if not hash:
+        return 'false'
     
     # Send hash code to Scholar
     resp = requests.post(
         config.SCHOLAR_PING_URL,
-        data={'hash':hash}
+        data={
+            'hash' : hash,
+            'ip' : get_ip(),
+        }
     )
     
-    # Check status code from Scholar
+    # Check status code from Scholarly
     status = resp.status_code == 204
 
+    # Cast status to lower-case string
+    # Flask can't send a boolean as a response
+    status = str(status).lower()
+
     # Return status to client
-    return str(status).lower()
+    return status
 
 class Field(object):
     """ Class for extracting a field from form data. """
@@ -96,8 +111,10 @@ class Field(object):
 class SendRefs(MethodView):
     """ Base class for sendrefs view. """
     
+    # Decorate post() with CORS headers
     decorators = [corsify()]
 
+    # Fields to extract from form data
     fields = {
         'hash' : Field('hash'),
         'url' : Field('url'),
@@ -126,7 +143,7 @@ class SendRefs(MethodView):
             data['meta'] = {}
         
         # Log IP address
-        data['meta']['ip_addr'] = request_to_ip(request)
+        data['meta']['ip_addr'] = get_ip()
         
         # Move contacts to meta field
         if 'contacts' in data:
@@ -141,11 +158,14 @@ class SendRefs(MethodView):
         # Initialize results
         results = {}
         
-        if data['publisher']:
+        if 'publisher' in data and data['publisher']:
             results['status'] = 'success'
             results['msg'] = ('Received from publisher %s ' + \
-                'head reference %s with %s cited references.') % \
-                (data['publisher'].upper(), repr(data['citation']), len(data['references']))
+                'citation %s with %s references.') % (
+                    data['publisher'].upper(), 
+                    repr(data['citation']), 
+                    len(data['references'])
+                )
         else:
             results['status'] = 'failure'
             results['msg'] = 'Could not identify publisher.'
