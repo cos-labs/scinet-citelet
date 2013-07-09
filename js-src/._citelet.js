@@ -8,7 +8,7 @@
 var citelet = (function() {
 
     // Ping server with hash code before sending full payload?
-    var do_ping = true;
+    var do_ping = false;
 
     /**
      * Resolve potential conflict in JSON.stringify with Prototype.js; see
@@ -117,7 +117,7 @@ var citelet = (function() {
 
             });
 
-            // 
+            //
             if (do_ping) {
                 defer = defer.pipe(ping);
             }
