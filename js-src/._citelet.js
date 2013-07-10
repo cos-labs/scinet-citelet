@@ -211,7 +211,7 @@ var citelet = (function() {
         $.ajax(opts);
 
     }
-    
+
     // Expose public methods and data
 
     return {
