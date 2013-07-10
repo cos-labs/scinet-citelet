@@ -12,10 +12,6 @@ from .. import dbsetup
 # Set up database
 client, database = dbsetup.dbsetup()
 
-#def drop_fields(obj, fields=['_id', 'url']):
-#    
-#    return {k:obj[k] for k in obj if k not in fields}
-
 def get_payload_name(publisher):
     """
     
