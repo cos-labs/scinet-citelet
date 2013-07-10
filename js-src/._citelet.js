@@ -134,12 +134,13 @@ var citelet = (function() {
     }
 
     /**
-     * ...
+     * Send hash code to server to check uniqueness
      *
      * @class ping
      * @static
-     * @param
-     * @returns {jQuery.Deferred} Ping status
+     * @param {Object} data from scrape()
+     * @returns {jQuery.Deferred} contains data (if resp == 'true)
+     * @returns {jQuery.Deferred} contains reject (if resp != 'true')
      */
 
     function ping(data) {
@@ -210,27 +211,7 @@ var citelet = (function() {
         $.ajax(opts);
 
     }
-
-    function main() {
-
-        var defer = scrape();
-        var data;
-
-        defer.done(function(_data) {
-
-            //
-            data = _data;
-
-            return
-
-            send(data, {
-                source : 'bookmarklet'
-            });
-
-        });
-
-    }
-
+    
     // Expose public methods and data
 
     return {
