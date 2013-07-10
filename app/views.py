@@ -28,6 +28,7 @@ def get_ip():
     
     return request.remote_addr
 
+@app.route('/')
 @app.route('/bookmarklet/')
 def bookmarklet():
     """ Display link to bookmarklet. """
