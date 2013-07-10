@@ -229,6 +229,9 @@ class LocalSendRefs(SendRefs):
         # Return response
         return self._make_resp(data)
 
+# Choose appropriate subclass of SendRefs view
+# based on config.MODE
+
 if config.MODE == 'LOCAL':
     
     import dbsetup
@@ -245,4 +248,3 @@ elif config.MODE == 'REMOTE':
         '/sendrefs/', 
         view_func = ScholarSendRefs.as_view('sendrefs')
     )
-
