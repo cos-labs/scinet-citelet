@@ -6,9 +6,9 @@
  */
 
 var CitationExtractor = (function() {
-    
-    // Private data
-    
+
+    doi_pattern = /\b10[.][0-9]{4,}(?:[.][0-9]+)*\/(?:(?!["&\'<>])\S)+\b/;
+
     /**
      * Base class for citation info extraction
      * 
@@ -35,8 +35,8 @@ var CitationExtractor = (function() {
     function meta_extract(test, replace) {
 
         // Get default argument values
-        test = test || /DC\.|citation_(?!reference)/i;
-        replace = replace || /DC\.|citation_/i;
+        test = test || /dc(terms)?\.|prism|citation_(?!reference)/i;
+        replace = replace || /dc(terms)?\.|prism|citation_/i;
 
         // Initialize citation info
         var cit = {};
@@ -109,6 +109,7 @@ var CitationExtractor = (function() {
     // Expose public methods and data
     
     return {
+        doi_pattern : doi_pattern,
         CitationExtractor : CitationExtractor,
         MetaCitationExtractor : MetaCitationExtractor,
         meta_extract : meta_extract,
