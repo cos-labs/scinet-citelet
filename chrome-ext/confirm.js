@@ -1,11 +1,14 @@
-/*
+/**
+ * Confirmation dialog tools
+ *
  * @module ext_confirm
+ * @author jmcarp
  */
 var ext_confirm = (function() {
     
     var msg = 'Send references to Citelet?';
     
-    /* 
+    /**
      * Create confirmation dialog using JS default
      * 
      * @class confirm_js
@@ -16,7 +19,7 @@ var ext_confirm = (function() {
         return $.when(confirm(msg));
     }
     
-    /*
+    /**
      * Create confirmation dialog using Twitter Bootstrap
      * 
      * @class confirm_tb
@@ -34,7 +37,7 @@ var ext_confirm = (function() {
         // Fixes bug on PLoS journals
         var script = document.createElement('script');
         script.textContent = '$(document).off("keydown");';
-        (document.head||document.documentElement).appendChild(script);
+        (document.head || document.documentElement).appendChild(script);
         script.parentNode.removeChild(script);
         
         // Build prompt message
