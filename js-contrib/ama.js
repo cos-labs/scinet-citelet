@@ -1,4 +1,5 @@
-/*
+/**
+ * @module ama
  * @author jmcarp
  */
 
@@ -9,4 +10,7 @@ new PublisherDetector.MetaPublisherDetector('ama', [
 
 new CitationExtractor.MetaCitationExtractor('ama');
 
-new ReferenceExtractor.SelectorReferenceExtractor('ama', 'div.referenceSection div.refRow');
+new ReferenceExtractor.SelectorReferenceExtractor(
+    'ama',
+    'div.referenceSection div.refRow'
+);

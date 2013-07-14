@@ -1,4 +1,6 @@
-/*
+/**
+ * Tools for handing citations from Faculty of 1000 Research
+ *
  * @module f1000
  * @author jmcarp
  */

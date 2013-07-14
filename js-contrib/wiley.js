@@ -1,4 +1,6 @@
-/*
+/**
+ * Tools for handling citations from Wiley
+ *
  * @module wiley
  * @author jmcarp
  */
@@ -9,13 +11,18 @@ new CitationExtractor.MetaCitationExtractor('wiley');
 
 new ReferenceExtractor.SelectorReferenceExtractor('wiley', 'ul.plain > li');
 
+new ContactExtractor.RegexContactExtractor(
+    'wiley',
+    'div#authorsDetail'
+);
+/*
 new ContactExtractor.ContactExtractor('wiley', function() {
-    
+
     var contact = {};
-    
+
     contact['email'] = $('div#authorsDetail').text()
         .match(ContactExtractor.email_rgx);
-    
+
     return contact;
-        
-});
+
+});*/

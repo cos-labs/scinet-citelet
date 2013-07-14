@@ -18,9 +18,9 @@ new CitationExtractor.MetaCitationExtractor('peerj');
 new ReferenceExtractor.SelectorReferenceExtractor(
     'peerj',
     'ul.ref-list li.ref'
-)
+);
 
 new ContactExtractor.SelectorContactExtractor(
     'peerj',
-    'a.corresp'
-)
+    'a.corresp[href^="mailto:"]'
+);

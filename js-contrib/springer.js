@@ -1,4 +1,6 @@
-/*
+/**
+ * Tools for handling citations from Springer
+ *
  * @module springer
  * @author jmcarp
  */
@@ -7,23 +9,24 @@ new PublisherDetector.TitlePublisherDetector('springer', /springer/i);
 
 new CitationExtractor.CitationExtractor('springer', function () {
 
-    // Initialize info
+    // Initialize citation info
     var cit = {};
 
-    // Get context information
-    var context_div = $('div.ContextInformation');
-    context_div.children('span').each(function () {
-        key = this.className.replace(/article/i, '');
-        val = this.innerText;
-        cit[key] = val;
-    });
+    // Extract article title
+    cit['title'] = $('h1.ArticleTitle').text();
 
-    // Get author information
-    cit['authors'] = $('span.AuthorName').map(function () {
-        return this.innerText;
+    // Extract journal title
+    cit['journal_title'] = $('span.JournalTitle').text();
+
+    // Extract DOI
+    cit['doi'] = $('span.ArticleDOI').text();
+
+    // Extract author information
+    cit['author'] = $('span.AuthorName').map(function () {
+        return $(this).text();
     }).get();
 
-    // Done
+    // Return citation info
     return cit;
 
 });
@@ -31,4 +34,9 @@ new CitationExtractor.CitationExtractor('springer', function () {
 new ReferenceExtractor.SelectorReferenceExtractor(
     'springer',
     '#abstract-references li, div.Citation'
+);
+
+new ContactExtractor.SelectorContactExtractor(
+    'springer',
+    'div.Contact a[href^="mailto:"]'
 );

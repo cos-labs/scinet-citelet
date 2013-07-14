@@ -1,4 +1,7 @@
-/*
+/**
+ * Tools for handling citations from Lippincott Williams & Wilkins
+ *
+ * @module lww
  * @author jmcarp
  */
 

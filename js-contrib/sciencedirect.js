@@ -9,9 +9,10 @@ new PublisherDetector.PublisherDetector('sciencedirect', function() {
 
     // Search canonical link
     // Example: <link rel="canonical" href="http://www.sciencedirect.com/science/article/pii/S1053811913004539">
-    return $('link[rel="canonical"]')
-        .attr('href')
-        .search(/sciencedirect/i);
+    var chref = $('link[rel="canonical"]')
+        .attr('href');
+    if (chref)
+        return chref.search(/sciencedirect/i);
 
 });
 
@@ -43,7 +44,7 @@ new CitationExtractor.CitationExtractor('sciencedirect', function() {
     var authors = $('.authorName');
     if (authors.length > 0) {
         cit['authors'] = authors.map(function() {
-            return this.innerText;
+            return $(this).text();
         }).get();
     }
 

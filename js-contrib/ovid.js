@@ -22,3 +22,8 @@ new CitationExtractor.CitationExtractor('ovid', function () {
 });
 
 new ReferenceExtractor.SelectorReferenceExtractor('ovid', 'p.fulltext-REFERENCES');
+
+new ContactExtractor.RegexContactExtractor(
+    'ovid',
+    'div.fulltext-INSTITUTION'
+);

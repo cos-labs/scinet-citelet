@@ -1,4 +1,7 @@
-/*
+/**
+ *
+ *
+ * @module hindawi
  * @author jmcarp
  */
 

@@ -1,4 +1,6 @@
 /**
+ * Tools for handling citations from Pubmed Central
+ *
  * @module pubmed
  * @author jmcarp
  */
@@ -28,23 +30,7 @@ new ReferenceExtractor.ReferenceExtractor('pubmed', function () {
 
 });
 
-new ContactExtractor.ContactExtractor('pubmed', function() {
-
-    var email = $('div.fm-authors-info a[href^="mailto:"]')
-        .map(ContactExtractor.clean_addr)
-        .get();
-
-    return {
-        email : email,
-    }
-
-    /*var contact = {};
-
-    contact['email'] = $('ul.authorGroup img')        // Find <img> within authorGroup
-        .parent('a')                                  // Find containing <a>
-        .map(ContactExtractor.clean_addr)             // Clean email address
-        .get();                                       // jQuery -> JavaScript
-    
-    return contact;*/
-        
-});
+new ContactExtractor.SelectorContactExtractor(
+    'pubmed',
+    'div.fm-authors-info a[href^="mailto:"]'
+);

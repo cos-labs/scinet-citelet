@@ -12,4 +12,12 @@ new PublisherDetector.MetaPublisherDetector('biomed', [
 
 new CitationExtractor.MetaCitationExtractor('biomed');
 
-new ReferenceExtractor.SelectorReferenceExtractor('biomed', 'ol#references > li');
+new ReferenceExtractor.SelectorReferenceExtractor(
+    'biomed',
+    'ol#references > li'
+);
+
+new ContactExtractor.SelectorContactExtractor(
+    'biomed',
+    'p.authors a[href^="mailto:"]'
+);

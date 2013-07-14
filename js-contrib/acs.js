@@ -1,4 +1,7 @@
-/*
+/**
+ * Tools for handling citations from the American Chemical Society
+ *
+ * @module acs
  * @author jmcarp
  */
 
@@ -9,4 +12,7 @@ new PublisherDetector.MetaPublisherDetector('acs', [
 
 new CitationExtractor.MetaCitationExtractor('acs');
 
-new ReferenceExtractor.SelectorReferenceExtractor('acs', 'div.NLM_citation');
+new ReferenceExtractor.SelectorReferenceExtractor(
+    'acs',
+    'div.NLM_citation'
+);

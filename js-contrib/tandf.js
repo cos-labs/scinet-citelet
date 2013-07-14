@@ -1,5 +1,8 @@
-/*
- * PLoS module contributed by jmcarp
+/**
+ * Tools for handling citations from Taylor & Francis
+ *
+ * @module tandf
+ * @author jmcarp
  */
 
 new PublisherDetector.MetaPublisherDetector('tandf', [
@@ -9,4 +12,7 @@ new PublisherDetector.MetaPublisherDetector('tandf', [
 
 new CitationExtractor.MetaCitationExtractor('tandf');
 
-new ReferenceExtractor.SelectorReferenceExtractor('tandf', 'ul.references > li');
+new ReferenceExtractor.SelectorReferenceExtractor(
+    'tandf',
+    'ul.references > li'
+);

@@ -12,4 +12,12 @@ new PublisherDetector.RegexPublisherDetector('mit', 'meta', [
 
 new CitationExtractor.MetaCitationExtractor('mit');
 
-new ReferenceExtractor.SelectorReferenceExtractor('mit', 'td.refnumber + td');
+new ReferenceExtractor.SelectorReferenceExtractor(
+    'mit',
+    'td.refnumber + td'
+);
+
+new ContactExtractor.SelectorContactExtractor(
+    'mit',
+    'a.email'
+);

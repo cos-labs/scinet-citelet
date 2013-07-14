@@ -33,7 +33,7 @@ new CitationExtractor.CitationExtractor('apa-ebsco', function() {
     cit['title'] = $('title')
         .text()
         .replace(/ebscohost:\s/i, '')
-        .strip();
+        .trim();
 
     cit['author'] = $('div.center strong')
         .map(function() {
@@ -119,12 +119,12 @@ new CitationExtractor.CitationExtractor('apa-psycnet', function() {
     // Get title
     cit['title'] = $('meta[name="title"]')
         .attr('content')
-        .strip();
+        .trim();
 
     // Get journal
     cit['journal_title'] = $('ul#ftJournalTitle')
         .text()
-        .strip();
+        .trim();
 
     // Get authors
     cit['author'] = $('p.authorGroup a[href^="/index.cfm"]').map(function() {

@@ -1,4 +1,6 @@
-/*
+/**
+ *
+ *
  * @module highwire
  * @author jmcarp
  */
