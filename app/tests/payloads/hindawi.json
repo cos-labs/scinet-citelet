@@ -1,0 +1,83 @@
+{
+    "publisher": "hindawi", 
+    "hash": "461870ff7baf144d35e9bcd0d2dcc6122f17c6c719946c66d61be0c233e093cb56228311b0c6a9f0203ff5f67317c93cdfbb85786cdf8743488b4200b24a92b5", 
+    "url": "http://www.hindawi.com/journals/ijmms/2013/430105/", 
+    "citation": {
+        "publisher": [
+            "Hindawi Publishing Corporation", 
+            "Hindawi Publishing Corporation"
+        ], 
+        "journal_title": [
+            "International Journal of Mathematics and Mathematical Sciences"
+        ], 
+        "doi": [
+            "10.1155/2013/430105"
+        ], 
+        "date": [
+            "2013/06/18", 
+            "2013/06/18"
+        ], 
+        "description": [
+            "We use the geometric data to define a bordism invariant for the fiberwise intersection theory. Under some certain conditions, this invariant is an obstruction for the theory. Moreover, we prove the converse of fiberwise Lefschetz fixed point theorem."
+        ], 
+        "language": [
+            "en"
+        ], 
+        "title": [
+            "A Bordism Viewpoint of Fiberwise Intersections", 
+            "A Bordism Viewpoint of Fiberwise Intersections"
+        ], 
+        "abstract": [
+            "We use the geometric data to define a bordism invariant for the fiberwise intersection theory. Under some certain conditions, this invariant is an obstruction for the theory. Moreover, we prove the converse of fiberwise Lefschetz fixed point theorem."
+        ], 
+        "format": [
+            "text/html"
+        ], 
+        "issn": [
+            "0161-1712"
+        ], 
+        "volume": [
+            "2013"
+        ], 
+        "source": [
+            "International Journal of Mathematics and Mathematical Sciences"
+        ], 
+        "pdf_url": [
+            "http://downloads.hindawi.com/journals/ijmms/2013/430105.pdf"
+        ], 
+        "creator": [
+            "Sunyeekhan, Gun"
+        ], 
+        "year": [
+            "2013"
+        ], 
+        "authors": [
+            "Sunyeekhan, Gun"
+        ], 
+        "identifier": [
+            "doi:10.1155/2013/430105"
+        ], 
+        "type": [
+            "Research article"
+        ], 
+        "fulltext_html_url": [
+            "http://www.hindawi.com/journals/ijmms/2013/430105/"
+        ], 
+        "abstract_html_url": [
+            "http://www.hindawi.com/journals/ijmms/2013/430105/abs/"
+        ]
+    }, 
+    "meta": {
+        "source": "bookmarklet", 
+        "ip_addr": "127.0.0.1"
+    }, 
+    "references": [
+        "<li xmlns=\"http://www.w3.org/1999/xhtml\" id=\"B8\">F. Wecken, \u201cFixpunktklassen. I,\u201d <i>Mathematische Annalen</i>, vol. 117, pp. 659\u2013671, 1941 (German).<span class=\"reflinks\"> <a href=\"http://www.ams.org/mathscinet-getitem?mr=MR0005339\" target=\"blank\">View at MathSciNet</a></span></li>", 
+        "<li xmlns=\"http://www.w3.org/1999/xhtml\" id=\"B6\">J. Nielsen, \u201c\u00dcber die Minimalzahl der Fixpunkte bei den Abbildungstypen der Ringfl\u00e4chen,\u201d <i>Mathematische Annalen</i>, vol. 82, no. 1-2, pp. 83\u201393, 1920 (German).<span class=\"reflinks\"> <a href=\"http://dx.doi.org/10.1007/BF01457977\" target=\"blank\">View at Publisher</a><span class=\"sep\"> \u00b7 </span><a href=\"http://scholar.google.com/scholar?q=http://dx.doi.org/10.1007/BF01457977\" target=\"blank\">View at Google Scholar</a><span class=\"sep\"> \u00b7 </span><a href=\"http://www.ams.org/mathscinet-getitem?mr=MR1511973\" target=\"blank\">View at MathSciNet</a></span></li>", 
+        "<li xmlns=\"http://www.w3.org/1999/xhtml\" id=\"B3\">B. J. Jiang, \u201cFixed point classes from a differential viewpoint,\u201d in <i>Fixed Point Theory (Sherbrooke, Que., 1980)</i>, vol. 886 of <i>Lecture Notes in Mathematics</i>, pp. 163\u2013170, Springer, Berlin, Germany, 1981.<span class=\"reflinks\"> <a href=\"http://dx.doi.org/10.1007/BFb0092182\" target=\"blank\">View at Publisher</a><span class=\"sep\"> \u00b7 </span><a href=\"http://scholar.google.com/scholar?q=http://dx.doi.org/10.1007/BFb0092182\" target=\"blank\">View at Google Scholar</a> <span class=\"sep\"> \u00b7 </span><a href=\"http://www.zentralblatt-math.org/zmath/en/advanced/?q=an:0482.57014\" target=\"blank\">View at Zentralblatt MATH</a><span class=\"sep\"> \u00b7 </span><a href=\"http://www.ams.org/mathscinet-getitem?mr=MR643005\" target=\"blank\">View at MathSciNet</a></span></li>", 
+        "<li xmlns=\"http://www.w3.org/1999/xhtml\" id=\"B4\">T. Ko\\'zniewski, \u201cThe category of submersions,\u201d <i>L'Acad\u00e9mie Polonaise des Sciences. Bulletin. S\u00e9rie des Sciences Math\u00e9matiques</i>, vol. 27, no. 3-4, pp. 321\u2013326, 1979.<span class=\"reflinks\"> <a href=\"http://www.zentralblatt-math.org/zmath/en/advanced/?q=an:0424.57013\" target=\"blank\">View at Zentralblatt MATH</a><span class=\"sep\"> \u00b7 </span><a href=\"http://www.ams.org/mathscinet-getitem?mr=MR552057\" target=\"blank\">View at MathSciNet</a></span></li>", 
+        "<li xmlns=\"http://www.w3.org/1999/xhtml\" id=\"B2\">A. Hatcher and F. Quinn, \u201cBordism invariants of intersections of submanifolds,\u201d <i>Transactions of the American Mathematical Society</i>, vol. 200, pp. 327\u2013344, 1974.<span class=\"reflinks\"> <a href=\"http://dx.doi.org/10.1090/S0002-9947-1974-0353322-6\" target=\"blank\">View at Publisher</a><span class=\"sep\"> \u00b7 </span><a href=\"http://scholar.google.com/scholar?q=http://dx.doi.org/10.1090/S0002-9947-1974-0353322-6\" target=\"blank\">View at Google Scholar</a> <span class=\"sep\"> \u00b7 </span><a href=\"http://www.zentralblatt-math.org/zmath/en/advanced/?q=an:0291.57019\" target=\"blank\">View at Zentralblatt MATH</a><span class=\"sep\"> \u00b7 </span><a href=\"http://www.ams.org/mathscinet-getitem?mr=MR0353322\" target=\"blank\">View at MathSciNet</a></span></li>", 
+        "<li xmlns=\"http://www.w3.org/1999/xhtml\" id=\"B7\">G. Sunyeekhan, <i>Equivariant intersection theory [Ph.D. thesis]</i>, University of Notre Dame, Notre Dame, Indiana, 2010.<span class=\"reflinks\"> </span></li>", 
+        "<li xmlns=\"http://www.w3.org/1999/xhtml\" id=\"B1\">V. Coufal, <i>A family version of Lefschetz-Nielsen fixed point theory [Ph.D. thesis]</i>, University of Notre Dame, Notre Dame, Indiana, 2004.<span class=\"reflinks\"> </span></li>"
+    ]
+}
