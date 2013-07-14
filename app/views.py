@@ -33,12 +33,8 @@ def get_ip():
 def bookmarklet():
     """ Display link to bookmarklet. """
 
-    # Read bookmarket.js
-    with open('%s/static/js/bookmarklet.js' % (here)) as bookmarklet_file:
-        bookmarklet = bookmarklet_file.read()
-
     # Return rendered template
-    return render_template('bookmarklet.html', bookmarklet=bookmarklet)
+    return render_template('bookmarklet.html', CITELET_BASE_URL=config.CITELET_BASE_URL)
 
 @app.route('/fixture/<name>/')
 @basic_auth.required
