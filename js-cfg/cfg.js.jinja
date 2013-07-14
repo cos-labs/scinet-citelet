@@ -1,0 +1,5 @@
+var cfg = {
+{%- for key, value in context().iteritems() %}
+    '{{ key }}' : '{{ value }}',
+{%- endfor %}
+};
