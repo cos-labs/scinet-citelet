@@ -3,17 +3,13 @@
 
 # Imports
 import os
-import urlparse
 
 # Project imports
-from citelet_cfg import CITELET_BASE_URL, SCHOLAR_BASE_URL
-
-# Send mode 
-MODE = 'LOCAL'
+from citelet_cfg import CITELET_BASE_URL, SCHOLAR_BASE_URL, MODE
 
 # Scholarly URL
-SCHOLAR_RAW_URL = urlparse.urljoin(SCHOLAR_BASE_URL, 'raw')
-SCHOLAR_PING_URL = urlparse.urljoin(SCHOLAR_BASE_URL, 'ping')
+SCHOLAR_RAW_URL = os.path.join(SCHOLAR_BASE_URL, 'raw')
+SCHOLAR_PING_URL = os.path.join(SCHOLAR_BASE_URL, 'ping')
 
 # MongoDB parameters
 
