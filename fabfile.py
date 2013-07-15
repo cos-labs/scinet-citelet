@@ -9,9 +9,15 @@ from fabric.api import local
 from fabric.api import execute
 from fabric.context_managers import cd
 
-env.hosts = ['localhost']
-env.user = 'jmcarp'
-env.path = '/vol/citelet/'
+env.hosts = ['env.runhost']
+#env.user = 'jmcarp'
+env.path = os.path.abspath(os.getcwd())#'/Users/jmcarp/Dropbox/projects/citelet/'#'/vol/citelet/'
+
+def rlocal():
+    env.run = local
+
+def rsudo():
+    env.run = sudo
 
 def _runall(mode):
     
@@ -37,18 +43,18 @@ def app_cfg(mode):
     
     if mode == 'deploy':
 
-        sudo('cp cfg.py app/citelet_cfg.py')
+        env.run('cp cfg.py app/citelet_cfg.py')
 
     elif mode == 'clean':
         
-        sudo('rm app/citelet_cfg.py')
+        env.run('rm app/citelet_cfg.py')
 
 def build_js_cfg(mode):
     """ Create JavaScript config file. """
     
     if mode == 'deploy':
 
-        sudo('''
+        env.run('''
             python py-util/render.py \
                 --i js-cfg/cfg.js.jinja \
                 --o js-cfg/cfg.js
@@ -56,14 +62,14 @@ def build_js_cfg(mode):
 
     elif mode == 'clean':
         
-        sudo('rm js-cfg/cfg.js')
+        env.run('rm js-cfg/cfg.js')
 
 def build_chrome_manifest(mode):
     """ Render Chrome manifest. """
     
     if mode == 'deploy':
 
-        sudo('''
+        env.run('''
             python py-util/render.py \
                 --i chrome-ext/manifest.json.jinja \
                 --o chrome-ext/manifest.json
@@ -71,14 +77,14 @@ def build_chrome_manifest(mode):
 
     elif mode == 'clean':
         
-        sudo('rm chrome-ext/manifest.json')
+        env.run('rm chrome-ext/manifest.json')
 
 def build_bookmarklet_js(mode):
     """ Minify bookmarklet JavaScript. """
     
     if mode == 'deploy':
 
-        sudo('''
+        env.run('''
             python py-util/minify.py \
                 --wrap \
                 --minify \
@@ -93,14 +99,14 @@ def build_bookmarklet_js(mode):
 
     elif mode == 'clean':
         
-        sudo('rm app/static/js/citelet.min.js')
+        env.run('rm app/static/js/citelet.min.js')
 
 def build_chrome_js(mode):
     """ Minify Chrome JavaScript. """
     
     if mode == 'deploy':
 
-        sudo('''
+        env.run('''
             python py-util/minify.py \
                 --files \
                     js-cfg/*.js \
@@ -112,4 +118,4 @@ def build_chrome_js(mode):
 
     elif mode == 'clean':
         
-        sudo('rm chrome-ext/citelet.min.js')
+        env.run('rm chrome-ext/citelet.min.js')
