@@ -1,7 +1,16 @@
 // Initialize mode <select> to currently stored value
 function get_mode() {
     chrome.storage.local.get('mode', function(result) {
+
+        // Set mode to confirm if not set
+        if (typeof(result.mode) === 'undefined') {
+            var result = {mode : 'confirm'};
+            chrome.storage.local.set(result);
+        }
+        
+        // Set dropdown value
         $('#mode').val(result.mode);
+
     });
 }
 
