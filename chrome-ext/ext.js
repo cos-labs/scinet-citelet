@@ -17,7 +17,8 @@ var ext = (function() {
     ];
 
     /**
-     * ...
+     * Message background page to inject JS / CSS script into
+     * content script
      *
      * @class inject
      * @static
@@ -56,7 +57,8 @@ var ext = (function() {
             state = {};
 
         chrome.storage.local.get('mode', function(stored) {
-
+            
+            // Set mode to confirm if not set
             if (typeof(stored.mode) === 'undefined') {
                 var stored = {mode : 'confirm'};
                 chrome.storage.local.set(stored);
@@ -219,7 +221,7 @@ var ext = (function() {
 
         } else {
 
-            console.log('References already sent. Quitting...');
+            console.log('References already sent.');
             // Break chain by returning a rejected deferred
             return $.Deferred().reject();
 
@@ -241,7 +243,7 @@ var ext = (function() {
     function confirmed_to_send(state) {
         var defer = $.Deferred();
         if (state.confirmed) {
-            console.log('Sending references...');
+            console.log('Sending references.');
             citelet.send(state.data, {
                 source : 'chrome-extension'
             }, {
@@ -251,7 +253,7 @@ var ext = (function() {
                 }
             });
         } else {
-            console.log('Not confirmed. Quitting...');
+            console.log('Send cancelled.');
             // Break chain by returning a rejected deferred
             return $.Deferred().reject();
         }
@@ -269,7 +271,6 @@ var ext = (function() {
      */
     function send_to_store(state) {
         if (state.res.status == 'success') {
-            console.log('Storing references in Chrome...');
             chrome.storage.local.get('sent', function(storage) {
                 var sent = 'sent' in storage ? storage.sent : {};
                 sent[state.data['url']] = state.data;
