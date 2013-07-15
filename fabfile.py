@@ -9,9 +9,9 @@ from fabric.api import local
 from fabric.api import execute
 from fabric.context_managers import cd
 
-env.hosts = ['env.runhost']
-#env.user = 'jmcarp'
-env.path = os.path.abspath(os.getcwd())#'/Users/jmcarp/Dropbox/projects/citelet/'#'/vol/citelet/'
+env.hosts = ['localhost']
+env.user = 'jmcarp'
+env.path = os.path.abspath(os.getcwd())
 
 def rlocal():
     env.run = local
