@@ -10,7 +10,7 @@ from fabric.api import execute
 from fabric.context_managers import cd
 
 env.hosts = ['localhost']
-env.user = 'jmcarp'
+env.user = os.environ.get('USER')
 env.path = os.path.abspath(os.getcwd())
 
 def rlocal():
