@@ -83,6 +83,8 @@ def build_bookmarklet_js(mode):
     """ Minify bookmarklet JavaScript. """
     
     if mode == 'deploy':
+        
+        env.run('mkdir -p app/static/js')
 
         env.run('''
             python py-util/minify.py \
