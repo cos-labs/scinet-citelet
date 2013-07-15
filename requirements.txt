@@ -12,7 +12,6 @@ paramiko==1.10.1
 ply==3.4
 pycrypto==2.6
 pymongo==2.5
-readline==6.2.4.1
 requests==1.2.3
 selenium==2.32.0
 slimit==0.8.1
