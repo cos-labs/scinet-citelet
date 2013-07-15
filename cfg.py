@@ -2,9 +2,12 @@
 """
 
 # URLs
-CITELET_BASE_URL = 'http://localhost:5000'
-CITELET_TRIM_URL = 'localhost'
-SCHOLAR_BASE_URL = ''
+CITELET_BASE_URL = 'http://scholarly.openscienceframework.org/citelet'
+CITELET_TRIM_URL = 'scholarly.openscienceframework.org/citelet'
+SCHOLAR_BASE_URL = 'http://scholarly.openscienceframework.org/crowdscholar'
+
+# Send mode: ['LOCAL'|'REMOTE']
+MODE = 'REMOTE'
 
 # Ping Scholar service: ['true'|'false']
 PING = 'false'
