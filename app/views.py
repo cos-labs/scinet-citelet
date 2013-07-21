@@ -150,12 +150,20 @@ class SendRefs(MethodView):
         # Return parsed data
         return data
     
-    def _make_resp(self, data):
+    required_fields = ['publisher', 'citation', 'references']
+    def _get_status(self, data):
+        
+        for field in self.required_fields:
+            if field not in data or not data[field]:
+                return False
+        return True
+
+    def _make_resp(self, data, status):
         
         # Initialize results
         results = {}
         
-        if 'publisher' in data and data['publisher']:
+        if status:
             results['status'] = 'success'
             results['msg'] = ('Received from publisher %s ' + \
                 'citation %s with %s references.') % (
@@ -192,12 +200,16 @@ class ScholarSendRefs(SendRefs):
         
         # Parse form data
         data = self._load_data()
+        
+        # Check status of data
+        status = self._get_status(data)
 
         # Send parsed data to Scholarly
-        resp = self._to_scholar(data)
+        if status:
+            resp = self._to_scholar(data)
 
         # Return response
-        return self._make_resp(data)
+        return self._make_resp(data, status)
 
 class LocalSendRefs(SendRefs):
     
@@ -219,11 +231,15 @@ class LocalSendRefs(SendRefs):
         # Parse form data
         data = self._load_data()
 
+        # Check status of data
+        status = self._get_status(data)
+
         # Send parsed data to MongoDB 
-        self._to_mongo(data)
+        if status:
+            self._to_mongo(data)
 
         # Return response
-        return self._make_resp(data)
+        return self._make_resp(data, status)
 
 # Choose appropriate subclass of SendRefs view
 # based on config.MODE
