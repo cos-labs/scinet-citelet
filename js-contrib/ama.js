@@ -1,4 +1,6 @@
 /**
+ * Tools for handling citations from the American Medical Association
+ *
  * @module ama
  * @author jmcarp
  */

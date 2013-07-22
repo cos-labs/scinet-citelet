@@ -15,14 +15,3 @@ new ContactExtractor.RegexContactExtractor(
     'wiley',
     'div#authorsDetail'
 );
-/*
-new ContactExtractor.ContactExtractor('wiley', function() {
-
-    var contact = {};
-
-    contact['email'] = $('div#authorsDetail').text()
-        .match(ContactExtractor.email_rgx);
-
-    return contact;
-
-});*/

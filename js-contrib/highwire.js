@@ -1,5 +1,5 @@
 /**
- *
+ * Tools for handling citations from Highwire Press
  *
  * @module highwire
  * @author jmcarp

@@ -11,7 +11,7 @@ new PublisherDetector.PublisherDetector('hogrefe', function() {
         .match(/hogrefe/i);
 });
 
-new CitationExtractor.MetaCitationExtractor('hogrefe', function() {
+new CitationExtractor.CitationExtractor('hogrefe', function() {
 
     var cit = {};
 
