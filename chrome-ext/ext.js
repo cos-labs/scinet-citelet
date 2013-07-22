@@ -79,7 +79,7 @@ var ext = (function() {
             }
 
         });
-
+        
         return defer;
 
     }
@@ -182,10 +182,11 @@ var ext = (function() {
         // Initialize Deferred
         var defer = $.Deferred();
 
-        chrome.storage.local.get('sent', function(storage) {
-            var _sent = 'sent' in storage ? storage.sent : {};
-            state.sent = typeof(_sent[state.data['url']]) === 'undefined';
-            defer.resolve(state);
+        chrome.storage.local.get(state.data.hash, function(result) {
+            if (!(state.data.hash in result)) {
+                state.sent = !('hash' in result);
+                defer.resolve(state);
+            }
         });
 
         // Return Deferred
@@ -216,7 +217,6 @@ var ext = (function() {
                 state.confirmed = confirmed;
                 defer.resolve(state);
             });
-
             return defer;
 
         } else {
@@ -246,7 +246,8 @@ var ext = (function() {
             console.log('Sending references.');
             citelet.send(state.data, {
                 source : 'chrome-extension'
-            }, {
+            }, 
+            {
                 success : function(res) {
                     state.res = res;
                     defer.resolve(state);
@@ -271,11 +272,9 @@ var ext = (function() {
      */
     function send_to_store(state) {
         if (state.res.status == 'success') {
-            chrome.storage.local.get('sent', function(storage) {
-                var sent = 'sent' in storage ? storage.sent : {};
-                sent[state.data['url']] = state.data;
-                chrome.storage.local.set({'sent' : sent});
-            });
+            var to_store = {};
+            to_store[state.data.hash] = true;
+            chrome.storage.local.set(to_store);
         }
     }
     
