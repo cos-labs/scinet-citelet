@@ -1,112 +1,88 @@
 <!DOCTYPE html>
-<html>
-    
-    <head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Harry Rybacki and Joshua Carp">
+    <link rel="shortcut icon" href="../static/img/favicon.ico">
 
-        <title>Citelet</title>
+    <title>Citelet</title>
 
-        <!-- Bootstrap JavaScript -->
-        <!--<script
-            type="text/javascript"
-            src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js">
-        </script>-->
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
 
-        <!-- Bootstrap CSS -->
-        <link
-            href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
-            rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../static/js/html5shiv.js"></script>
+      <script src="../static/js/respond.min.js"></script>
+    <![endif]-->
 
-        <style type="text/css">
+    <style type="text/css">
+      /* Custom container */
+      .container {
+        max-width: 730px;
+      }
+      /* Custom row  */
+      .row {
+        text-align: center;
+      }
+      .row h1 {
+        font-size: 72px;
+      }
+      .row .btn {
+        font-size: 21px;
 
-            body {
-                padding-top: 20px;
-                padding-bottom: 40px;
-            }
+      }
+  </style>
 
-            /* Custom container */
-            .container-narrow {
-                margin: 0 auto;
-                max-width: 700px;
-            }
-            .container-narrow > hr {
-                margin: 30px 0;
-            }
+  </head>
 
-            /* Main marketing message and sign up button */
-            .jumbotron {
-                margin: 60px 0;
-                text-align: center;
-            }
-            .jumbotron h1 {
-                font-size: 72px;
-                line-height: 1;
-            }
-            .jumbotron .btn {
-                font-size: 21px;
-                padding: 14px 24px;
-            }
+  <body>
 
-            /* Supporting marketing content */
-            .marketing {
-                margin: 60px 0;
-            }
-            .marketing p + h4 {
-                margin-top: 28px;
-            }
+    <div class="container">
 
-        </style>
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="#">Citelet</a></li>
+          <li><a href="/crowdscholar/">Crowd Scholar</a></li>
+        </ul>
+        <h3 class="text-muted">Citelet</h3>
+      </div>
 
-    </head>
+      <div class="row">
+        <div class="col-lg-12">
 
-    <body>
+          <hr />
+          <h1>Citelet</h1>
+          <h2>Crowd-Sourcing the Academic Citation Graph</h2>
+          <hr />
 
-        <div class="container-narrow">
+          <p class="lead">
+            To get started, drag the bookmarklet to your bookmarks panel. Then, whenever you browse to an academic article, you can click the bookmarklet to send us information about the article and the articles it cites.
+          </p>
 
-            <div class="masthead">
+          <!-- Bookmarklet link. Return false on click so users can't
+          try to export the current page. -->
+          <a class="btn btn-large btn-success"
+              href="../static/js/bookmarklet.js"
+              onclick="return false;">Citelet
+          </a>
 
-                <h3 class="muted">Citelet</h3>
+          <hr />
+        </div>
+      </div>
 
-            </div>
+      <div class="footer">
+        <p>&copy; Center for Open Science 2013</p>
+      </div>
 
-            <hr />
+    </div> <!-- /container -->
 
-            <div class="jumbotron">
 
-                <h1>Citelet</h1>
-
-                <h2>Crowd-Sourcing the Academic Citation Graph</h2>
-
-                <hr />
-
-                <p class="lead">
-                    To get started, drag the bookmarklet to your bookmarks panel. Then, whenever you browse
-                    to an academic article, you can click the bookmarklet to send us information about the
-                    article and the articles it cites.
-                </p>
-
-                <!-- Bookmarklet link. Return false on click so users can't
-                try to export the current page. -->
-                <a
-                        class="btn btn-large btn-success"
-                        href="{% include 'bookmarklet.js' %}"
-                        onclick="return false;">
-                    Citelet
-                </a>
-
-            </div>
-
-            <hr />
-
-            <div class="footer">
-
-                <p>&copy; Center for Open Science</p>
-
-            </div>
-
-        </div> <!-- /container -->
-
-        {% block content %}{% endblock %}
-
-    </body>
-
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  </body>
 </html>
