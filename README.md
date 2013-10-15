@@ -18,9 +18,9 @@ Tools for extracting citation meta-data from HTML articles viewed in the browser
 
 * Setup cfg.py
     * CITELET_BASE_URL='http://localhost:5000/'
-* Prepare files
-    * fab clean
-    * fab deploy
+* Prepare files -- rlocal for OSX, rsudo for nix
+    * fab <rlocal || rsudo> clean
+    * fab <rlocal || rsudo> deploy
 * Start a mongod instance
     * mongod
 * Start a Flask server:
