@@ -63,12 +63,13 @@
             To get started, drag the bookmarklet to your bookmarks panel. Then, whenever you browse to an academic article, you can click the bookmarklet to send us information about the article and the articles it cites.
           </p>
 
-          <!-- Bookmarklet link. Return false on click so users can't
-          try to export the current page. -->
-          <a class="btn btn-large btn-success"
-              href="../static/js/bookmarklet.js"
-              onclick="return false;">Citelet
-          </a>
+          <!-- Bookmarklet link. Return false on click so users can't try to export the current page. -->
+            <a
+                    class="btn btn-large btn-success"
+                    href="{% include 'bookmarklet.js' %}"
+                    onclick="return false;">
+                Citelet
+            </a>
 
           <hr />
         </div>
