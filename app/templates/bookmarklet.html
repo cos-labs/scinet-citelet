@@ -32,8 +32,19 @@
       }
       .row .btn {
         font-size: 21px;
-
       }
+      .numberCircle{
+          width: 50px;
+          height: 50px;
+          border: 0px solid blue;
+          border-radius:50px;
+          background-color: #428BCA;
+          text-align: center;
+          vertical-align: middle;
+          font-size: 40px;
+          color: white;
+      }
+
   </style>
 
   </head>
@@ -46,7 +57,8 @@
         <ul class="nav nav-pills pull-right">
           <li><a href="/">Home</a></li>
           <li class="active"><a href="#">Citelet</a></li>
-          <li><a href="/crowdscholar/">Crowd Scholar</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a class="hidden" href="/crowdscholar/">Crowd Scholar</a></li>
         </ul>
         <h3 class="text-muted">Citelet</h3>
       </div>
@@ -56,11 +68,31 @@
 
           <hr />
           <h1>Citelet</h1>
-          <h2>Crowd-Sourcing the Academic Citation Graph</h2>
+          <h2>Crowd-Sourcing the Scientific Citation Network</h2>
+          <hr />
+          <p class="lead">Help promote open science by capturing the citation information on articles you view. See below for instructions.
+          </p>
           <hr />
 
+          <h3>Chrome Extension:</h3>
           <p class="lead">
-            To get started, drag the bookmarklet to your bookmarks panel. Then, whenever you browse to an academic article, you can click the bookmarklet to send us information about the article and the articles it cites.
+          Install the Citelet Chrome extension by visiting the <a href="https://chrome.google.com/webstore/detail/citelet/nkndfobkdhlfkkmgpacfnaaffpompcko/">Chrome webstore</a>.
+          </p>
+            <a href="https://imgflip.com/i/5yhbv"><img src="//i.imgflip.com/5yhbv.gif" title="Installing the Citelet chrome extension"/></a>
+
+          <br />
+          <br />
+
+          <p class="lead">Once the Citelet is installed, whenever you view a scientific article you will be prompted to send the article's citation information to OSF SciNet. These crowdsourced citations will be added to the network in one click. 
+          </p>
+            
+          <a href="https://imgflip.com/i/5yhax"><img src="//i.imgflip.com/5yhax.gif" title="Using the Citelet chrome extension"/></a>
+          
+          <hr />
+
+          <h3>Bookmarklet:</h3>
+          <p class="lead">
+            Don't want to visit the Chrome webstore? Simply drag and drop the <strong>green Citelet bookmarklet</strong> Then, whenever you browse to an academic article, click the bookmarklet to send us information about the article and any articles it cites. No popups will appear to interfere with your web browsing.
           </p>
 
           <!-- Bookmarklet link. Return false on click so users can't try to export the current page. -->
@@ -76,7 +108,18 @@
       </div>
 
       <div class="footer">
-        <p>&copy; Center for Open Science 2013</p>
+        <div class="row">
+          <div class="col-md-2"></div>
+          <div class="col-md-4"><p>&copy; Center for Open Science 2014</p></div>
+          <div class="col-md-4">
+            <a href="http://twitter.com/OSFramework"><img src="/static/img/twitter_alt.png" alt="Twitter" height="24" width="24"></a>
+            <a href="https://www.facebook.com/OpenScienceFramework"><img src="/static/img/facebook.png" alt="Facebook" height="24" width="24"></a>
+            <a href="https://groups.google.com/forum/#!forum/openscienceframework"><img src="/static/img/google.png" alt="Google Group" height="24" width="24"></a>
+            <a href="https://github.com/ProjectScholarly/"><img src="/static/img/github_alt.png" alt="GitHub" height="24" width="24"></a>
+            <a href="https://plus.google.com/103557785986281627994" rel="publisher"><img src="/static/img/googleplus.png" alt="Google Plus" height="24" width="24"></a>
+          <div class="col-md-2"></div>
+          </div>
+        </div>
       </div>
 
     </div> <!-- /container -->
