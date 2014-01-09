@@ -31,10 +31,15 @@ def get_ip():
 @app.route('/')
 @app.route('/bookmarklet/')
 def bookmarklet():
-    """ Display link to bookmarklet. """
+    """ Display Citelet installation and usage information. """
 
     # Return rendered template
     return render_template('bookmarklet.html', CITELET_BASE_URL=config.CITELET_BASE_URL)
+
+@app.route('/faq/')
+def faq():
+    """ Display Citelet FAQ. """
+    return render_template("faq.html")
 
 @app.route('/fixture/<name>/')
 @basic_auth.required
