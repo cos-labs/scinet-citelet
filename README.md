@@ -17,10 +17,10 @@ Tools for extracting citation meta-data from HTML articles viewed in the browser
 ## How to run Citelet from localhost:
 
 * Setup cfg.py
-    * CITELET_BASE_URL='http://localhost:5000/'
+    * CITELET_BASE_URL='http://localhost:5000'
 * Prepare files -- rlocal for OSX, rsudo for nix
-    * fab <rlocal || rsudo> clean
-    * fab <rlocal || rsudo> deploy
+    * fab "rlocal || rsudo" clean
+    * fab "rlocal || rsudo" deploy
 * Start a mongod instance
     * mongod
 * Start a Flask server:
