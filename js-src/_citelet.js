@@ -148,6 +148,9 @@ var citelet = (function() {
         // Initialize Deferred; resolves to data if payload should be sent,
         // else rejected
         var result = $.Deferred();
+        
+        // Append a span indicating that article is valid
+        $('<span id="citeletPublisher"></span>').appendTo('body')
 
         $.ajax({
             url : cfg.CITELET_BASE_URL + '/ping/',
