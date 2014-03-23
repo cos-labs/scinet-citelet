@@ -241,11 +241,19 @@ var ext = (function() {
      * @return {Object} State of extraction process
      */
     function confirmed_to_send(state) {
+
+        //TODO groupId is not being sent
+        var groupId = null;
+        chrome.storage.local.get('organization', function(result){
+            groupId = result.organization;
+        });
+
         var defer = $.Deferred();
         if (state.confirmed) {
             console.log('Sending references.');
             citelet.send(state.data, {
-                source : 'chrome-extension'
+                source : 'chrome-extension',
+                group : groupId
             }, 
             {
                 success : function(res) {
@@ -277,6 +285,7 @@ var ext = (function() {
             chrome.storage.local.set(to_store);
         }
     }
+
     
 
     /**

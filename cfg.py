@@ -2,8 +2,12 @@
 """
 
 # URLs
-CITELET_BASE_URL = 'http://scholarly.openscienceframework.org/citelet'
-CITELET_TRIM_URL = 'scholarly.openscienceframework.org/citelet'
+#CITELET_BASE_URL = 'http://scholarly.openscienceframework.org/citelet'
+#CITELET_TRIM_URL = 'scholarly.openscienceframework.org/citelet'
+#SCHOLAR_BASE_URL = 'http://localhost/crowdscholar'
+
+CITELET_BASE_URL = 'http://107.170.102.176/citelet'
+CITELET_TRIM_URL = '107.170.102.176/citelet'
 SCHOLAR_BASE_URL = 'http://localhost/crowdscholar'
 
 # Ensure URLs do not end in trailing slash
