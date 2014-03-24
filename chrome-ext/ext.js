@@ -241,26 +241,29 @@ var ext = (function() {
      * @return {Object} State of extraction process
      */
     function confirmed_to_send(state) {
-
-        //TODO groupId is not being sent
-        var groupId = null;
-        chrome.storage.local.get('organization', function(result){
-            groupId = result.organization;
-        });
-
         var defer = $.Deferred();
+        // Users clicks confirm
         if (state.confirmed) {
             console.log('Sending references.');
-            citelet.send(state.data, {
-                source : 'chrome-extension',
-                group : groupId
-            }, 
-            {
-                success : function(res) {
-                    state.res = res;
-                    defer.resolve(state);
+            chrome.storage.local.get('organization', function(result) {
+                var groupID = null;
+                // If the user has a non-default affiliation assign it to groupID
+                if (result.organization != '--Select Organization--') {
+                   groupID = result.organization;
                 }
+                citelet.send(state.data, {
+                    source : 'chrome-extension',
+                    group : groupID
+                },
+                {
+                    success : function(res) {
+                        state.res = res;
+                        defer.resolve(state);
+                    }
+                });
+
             });
+        // User clicks cancel
         } else {
             console.log('Send cancelled.');
             // Break chain by returning a rejected deferred
