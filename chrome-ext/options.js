@@ -42,7 +42,6 @@ function get_org_progress() {
                     $.each(opts, function(organization) {
 
                         if (result.organization == organization) {
-                            console.log('match')
                             orgCount = opts[organization]["submissions"];
                             orgName = opts[organization]["name"];
                             $('#org_progress').text(orgCount + ' submitted by ' + orgName + ' so far.');
