@@ -18,7 +18,7 @@ function get_mode() {
 
 function get_organization() {
     chrome.storage.local.get('organization', function(result) {
-        $('#test-organization').val(result.organization);
+        $('#organization').val(result.organization);
     });
 }
 
@@ -28,14 +28,28 @@ function get_progress() {
         var count = 'sent' in stored ? Object.keys(stored.sent).length : 0;
         $('#progress').text(count + ' articles contributed so far.');
     });
+
+
 }
 
 function get_org_progress() {
-        //TODO make dynamic
-    chrome.storage.local.get('org_sent', function(stored) {
-        var org_count = 'org_sent' in stored ? Object.keys(stored.org_sent).length : "NOT YET AVAILABLE";
-        $('#org_progress').text(org_count + ' articles contributed so far by your organization.');
 
+    chrome.storage.local.get('organization', function(result){
+
+        $.getJSON(ORGANIZATION_LIST_URL, function(opts) {
+                if(opts) {
+
+                    $.each(opts, function(organization) {
+
+                        if (result.organization == organization) {
+                            orgCount = opts[organization]["submissions"];
+                            orgName = opts[organization]["name"];
+                            $('#org_progress').text(orgCount + ' submitted by ' + orgName + ' so far.');
+
+                        }
+                    });
+                }
+        });
     });
 }
 
@@ -45,9 +59,6 @@ function init() {
     get_progress();
     get_org_progress();
 }
-
-//
-init();
 
 // Set up event handlers
 
@@ -61,9 +72,6 @@ $('#submit').click(function() {
 // Refresh options data
 $('#refresh').click(function() {
     init();
-        chrome.storage.local.get('organization', function(result){
-        $('#test-organization').text(result.organization);
-    });
 });
 
 // Clear Chrome storage
@@ -75,22 +83,27 @@ $('#clear').click(function() {
 
 $(document).ready(function() {
 
+
     getOptions('organization');
 
     function getOptions(ddId) {
+
         var dd = $('#' + ddId);
 
         $.getJSON(ORGANIZATION_LIST_URL, function(opts) {
             if(opts) {
-                //opts.forEach(function(organization){
-                //    alert(organization["_id"]);
-                //});
+
                 $.each(opts, function(organization) {
-                    console.log(opts[organization]["name"]);
+
+                    //Add to options list, name is organization name, value is unique key
                     dd.append($('<option/>').val(organization).text(opts[organization]["name"]));
                 });
             }
         });
     }
+    setTimeout(function(){
+        init();
+    }, 50);
 
 });
+
