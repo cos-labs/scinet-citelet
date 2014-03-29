@@ -97,13 +97,10 @@ $(document).ready(function() {
 
                     //Add to options list, name is organization name, value is unique key
                     dd.append($('<option/>').val(organization).text(opts[organization]["name"]));
+                    init();
                 });
             }
         });
     }
-    setTimeout(function(){
-        init();
-    }, 50);
-
 });
 
